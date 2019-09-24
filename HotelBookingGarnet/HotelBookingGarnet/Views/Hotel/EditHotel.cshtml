@@ -1,10 +1,11 @@
-@model HotelViewModel
+@model Hotel
+
 
 
 <form asp-controller="Hotel" asp-action="EditHotelInfo" asp-route-HotelId="@ViewData["HotelId"]" method="post">
     <div>
         <label asp-for="HotelName">Name of the hotel</label>
-        <input asp-for="HotelName"> 
+        <input asp-for="HotelName" value="@Model.HotelName"> 
     </div>
     <div>
         <label asp-for="Country"></label>

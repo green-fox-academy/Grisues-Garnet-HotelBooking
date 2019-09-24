@@ -18,7 +18,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
         public async Task<IActionResult> EditHotel(long HotelId)
         {
             var hotel = await hotelService.findHotelByIdAsync(HotelId);
-            return View();
+            return View(hotel);
         }
 
         [HttpPost("/edit")]
