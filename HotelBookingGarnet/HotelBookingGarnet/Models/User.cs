@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace HotelBookingGarnet.Models
 {
-    public class User
+    public class User : IdentityUser
     {
         public long UserId { get; set; }
         public string Email { get; set; }
