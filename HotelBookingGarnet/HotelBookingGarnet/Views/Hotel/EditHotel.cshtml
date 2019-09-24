@@ -1,0 +1,45 @@
+@model HotelViewModel
+
+
+<form asp-controller="Hotel" asp-action="EditHotelInfo" asp-route-HotelId="@ViewData["HotelId"]" method="post">
+    <div>
+        <label asp-for="HotelName">Name of the hotel</label>
+        <input asp-for="HotelName"> 
+    </div>
+    <div>
+        <label asp-for="Country"></label>
+        <input asp-for="Country">
+    </div>
+    <div>
+        <label asp-for="Region"></label>
+        <input asp-for="Region">
+    </div>
+    <div>
+        <label asp-for="City"></label>
+        <input asp-for="City">
+    </div>
+    <div>
+        <label asp-for="Address"></label>
+        <input asp-for="Address">
+    </div>
+    <div>
+        <label asp-for="Description"></label>
+        <input asp-for="Description">
+    </div>
+    <div>
+            <label asp-for="Price"></label>
+            <input asp-for="Price"/>
+        </div>
+    <div>
+        <label asp-for="StarRating">Stars</label>
+        <select asp-for="StarRating" asp-items="Html.GetEnumSelectList<StarRating>()"></select>
+    </div>
+    <div>
+        <label asp-for="PropertyType">Property type</label>
+        <select asp-for="PropertyType" asp-items="Html.GetEnumSelectList<PropertyType>()"></select>
+    </div>
+    <div>
+        <button type="submit">Save changes</button>
+    </div>
+    
+</form>
