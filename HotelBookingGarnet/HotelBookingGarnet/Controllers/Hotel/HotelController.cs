@@ -8,10 +8,12 @@ namespace HotelBookingGarnet.Controllers.Hotel
     public class HotelController : Controller
     {
         private readonly IHotelService hotelService;
+      
 
         public HotelController(IHotelService hotelService)
         {
             this.hotelService = hotelService;
+           
         }
         
         [HttpGet("/edit")]

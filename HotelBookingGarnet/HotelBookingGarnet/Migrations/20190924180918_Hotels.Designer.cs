@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingGarnet.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190924170726_Hotels")]
+    [Migration("20190924180918_Hotels")]
     partial class Hotels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
