@@ -4,7 +4,6 @@ using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBookingGarnet.Controllers.Register
@@ -28,6 +27,7 @@ namespace HotelBookingGarnet.Controllers.Register
         
         [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -39,7 +39,6 @@ namespace HotelBookingGarnet.Controllers.Register
                     return RedirectToAction(nameof(LoginController.Login), "Login");
                 }
             }
-            
             return View(model);
         }
     }
