@@ -20,6 +20,8 @@ namespace HotelBookingGarnet.ViewModels
         public int StarRating { get; set; }
         [Required]
         public string PropertyType { get; set; }
+        [Required]
+        public int Price { get; set; }
         
     }
 }

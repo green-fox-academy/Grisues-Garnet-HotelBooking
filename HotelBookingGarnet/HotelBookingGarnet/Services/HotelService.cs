@@ -25,6 +25,7 @@ namespace HotelBookingGarnet.Services
                 Description = newHotel.Description,
                 StarRating = newHotel.StarRating,
                 PropertyType = newHotel.PropertyType,
+                Price = newHotel.Price,
                 UserId = userId
             };
             await applicationContext.Hotels.AddAsync(hotel);

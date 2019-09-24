@@ -17,10 +17,10 @@ namespace HotelBookingGarnet.Controllers.Hotel
         }
 
         [HttpGet("/addhotel")]
-        public async Task<IActionResult> AddHotel(long userId)
+        public IActionResult AddHotel(long userId)
         {
-            var user = await userService.FindByUserIdAsync(userId);
-            return View(user);
+            ViewData["UserId"] = userId;
+            return View();
         }
 
         [HttpPost("/addhotel")]

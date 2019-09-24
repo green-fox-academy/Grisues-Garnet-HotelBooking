@@ -1,1 +1,53 @@
-﻿
+﻿@model HotelViewModel
+
+<h1>Add new Hotel</h1>
+
+<form asp-controller="Hotel" asp-action="AddHotel" asp-route-userId="@ViewData["UserId"]" method="post">
+    <div>
+        <label asp-for="HotelName"></label>
+        <input asp-for="HotelName"/>
+    </div>
+    <div>
+        <label asp-for="Country"></label>
+        <input asp-for="Country"/>
+    </div>
+    <div>
+        <label asp-for="Region"></label>
+        <input asp-for="Region"/>
+    </div>
+    <div>
+        <label asp-for="City"></label>
+        <input asp-for="City"/>
+    </div>
+    <div>
+        <label asp-for="City"></label>
+        <input asp-for="City"/>
+    </div>
+    <div>
+        <label asp-for="Address"></label>
+        <input asp-for="Address"/>
+    </div>
+    <div>
+        <label asp-for="City"></label>
+        <input asp-for="City"/>
+    </div>
+    <div>
+        <label asp-for="Description"></label>
+        <input asp-for="Description"/>
+    </div>
+    <div>
+        <label asp-for="Price"></label>
+        <input asp-for="Price"/>
+    </div>
+    <div>
+        <label asp-for="StarRating"></label>
+        <input asp-for="StarRating"/>
+    </div>
+    <div>
+        <label asp-for="PropertyType"></label>
+        <select asp-for="PropertyType" asp-items="Html.GetEnumSelectList<PropertyType>()"></select>
+    </div>
+    <button type="submit" class="btn btn-success btn-sm">Add</button>
+</form>
+
+
