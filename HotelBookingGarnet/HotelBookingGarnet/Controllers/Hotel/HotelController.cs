@@ -8,16 +8,19 @@ namespace HotelBookingGarnet.Controllers.Hotel
     public class HotelController : Controller
     {
         private readonly IHotelService hotelService;
+        private readonly IUserService userService;
 
-        public HotelController(IHotelService hotelService)
+        public HotelController(IHotelService hotelService, IUserService userService)
         {
             this.hotelService = hotelService;
+            this.userService = userService;
         }
 
         [HttpGet("/addhotel")]
-        public IActionResult AddHotel(long userId)
+        public async Task<IActionResult> AddHotel(long userId)
         {
-            return View(userId);
+            var user = await userService.FindByUserIdAsync(userId);
+            return View(user);
         }
 
         [HttpPost("/addhotel")]
