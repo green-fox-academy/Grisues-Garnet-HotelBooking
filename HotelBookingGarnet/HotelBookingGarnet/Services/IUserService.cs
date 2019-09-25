@@ -6,6 +6,6 @@ namespace HotelBookingGarnet.Services
     public interface IUserService
     {
         Task<User> FindByEmailAsync(string email);
-        
+
     }
 }

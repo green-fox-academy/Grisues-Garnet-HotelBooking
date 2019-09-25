@@ -35,12 +35,12 @@ namespace HotelBookingGarnet.Controllers.Login
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+               var user = await _userService.FindByEmailAsync(model.Email);
+                var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
                 if (result.Succeeded)
                 {
-                    var user = await _userService.FindByEmailAsync(model.Email);
                     var userId = user.Id;
-                    return RedirectToAction(nameof(HomeController.Index), "Home", new {userId});
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 return View(model);
