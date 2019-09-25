@@ -16,6 +16,7 @@ namespace HotelBookingGarnet.Models
         public string Description { get; set; }
         public int StarRating { get; set; }
         public string PropertyType { get; set; }
+        public int Price { get; set; }
         public long UserId { get; set; }
     }
 }

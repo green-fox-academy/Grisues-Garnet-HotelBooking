@@ -1,5 +1,24 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Hotel
+@*@inject SignInManager<ApplicationUser> signInManager*@
+
+
+
+<h1>Name: @Model.HotelName</h1>
+<h3>Country: @Model.Country</h3>
+<h3>Region: @Model.Region</h3>
+<h3>City: @Model.City</h3>
+<h3>Address: @Model.Address</h3>
+<h3>Description: @Model.Description</h3>
+<h3>Star Rating: @Model.StarRating</h3>
+<h3>Property type: @Model.PropertyType</h3>
+<h3>Price: @Model.Price Ft</h3>
+
+@*@if (User.Role("Manager"))
+{
+    <form asp-controller="Post" asp-action="Edit" asp-route-id="@Model.HotelId" method="get">
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </form>
+}*@
+
+
+
