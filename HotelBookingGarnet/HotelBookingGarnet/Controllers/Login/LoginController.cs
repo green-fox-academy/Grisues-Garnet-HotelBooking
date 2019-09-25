@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using HotelBookingGarnet.Controllers.Home;
 using HotelBookingGarnet.Models;
-using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,17 +12,15 @@ namespace HotelBookingGarnet.Controllers.Login
     public class LoginController : Controller
     {
         private readonly SignInManager<User> _signInManager;
-        private readonly IUserService _userService;
 
-        public LoginController(SignInManager<User> signInManager, IUserService userService)
+        public LoginController(SignInManager<User> signInManager)
         {
-            _userService = userService;
             _signInManager = signInManager;
         }
 
         [HttpGet("/login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login()
+        public  IActionResult Login()
         {
             return View();
         }
@@ -39,12 +36,17 @@ namespace HotelBookingGarnet.Controllers.Login
                 // await _signInManager.SignInAsync(user, isPersistent: false); ??
                 if (result.Succeeded)
                 {
-                    var author = await _userService.FindByEmailAsync(model.Email); //usernamet returnolni
-                    return RedirectToAction(nameof(HomeController.Index), "Home", new {username});
+                    long userId = 1;
+                    return RedirectToAction(nameof(HomeController.Index), "Home", new {userId});
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View(model);
                 }
             }
 
-            return View();
+            return View(model);
         }
     }
 }
