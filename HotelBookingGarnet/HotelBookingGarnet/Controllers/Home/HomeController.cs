@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ReflectionIT.Mvc.Paging;
 
@@ -18,11 +19,11 @@ namespace HotelBookingGarnet.Controllers.Home
         }
 
         [HttpGet("/")]
-        public  IActionResult Home(int page? = 1)
+        public  IActionResult Home(User user ,int page = 1)
         {
+            ViewData["User"] = user;
 
             var hotels = hotelService.GetHotels();
-            //var hotels = hotelService.findAllHotelAsync();
             var model =  PagingList.Create(hotels, 3, page);
             return View(model);
         }

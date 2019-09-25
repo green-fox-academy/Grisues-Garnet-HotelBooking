@@ -16,10 +16,10 @@ namespace HotelBookingGarnet.Controllers.Hotel
             this.hotelService = hotelService;
         }
 
-        [HttpGet("/info/{HotelId}")]
+        [HttpPost("/info/{HotelId}")]
         public async Task<IActionResult>HotelInfo(long HotelId)
         {
-           var hotel =await hotelService.findHotelByIdAsync(HotelId);
+           var hotel = await hotelService.findHotelByIdAsync(HotelId);
             return View(hotel);
         }
     }
