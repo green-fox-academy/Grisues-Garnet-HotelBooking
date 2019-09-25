@@ -1,13 +1,29 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using HotelBookingGarnet.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingGarnet.Services
 {
     public class UserService : IUserService
     {
-        public Task<string> FindByEmailAsync(string email)
+        private readonly ApplicationContext applicationContext;
+
+        public UserService(ApplicationContext applicationContext)
         {
-            throw new System.NotImplementedException();
-            //kifejteni
+            this.applicationContext = applicationContext;
+        }
+
+        public async Task<User> FindByEmailAsync(string email)
+        {
+            var user = await applicationContext.Users
+                .Include(a => a.Hotels).FirstOrDefaultAsync(a => a.Email == email);
+            if (user == null)
+            {
+                return null;
+            }
+
+            return user;
         }
     }
 }

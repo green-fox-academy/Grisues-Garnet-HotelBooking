@@ -12,7 +12,6 @@ namespace HotelBookingGarnet
         {
         }
         
-        public DbSet<User> Users { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
     }
 }

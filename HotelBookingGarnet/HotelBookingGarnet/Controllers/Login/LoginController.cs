@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using HotelBookingGarnet.Controllers.Home;
 using HotelBookingGarnet.Models;
+using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,20 +13,22 @@ namespace HotelBookingGarnet.Controllers.Login
     public class LoginController : Controller
     {
         private readonly SignInManager<User> _signInManager;
+        public IUserService _userService { get; set; }
 
-        public LoginController(SignInManager<User> signInManager)
+        public LoginController(SignInManager<User> signInManager, IUserService userService)
         {
             _signInManager = signInManager;
+            _userService = userService;
         }
 
         [HttpGet("/login")]
         [AllowAnonymous]
-        public  IActionResult Login()
+        public IActionResult Login()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("/login")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -33,17 +36,14 @@ namespace HotelBookingGarnet.Controllers.Login
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-                // await _signInManager.SignInAsync(user, isPersistent: false); ??
                 if (result.Succeeded)
                 {
-                    long userId = 1;
+                    var user = await _userService.FindByEmailAsync(model.Email);
+                    var userId = user.Id;
                     return RedirectToAction(nameof(HomeController.Index), "Home", new {userId});
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
-                }
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
             }
 
             return View(model);

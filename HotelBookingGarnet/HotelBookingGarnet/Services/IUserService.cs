@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
+using HotelBookingGarnet.Models;
 
 namespace HotelBookingGarnet.Services
 {
     public interface IUserService
     {
-        Task<string> FindByEmailAsync(string email);
+        Task<User> FindByEmailAsync(string email);
         
     }
 }
