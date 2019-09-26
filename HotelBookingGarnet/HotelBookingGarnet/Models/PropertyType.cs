@@ -1,10 +1,11 @@
+using System.Collections.Generic;
+
 namespace HotelBookingGarnet.Models
 {
-    public enum PropertyType
+    public class PropertyType
     {
-        Apartment,
-        Hotel,
-        Hostel,
-        Guesthouses
+        public long PropertyTypeId { get; set; }
+        public string Type { get; set; }
+        public ICollection<HotelPropertyType> HotelPropertyTypes { get; set; }
     }
 }

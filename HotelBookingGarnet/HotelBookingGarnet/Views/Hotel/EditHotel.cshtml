@@ -1,10 +1,9 @@
 @model HotelViewModel
 
-
 <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@ViewData["HotelId"]" method="post">
     <div class="form-group">
         <label asp-for="HotelName">Name of the hotel</label>
-        <input asp-for="HotelName" value="@ViewData.Model.HotelName" > 
+        <input asp-for="HotelName"> 
     </div>
     <div class="form-group">
         <label asp-for="Country"></label>
@@ -32,14 +31,23 @@
         </div>
     <div class="form-group">
         <label asp-for="StarRating">Stars</label>
-        <select asp-for="StarRating" asp-items="Html.GetEnumSelectList<StarRating>()" class="form-control"></select>
+        <select asp-for="StarRating" class="form-control">
+            <option value="1">One star</option>
+            <option value="2">Two star</option>
+            <option value="3">Three star</option>
+            <option value="4">Four star</option>
+            <option value="5">Five star</option>
+        </select>
     </div>
     <div class="form-group">
         <label asp-for="PropertyType">Property type</label>
-        <select asp-for="PropertyType" asp-items="Html.GetEnumSelectList<PropertyType>()" class="form-control"></select>
+        <select asp-for="PropertyType" asp-items="" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="PropertyType"></label>
+        <input asp-for="PropertyType"/>
     </div>
     <div>
         <button type="submit" class="btn btn-success">Save changes</button>
     </div>
-    
 </form>
