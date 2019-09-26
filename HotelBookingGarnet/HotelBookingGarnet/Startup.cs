@@ -34,13 +34,14 @@ namespace HotelBookingGarnet
                 .AddEntityFrameworkStores<ApplicationContext>();
             services.AddDbContext<ApplicationContext>(builder =>
                 builder.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IHotelService, HotelService>();
+            services.AddTransient<IPropertyTypeService, PropertyTypeService>();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
                 // cannot contain special char. dunno how!?
             });
             services.AddMvc();
-            services.AddTransient<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
