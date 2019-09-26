@@ -1,3 +1,4 @@
+using HotelBookingGarnet.Models;
 using System.Collections.Immutable;
 using HotelBookingGarnet.Models;
 using Microsoft.AspNetCore.Identity;
@@ -8,13 +9,14 @@ namespace HotelBookingGarnet
 {
     public class ApplicationContext : IdentityDbContext<User>
     {
+
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<PropertyType> PropertyTypes { get; set; }
         
         public ApplicationContext(DbContextOptions options) : base(options)
         {
         }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HotelPropertyType>()
@@ -37,4 +39,4 @@ namespace HotelBookingGarnet
             ); 
         }
     }
-}
+} 

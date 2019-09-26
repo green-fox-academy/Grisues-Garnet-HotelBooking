@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+
 using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace HotelBookingGarnet.Services
 {
@@ -14,6 +16,32 @@ namespace HotelBookingGarnet.Services
         {
             this.applicationContext = applicationContext;
             this.propertyTypeService = propertyTypeService;
+        }
+        
+        public async Task EditHotelAsync(long HotelId, HotelViewModel editHotel)
+        {
+            var hotelToEdit = await FindHotelByIdAsync(HotelId);
+            var property = await propertyTypeService.AddPropertyTypeAsync(editHotel.PropertyType);
+            if (hotelToEdit != null)
+            {
+                hotelToEdit.HotelName = editHotel.HotelName;
+                hotelToEdit.Country = editHotel.Country;
+                hotelToEdit.Region = editHotel.Region;
+                hotelToEdit.City = editHotel.City;
+                hotelToEdit.Address = editHotel.Address;
+                hotelToEdit.Description = editHotel.Description;
+                hotelToEdit.StarRating = editHotel.StarRating;
+                hotelToEdit.Price = editHotel.Price;
+                hotelToEdit.PropertyType = property;
+            }
+            applicationContext.Hotels.Update(hotelToEdit);
+            await applicationContext.SaveChangesAsync();
+        }
+
+        public async Task<Hotel> FindHotelByIdAsync(long HotelId)
+        {
+            var foundHotel = await applicationContext.Hotels.SingleOrDefaultAsync(x => x.HotelId == HotelId);
+            return foundHotel;
         }
 
         public async Task AddHotelAsync(HotelViewModel newHotel, string userId)

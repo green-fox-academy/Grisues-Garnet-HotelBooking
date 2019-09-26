@@ -1,0 +1,59 @@
+@model HotelViewModel
+
+<form asp-controller="Hotel" asp-action="@ViewData["Action"]" method="post">
+    <div class="form-group">
+        <label asp-for="@Model.HotelName">Hotle name</label>
+        <input type="text" asp-for="@Model.HotelName" value="@Model.HotelName" class="form-control">
+        <span asp-validation-for="@Model.HotelName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Country">Country</label>
+        <input type="text" asp-for="@Model.Country" value="@Model.Country" class="form-control">
+        <span asp-validation-for="@Model.Country" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Region">Region</label>
+        <input type="text" asp-for="@Model.Region" value="@Model.Region" class="form-control">
+        <span asp-validation-for="@Model.Region" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.City">City</label>
+        <input type="text" asp-for="@Model.City" value="@Model.City" class="form-control">
+        <span asp-validation-for="@Model.City" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Address">Address</label>
+        <input type="text" asp-for="@Model.Address" value="@Model.Address" class="form-control">
+        <span asp-validation-for="@Model.Address" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Description">Description</label>
+        <input type="text" asp-for="@Model.Description" value="@Model.Description" class="form-control">
+        <span asp-validation-for="@Model.Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.StarRating">Stars</label>
+        <select type="text" asp-for="@Model.StarRating" value="@Model.StarRating" class="form-control">
+            <option value="0">None</option>
+            <option value="1">One star</option>
+            <option value="2">Two star</option>
+            <option value="3">Three star</option>
+            <option value="4">Four star</option>
+            <option value="5">Five star</option>
+        </select>
+        <span asp-validation-for="@Model.StarRating" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PropertyType">Property type</label>
+        <input type="text" asp-for="@Model.PropertyType" value="@Model.PropertyType" class="form-control">
+        <span asp-validation-for="@Model.PropertyType" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.Price">Price per night</label>
+        <input type="text" asp-for="@Model.Price" value="@Model.Price" class="form-control">
+        <span asp-validation-for="@Model.Price" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">@ViewData["Action"]</button>
+    <a class="btn btn-danger" asp-controller="Home" asp-action="Home" role="button">Cancel</a>
+</form>
+

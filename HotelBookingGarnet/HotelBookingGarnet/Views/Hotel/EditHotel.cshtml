@@ -1,0 +1,10 @@
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h1>Edit your hotel</h1>
+
+@{
+    ViewData["Action"] = "Edit";
+    await Html.RenderPartialAsync("_HotelPartial");
+}

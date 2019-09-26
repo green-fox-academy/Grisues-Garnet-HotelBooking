@@ -29,11 +29,12 @@ namespace HotelBookingGarnet
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IUserService, UserService>();
+           
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
             services.AddDbContext<ApplicationContext>(builder =>
                 builder.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IHotelService, HotelService>();
             services.AddTransient<IPropertyTypeService, PropertyTypeService>();
             services.Configure<IdentityOptions>(options =>
