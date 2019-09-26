@@ -46,7 +46,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 await hotelService.editHotelAsync(HotelId, editHotel);
                 return RedirectToAction("Home","Home"); 
             } 
-            return View();
+            return View(editHotel);
         }
     }
 }
