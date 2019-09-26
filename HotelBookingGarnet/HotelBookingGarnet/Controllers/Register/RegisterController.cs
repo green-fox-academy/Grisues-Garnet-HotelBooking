@@ -1,53 +1,49 @@
-﻿using HotelBookingGarnet.Controllers.Login;
-using HotelBookingGarnet.Models;
+using System.Threading.Tasks;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HotelBookingGarnet.Controllers.Register
 {
-    public class RegisterController:Controller
+    [AllowAnonymous]
+    public class RegisterController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private IUserService userService;
+        private readonly IUserService userService;
 
-        public RegisterController(UserManager<User> userManager, IUserService userService)
+        public RegisterController(IUserService UserService)
         {
-            _userManager = userManager;
-            this.userService = userService;
+            userService = UserService;
         }
 
         [HttpGet("/register")]
-        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost("/register")]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = new User { UserName = model.Username, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await userService.AddUserToRole(user, model);
-                    return RedirectToAction(nameof(LoginController.Login), "Login");
-                }
+                return View(model);
             }
+
+            var result = await userService.RegisterAsync(model);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
             return View(model);
         }
     }
-
 }

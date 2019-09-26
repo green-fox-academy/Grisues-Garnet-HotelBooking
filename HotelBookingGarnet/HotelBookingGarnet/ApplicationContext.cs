@@ -7,8 +7,6 @@ namespace HotelBookingGarnet
 {
     public class ApplicationContext : IdentityDbContext<User>
     {
-        
-
         public ApplicationContext(DbContextOptions options) : base(options)
         {
         }
@@ -21,5 +19,6 @@ namespace HotelBookingGarnet
                 new IdentityRole { Name = "Hotel Manager", NormalizedName = "Hotel Manager".ToUpper()}
                 ); 
         }
+        public DbSet<Hotel> Hotels { get; set; }
     }
 }

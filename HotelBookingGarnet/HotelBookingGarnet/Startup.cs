@@ -17,8 +17,8 @@ namespace HotelBookingGarnet
 {
     public class Startup
     {
-        private IConfiguration Configuration; 
-        
+        private IConfiguration Configuration;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,12 +29,17 @@ namespace HotelBookingGarnet
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IUserService, UserService>();
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationContext>();
             services.AddDbContext<ApplicationContext>(builder =>
                 builder.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                // cannot contain special char. dunno how!?
+            });
             services.AddMvc();
-
-            services.AddIdentity<User, IdentityRole>().AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores < ApplicationContext>();
             services.AddTransient<IUserService, UserService>();
         }
 
@@ -49,10 +54,8 @@ namespace HotelBookingGarnet
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
-           
-        }
-
-        
+        } 
     }
 }
