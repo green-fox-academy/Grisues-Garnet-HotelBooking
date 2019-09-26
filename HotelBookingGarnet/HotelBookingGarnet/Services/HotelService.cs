@@ -16,11 +16,6 @@ namespace HotelBookingGarnet.Services
             this.applicationContext = applicationContext;
         }
 
-        public async Task<List<Hotel>> FindAllHotelAsync()
-        {
-            return await applicationContext.Hotels.ToListAsync();
-        }
-
         public async Task<Hotel> FindHotelByIdAsync(long Hotelid)
         {
             
