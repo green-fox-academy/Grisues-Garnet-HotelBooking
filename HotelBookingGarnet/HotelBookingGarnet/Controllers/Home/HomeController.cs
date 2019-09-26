@@ -1,16 +1,25 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using HotelBookingGarnet.Models;
+using HotelBookingGarnet.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBookingGarnet.Controllers.Home
 {
     public class HomeController : Controller
     {
-        [HttpGet("/home")]
-        [AllowAnonymous]
-        public IActionResult Index(string username)
+        private readonly UserManager<User> _userManager;
+
+        public HomeController(UserManager<User> userManager)
         {
-            return View();
+            _userManager = userManager;
+        }
+
+        [HttpGet("/home")]
+        public async Task<IActionResult> Index()
+        {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            return View(new IndexViewModel {User = currentUser});
         }
     }
 }

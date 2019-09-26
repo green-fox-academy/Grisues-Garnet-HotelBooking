@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 namespace HotelBookingGarnet.ViewModels
 {
     public class LoginViewModel
@@ -12,6 +13,8 @@ namespace HotelBookingGarnet.ViewModels
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
+        
+        public List<string> ErrorMessages { get; set; } = new List<string>();
         
     }
 }
