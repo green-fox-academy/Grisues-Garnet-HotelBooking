@@ -19,24 +19,24 @@ namespace HotelBookingGarnet.Controllers.Hotel
             this.userManager = userManager;
         }
 
-        [Authorize(Roles = "Hotel Manager")]
+        [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpGet("/addhotel")]
         public IActionResult AddHotel()
         {
-            return View();
+            return View(new HotelViewModel());
         }
 
-        [Authorize(Roles = "Hotel Manager")]
+        [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpPost("/addhotel")]
         public async Task<IActionResult> AddHotel(HotelViewModel newHotel)
         {
             if (ModelState.IsValid)
             {
                 var currentUser = await userManager.GetUserAsync(HttpContext.User);
-                await hotelService.AddHotelAsync(newHotel, currentUser.UserId);
+                await hotelService.AddHotelAsync(newHotel, currentUser.Id);
                 RedirectToAction("Home", "Home");
             }
-            return View();
+            return View(newHotel);
         }
         
     }

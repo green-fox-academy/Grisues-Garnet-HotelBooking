@@ -3,7 +3,9 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
         <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+        <ApplicationIcon />
         <OutputType>WinExe</OutputType>
+        <StartupObject />
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,6 +17,7 @@
     <ItemGroup>
       <Folder Include="Controllers\Home" />
       <Folder Include="Controllers\User" />
+      <Folder Include="Views\Hotel" />
       <Folder Include="Views\User" />
     </ItemGroup>
 

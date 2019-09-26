@@ -1,13 +1,14 @@
 using System.Collections.Immutable;
 using HotelBookingGarnet.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingGarnet
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : IdentityDbContext<User>
     {
         public DbSet<Hotel> Hotels { get; set; }
-
         public DbSet<PropertyType> PropertyTypes { get; set; }
         
         public ApplicationContext(DbContextOptions options) : base(options)
@@ -28,6 +29,12 @@ namespace HotelBookingGarnet
                 .HasForeignKey(a => a.PropertyTypeId);
             base.OnModelCreating(modelBuilder);
             
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole { Name = "Admin", NormalizedName = "Admin".ToUpper()},
+                new IdentityRole { Name = "Guest", NormalizedName = "Guest".ToUpper()},
+                new IdentityRole { Name = "Hotel Manager", NormalizedName = "Hotel Manager".ToUpper()}
+            ); 
         }
     }
 }

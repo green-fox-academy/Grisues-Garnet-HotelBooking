@@ -29,7 +29,7 @@ namespace HotelBookingGarnet.Services
                 Address = newHotel.Address,
                 Description = newHotel.Description,
                 StarRating = newHotel.StarRating,
-                PropertyType = applicationContext.Find<PropertyType>(propertyType.PropertyTypeId),
+                PropertyType = propertyType,
                 Price = newHotel.Price,
                 UserId = userId
             };

@@ -1,60 +1,8 @@
-﻿@model HotelViewModel
-
-<h1>Add new Hotel</h1>
-
-<form asp-controller="Hotel" asp-action="AddHotel" method="post">
-    <div>
-        <label asp-for="HotelName"></label>
-        <input asp-for="HotelName" value=""/>
-    </div>
-    <div>
-        <label asp-for="Country"></label>
-        <input asp-for="Country"/>
-    </div>
-    <div>
-        <label asp-for="Region"></label>
-        <input asp-for="Region"/>
-    </div>
-    <div>
-        <label asp-for="City"></label>
-        <input asp-for="City"/>
-    </div>
-    <div>
-        <label asp-for="City"></label>
-        <input asp-for="City"/>
-    </div>
-    <div>
-        <label asp-for="Address"></label>
-        <input asp-for="Address"/>
-    </div>
-    <div>
-        <label asp-for="City"></label>
-        <input asp-for="City"/>
-    </div>
-    <div>
-        <label asp-for="Description"></label>
-        <input asp-for="Description"/>
-    </div>
-    <div>
-        <label asp-for="Price"></label>
-        <input asp-for="Price"/>
-    </div>
-    <div>
-        <label asp-for="StarRating"></label>
-        <select asp-for="StarRating">
-            <option value="1">1 Star</option>
-            <option value="2">2 Stars</option>
-            <option value="3">3 Stars</option>
-            <option value="4">4 Stars</option>
-            <option value="5">5 Stars</option>
-        </select> 
-    </div>
-    <div>
-        <label asp-for="PropertyType"></label>
-        <input asp-for="PropertyType"/>
-    </div>
-
-    <button type="submit" class="btn btn-success btn-sm">Add</button>
-</form>
-
-
+﻿@{
+    ViewBag.Title = “Add”;
+}
+<h3>Add a new post </h3>
+@{
+    ViewData[“Action”] = “Add”;
+    await Html.RenderPartialAsync(“_HotelPartial”);
+}
