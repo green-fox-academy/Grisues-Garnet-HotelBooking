@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -17,12 +18,12 @@ namespace HotelBookingGarnet.Controllers.Hotel
             this.hotelService = hotelService;
             this.userManager = userManager;
         }
-
+        
         [Authorize(Roles = "Hotel Manager")]
         [HttpGet("/edit/{HotelId}")]
         public async Task<IActionResult> EditHotel(long HotelId, HotelViewModel hotelViewModel)
         {
-            var hotel = await hotelService.findHotelByIdAsync(HotelId);
+            var hotel = await hotelService.FindHotelByIdAsync(HotelId);
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             hotelViewModel.User = currentUser;
             ViewData["HotelId"] = hotel.HotelId;
@@ -33,20 +34,41 @@ namespace HotelBookingGarnet.Controllers.Hotel
             hotelViewModel.Price = hotel.Price;
             hotelViewModel.Region = hotel.Region;
             hotelViewModel.HotelName = hotel.HotelName;
-            hotelViewModel.PropertyType = hotel.PropertyType;
+            hotelViewModel.PropertyType = hotel.PropertyType.Type;
             hotelViewModel.StarRating = hotel.StarRating;
             return View(hotelViewModel);
         }
 
         [HttpPost("/edit/{HotelId}")]
         public async Task<IActionResult> EditHotel(HotelViewModel editHotel, long HotelId)
-        { 
-            if(ModelState.IsValid) 
+        {
+            if (ModelState.IsValid)
             {
-                await hotelService.editHotelAsync(HotelId, editHotel);
-                return RedirectToAction("Home","Home"); 
-            } 
+                await hotelService.EditHotelAsync(HotelId, editHotel);
+                return RedirectToAction("Home", "Home");
+            }
+
             return View(editHotel);
+        }
+
+        [Authorize(Roles = "Hotel Manager, Admin")]
+        [HttpGet("/addhotel")]
+        public IActionResult AddHotel()
+        {
+            return View(new HotelViewModel());
+        }
+
+        [Authorize(Roles = "Hotel Manager, Admin")]
+        [HttpPost("/addhotel")]
+        public async Task<IActionResult> AddHotel(HotelViewModel newHotel)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = await userManager.GetUserAsync(HttpContext.User);
+                await hotelService.AddHotelAsync(newHotel, currentUser.Id);
+                RedirectToAction("Home", "Home");
+            }
+            return View(newHotel);
         }
     }
 }
