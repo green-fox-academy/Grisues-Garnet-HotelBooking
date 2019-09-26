@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace HotelBookingGarnet.ViewModels
 {
@@ -22,5 +23,7 @@ namespace HotelBookingGarnet.ViewModels
         public string PropertyType { get; set; }
         [Required]
         public int Price { get; set; }
+
+        public User User { get; set; }
     }
 }
