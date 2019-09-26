@@ -13,7 +13,6 @@ namespace HotelBookingGarnet.Services
 
         public static void CreateAdmin(UserManager<User> userManager)
         {
-
             if (userManager.FindByEmailAsync("admin@gmail.com").Result == null)
             {
                 User user = new User
@@ -22,7 +21,6 @@ namespace HotelBookingGarnet.Services
                     Email = "admin@gmail.com",
                 };
 
-             
                 IdentityResult check = userManager.CreateAsync(user, "Password1234..").Result;
 
                 if (check.Succeeded)
