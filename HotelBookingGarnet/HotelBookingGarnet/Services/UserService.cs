@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using HotelBookingGarnet.Models;
+using HotelBookingGarnet.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,18 +8,30 @@ using System.Threading.Tasks;
 
 namespace HotelBookingGarnet.Services
 {
-    public class UserService : IUserService
+    public class UserService:IUserService
     {
-        private ApplicationContext application;
+        private readonly UserManager<User> userManager;
 
-        public UserService(ApplicationContext application)
+        public UserService(UserManager<User> UserManager)
         {
-            this.application = application;
+            userManager = UserManager;
         }
 
-        public SelectList GetRolesFromDB()
+
+        public async Task AddUserToRole(User user,RegisterViewModel model)
         {
-            return new SelectList(application.Roles.Where(u => u.Name.Contains("Admin")).ToList(), "Name", "Name");
+            if (model.IsManager)
+            {
+                await userManager.AddToRoleAsync(user, "Hotel Manager");
+            }
+            else
+            {
+                await userManager.AddToRoleAsync(user, "Guest");
+            }
+                
+
+
         }
+
     }
 }

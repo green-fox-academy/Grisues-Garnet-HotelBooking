@@ -8,9 +8,7 @@ namespace HotelBookingGarnet.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
-        [EmailAddress]
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -18,8 +16,6 @@ namespace HotelBookingGarnet.ViewModels
         public string Username { get; set; }
 
         [Required]
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-        [RegularExpression(@"^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -29,7 +25,8 @@ namespace HotelBookingGarnet.ViewModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        [Display(Name = "UserRoles")]
-        public string UserRoles { get; set; }
+
+        [Display(Name = "Are you a hotel manager?")]
+        public bool IsManager { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace HotelBookingGarnet
                 new IdentityRole { Name = "Admin", NormalizedName = "Admin".ToUpper()},
                 new IdentityRole { Name = "Guest", NormalizedName = "Guest".ToUpper()},
                 new IdentityRole { Name = "Hotel Manager", NormalizedName = "Hotel Manager".ToUpper()}
-                ); ;
+                ); 
         }
     }
 }

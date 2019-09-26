@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace HotelBookingGarnet.Services
 {
-    public class Administration
+    public class Administrator
     {
 
-        public static void CreateRoles(UserManager<User> userManager)
+        public static void CreateAdmin(UserManager<User> userManager)
         {
 
             if (userManager.FindByEmailAsync("admin@gmail.com").Result == null)
@@ -29,17 +29,7 @@ namespace HotelBookingGarnet.Services
                 {
                     userManager.AddToRoleAsync(user, "Admin").Wait();
                 }
-
-                var userCurrent = userManager.FindByEmailAsync("admin@gmail.com").Result;
-
-                if (!userManager.IsInRoleAsync(userCurrent, "Admin").Result)
-                {
-                    userManager.AddToRoleAsync(user, "Admin").Wait();
-
-                }
             }
-
         }   
-
     }
 }

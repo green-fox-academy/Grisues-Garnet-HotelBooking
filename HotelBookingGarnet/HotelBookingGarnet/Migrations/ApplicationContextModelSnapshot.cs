@@ -48,8 +48,6 @@ namespace HotelBookingGarnet.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("Role");
-
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
@@ -94,22 +92,22 @@ namespace HotelBookingGarnet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "690baa51-feeb-4b72-b001-eced527084dd",
-                            ConcurrencyStamp = "9fe7f0b6-2ec4-44be-a84f-555c0fdd6fdc",
+                            Id = "cebc41db-591a-4baa-be33-f0195b23c6f7",
+                            ConcurrencyStamp = "71bb98e4-d93e-4cff-8087-4f86a0df0117",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b90e8a19-acd2-479a-b538-be5820eb7da3",
-                            ConcurrencyStamp = "f7e511de-6588-48a5-a8f4-7d0d289c47fa",
+                            Id = "4762f013-d1f3-4639-8d14-86b2dd3877c1",
+                            ConcurrencyStamp = "b1be801f-271d-41b7-b280-a30b4c831341",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "cc1a7eaf-472c-4efe-9007-b70855d54920",
-                            ConcurrencyStamp = "0b5576d7-d053-48d1-ba66-d01cd13fbb81",
+                            Id = "86b46671-c2ec-4012-947b-052e9b66f4a5",
+                            ConcurrencyStamp = "9eb0f8ee-9567-48ce-8fbb-7187aea926e2",
                             Name = "Hotel Manager",
                             NormalizedName = "HOTEL MANAGER"
                         });

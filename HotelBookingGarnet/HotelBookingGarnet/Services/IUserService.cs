@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using HotelBookingGarnet.Models;
+using HotelBookingGarnet.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace HotelBookingGarnet.Services
 {
     public interface IUserService
     {
-        SelectList GetRolesFromDB();
+       Task AddUserToRole(User user,RegisterViewModel model);
     }
 }

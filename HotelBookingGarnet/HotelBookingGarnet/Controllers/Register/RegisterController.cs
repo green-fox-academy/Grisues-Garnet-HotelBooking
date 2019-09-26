@@ -1,5 +1,6 @@
 ﻿using HotelBookingGarnet.Controllers.Login;
 using HotelBookingGarnet.Models;
+using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -15,20 +16,18 @@ namespace HotelBookingGarnet.Controllers.Register
     public class RegisterController:Controller
     {
         private readonly UserManager<User> _userManager;
-        private ApplicationContext application;
+        private IUserService userService;
 
-        public RegisterController(UserManager<User> userManager,ApplicationContext applicationContext)
+        public RegisterController(UserManager<User> userManager, IUserService userService)
         {
             _userManager = userManager;
-            this.application = applicationContext;
-
+            this.userService = userService;
         }
 
         [HttpGet("/register")]
         [AllowAnonymous]
         public IActionResult Register()
         {
-            ViewBag.Name = new SelectList(application.Roles.Where(u => !u.Name.Contains("Admin")).ToList(), "Name", "Name");
             return View();
         }
 
@@ -43,7 +42,7 @@ namespace HotelBookingGarnet.Controllers.Register
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, model.UserRoles);
+                    await userService.AddUserToRole(user, model);
                     return RedirectToAction(nameof(LoginController.Login), "Login");
                 }
             }

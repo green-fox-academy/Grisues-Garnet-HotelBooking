@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HotelBookingGarnet.Migrations
 {
-    public partial class seedRoles : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,8 +40,7 @@ namespace HotelBookingGarnet.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    Role = table.Column<string>(nullable: true)
+                    AccessFailedCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,17 +156,17 @@ namespace HotelBookingGarnet.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "690baa51-feeb-4b72-b001-eced527084dd", "9fe7f0b6-2ec4-44be-a84f-555c0fdd6fdc", "Admin", "ADMIN" });
+                values: new object[] { "cebc41db-591a-4baa-be33-f0195b23c6f7", "71bb98e4-d93e-4cff-8087-4f86a0df0117", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b90e8a19-acd2-479a-b538-be5820eb7da3", "f7e511de-6588-48a5-a8f4-7d0d289c47fa", "Guest", "GUEST" });
+                values: new object[] { "4762f013-d1f3-4639-8d14-86b2dd3877c1", "b1be801f-271d-41b7-b280-a30b4c831341", "Guest", "GUEST" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "cc1a7eaf-472c-4efe-9007-b70855d54920", "0b5576d7-d053-48d1-ba66-d01cd13fbb81", "Hotel Manager", "HOTEL MANAGER" });
+                values: new object[] { "86b46671-c2ec-4012-947b-052e9b66f4a5", "9eb0f8ee-9567-48ce-8fbb-7187aea926e2", "Hotel Manager", "HOTEL MANAGER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
