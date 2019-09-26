@@ -1,9 +1,8 @@
-﻿namespace HotelBookingGarnet.Models
+﻿﻿namespace HotelBookingGarnet.Models
 {
     public class Hotel
     {
         public long HotelId { get; set; }
-        public long UserId { get; set; }
-        
+        public string UserId { get; set; }
     }
 }

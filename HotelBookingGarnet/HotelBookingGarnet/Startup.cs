@@ -16,8 +16,8 @@ namespace HotelBookingGarnet
 {
     public class Startup
     {
-        private IConfiguration Configuration; 
-        
+        private IConfiguration Configuration;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -39,7 +39,7 @@ namespace HotelBookingGarnet
             });
             services.AddMvc();
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())

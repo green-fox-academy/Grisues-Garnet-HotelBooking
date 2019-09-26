@@ -37,7 +37,7 @@ namespace HotelBookingGarnet.Services
             var result = await userManager.CreateAsync(user, model.Password);
             return result;
         }
-        
+
         public async Task<List<string>> LoginAsync(LoginViewModel model)
         {
             var user = await userManager.FindByEmailAsync(model.Email);
@@ -46,17 +46,20 @@ namespace HotelBookingGarnet.Services
                 model.ErrorMessages.Add("User with the given Email does not exist");
                 return model.ErrorMessages;
             }
-            var result = await signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
+
+            var result = await signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false,
+                lockoutOnFailure: false);
             model.ErrorMessages = checkLoginErrors(result, model.ErrorMessages);
             return model.ErrorMessages;
         }
-        
+
         private List<string> checkLoginErrors(SignInResult result, List<string> errors)
         {
             if (!result.Succeeded)
             {
                 errors.Add("Invalid login attempt");
             }
+
             return errors;
         }
     }

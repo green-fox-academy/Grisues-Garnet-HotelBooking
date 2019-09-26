@@ -10,7 +10,7 @@ namespace HotelBookingGarnet.Controllers.Login
     [AllowAnonymous]
     public class LoginController : Controller
     {
-        public IUserService userService { get; set; }
+        private readonly IUserService userService;
 
         public LoginController(IUserService UserService)
         {
@@ -35,6 +35,7 @@ namespace HotelBookingGarnet.Controllers.Login
                     return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
             }
+
             return View(model);
         }
     }

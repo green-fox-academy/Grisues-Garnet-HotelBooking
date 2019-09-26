@@ -7,11 +7,10 @@ namespace HotelBookingGarnet
 {
     public class ApplicationContext : IdentityDbContext<User>
     {
-      
         public ApplicationContext(DbContextOptions options) : base(options)
         {
         }
-        
+
         public DbSet<Hotel> Hotels { get; set; }
     }
 }

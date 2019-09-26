@@ -9,7 +9,7 @@ namespace HotelBookingGarnet.Controllers.Register
     [AllowAnonymous]
     public class RegisterController : Controller
     {
-        public IUserService userService { get; set; }
+        private readonly IUserService userService;
 
         public RegisterController(IUserService UserService)
         {

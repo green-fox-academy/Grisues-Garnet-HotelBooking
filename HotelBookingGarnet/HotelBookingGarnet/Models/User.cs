@@ -5,8 +5,6 @@ namespace HotelBookingGarnet.Models
 {
     public class User : IdentityUser
     {
-        
         public List<Hotel> Hotels { get; set; }
-        
     }
 }
