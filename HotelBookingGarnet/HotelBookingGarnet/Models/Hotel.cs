@@ -1,4 +1,6 @@
-﻿namespace HotelBookingGarnet.Models
+﻿using System.Collections.Generic;
+
+namespace HotelBookingGarnet.Models
 {
     public class Hotel
     {
@@ -10,8 +12,11 @@
         public string Address { get; set; }
         public string Description { get; set; }
         public int StarRating { get; set; }
-        public string PropertyType { get; set; }
+        public PropertyType PropertyType { get; set; }
         public int Price { get; set; }
-        public long UserId { get; set; }
+        public string UserId { get; set; }
+        public ICollection<HotelPropertyType> HotelPropertyTypes { get; set; }
+
+
     }
 }

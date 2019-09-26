@@ -2,10 +2,10 @@
 
 <h1>Add new Hotel</h1>
 
-<form asp-controller="Hotel" asp-action="AddHotel" asp-route-userId="@ViewData["UserId"]" method="post">
+<form asp-controller="Hotel" asp-action="AddHotel" method="post">
     <div>
         <label asp-for="HotelName"></label>
-        <input asp-for="HotelName"/>
+        <input asp-for="HotelName" value=""/>
     </div>
     <div>
         <label asp-for="Country"></label>
@@ -41,12 +41,19 @@
     </div>
     <div>
         <label asp-for="StarRating"></label>
-        <input asp-for="StarRating"/>
+        <select asp-for="StarRating">
+            <option value="1">1 Star</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
+        </select> 
     </div>
     <div>
         <label asp-for="PropertyType"></label>
-        <select asp-for="PropertyType" asp-items="Html.GetEnumSelectList<PropertyType>()"></select>
+        <input asp-for="PropertyType"/>
     </div>
+
     <button type="submit" class="btn btn-success btn-sm">Add</button>
 </form>
 

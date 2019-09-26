@@ -1,6 +1,9 @@
 ﻿using System.Threading.Tasks;
+using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBookingGarnet.Controllers.Hotel
@@ -8,27 +11,30 @@ namespace HotelBookingGarnet.Controllers.Hotel
     public class HotelController : Controller
     {
         private readonly IHotelService hotelService;
-        private readonly IUserService userService;
+        private readonly UserManager<User> userManager;
 
-        public HotelController(IHotelService hotelService, IUserService userService)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager)
         {
             this.hotelService = hotelService;
-            this.userService = userService;
+            this.userManager = userManager;
         }
 
+        [Authorize(Roles = "Hotel Manager")]
         [HttpGet("/addhotel")]
-        public IActionResult AddHotel(long userId)
+        public IActionResult AddHotel()
         {
-            ViewData["UserId"] = userId;
             return View();
         }
 
+        [Authorize(Roles = "Hotel Manager")]
         [HttpPost("/addhotel")]
-        public async Task<IActionResult> AddHotel(HotelViewModel newHotel, long userId)
+        public async Task<IActionResult> AddHotel(HotelViewModel newHotel)
         {
             if (ModelState.IsValid)
             {
-                await hotelService.AddHotelAsync(newHotel, userId);
+                var currentUser = await userManager.GetUserAsync(HttpContext.User);
+                await hotelService.AddHotelAsync(newHotel, currentUser.UserId);
+                RedirectToAction("Home", "Home");
             }
             return View();
         }

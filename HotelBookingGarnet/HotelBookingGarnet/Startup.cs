@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,8 +28,8 @@ namespace HotelBookingGarnet
         {
             services.AddDbContext<ApplicationContext>(builder =>
                 builder.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IHotelService, HotelService>();
+            services.AddTransient<IPropertyTypeService, PropertyTypeService>();
             services.AddMvc();
         }
 
