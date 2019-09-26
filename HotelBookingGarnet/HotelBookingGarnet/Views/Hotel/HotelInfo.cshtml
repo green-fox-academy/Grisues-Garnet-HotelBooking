@@ -1,13 +1,15 @@
-﻿@model Hotel
-@*@inject SignInManager<ApplicationUser> signInManager*@
+﻿@using Microsoft.AspNetCore.Identity
+@model Hotel
+@inject SignInManager<User> signInManager
 
 
-@*@if (User.IsInRole("Hotel Manager"))
-    {*@
-@*<form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.HotelId" method="post">
+
+@if (User.IsInRole("Hotel Manager"))
+{
+    <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.HotelId" method="post">
         <button type="submit" class="btn btn-primary">Edit</button>
-    </form>*@
-@*}*@
+    </form>
+}
 <div>
     <h1>Name: @Model.HotelName</h1>
 </div>

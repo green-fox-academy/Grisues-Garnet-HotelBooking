@@ -12,16 +12,21 @@ namespace HotelBookingGarnet.Controllers.Home
     public class HomeController : Controller
     {
         private readonly IHotelService hotelService;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
 
-        public HomeController(IHotelService hotelService)
+        public HomeController(IHotelService hotelService, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             this.hotelService = hotelService;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         [HttpGet("/")]
-        public  IActionResult Home(User user ,int page = 1)
+        public async Task<IActionResult> Home(int page = 1)
         {
-            ViewData["User"] = user;
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+           
 
             var hotels = hotelService.GetHotels();
             var model =  PagingList.Create(hotels, 3, page);

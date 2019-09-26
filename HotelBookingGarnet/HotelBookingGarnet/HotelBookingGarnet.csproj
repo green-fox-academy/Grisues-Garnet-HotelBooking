@@ -18,7 +18,6 @@
 
     <ItemGroup>
       <Folder Include="Controllers\User" />
-      <Folder Include="ViewModels" />
       <Folder Include="Views\User" />
     </ItemGroup>
 

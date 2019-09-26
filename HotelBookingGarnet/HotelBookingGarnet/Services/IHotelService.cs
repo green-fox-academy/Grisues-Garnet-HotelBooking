@@ -8,8 +8,8 @@ namespace HotelBookingGarnet.Services
 {
     public interface IHotelService
     {
-       Task<List<Hotel>> findAllHotelAsync();
-        Task<Hotel> findHotelByIdAsync(long id);
+       Task<List<Hotel>> FindAllHotelAsync();
+        Task<Hotel> FindHotelByIdAsync(long id);
         List<Hotel> GetHotels();
     }
 }

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,9 +32,10 @@ namespace HotelBookingGarnet
             services.AddTransient<IHotelService, HotelService>();
             services.AddDbContext<ApplicationContext>(builder =>
                 builder.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddPaging();
             services.AddMvc();
+            services.AddIdentity<User, IdentityRole>().AddRoles<IdentityRole>()
+               .AddEntityFrameworkStores<ApplicationContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
