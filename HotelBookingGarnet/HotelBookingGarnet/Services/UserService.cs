@@ -12,16 +12,16 @@ namespace HotelBookingGarnet.Services
     public class UserService : IUserService
     {
         private readonly ApplicationContext applicationContext;
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
 
 
-        public UserService(ApplicationContext applicationContext, UserManager<User> userManager,
-            SignInManager<User> signInManager)
+        public UserService(ApplicationContext applicationContext, UserManager<User> UserManager,
+            SignInManager<User> SignInManager)
         {
             this.applicationContext = applicationContext;
-            _userManager = userManager;
-            _signInManager = signInManager;
+            userManager = UserManager;
+            signInManager = SignInManager;
         }
 
         public async Task<User> FindByEmailAsync(string email)
@@ -34,19 +34,19 @@ namespace HotelBookingGarnet.Services
         public async Task<IdentityResult> RegisterAsync(RegisterViewModel model)
         {
             var user = new User {UserName = model.Username, Email = model.Email};
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await userManager.CreateAsync(user, model.Password);
             return result;
         }
         
         public async Task<List<string>> LoginAsync(LoginViewModel model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            var user = await userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 model.ErrorMessages.Add("User with the given Email does not exist");
                 return model.ErrorMessages;
             }
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
+            var result = await signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false, lockoutOnFailure: false);
             model.ErrorMessages = checkLoginErrors(result, model.ErrorMessages);
             return model.ErrorMessages;
         }

@@ -10,11 +10,11 @@ namespace HotelBookingGarnet.Controllers.Login
     [AllowAnonymous]
     public class LoginController : Controller
     {
-        public IUserService _userService { get; set; }
+        public IUserService userService { get; set; }
 
-        public LoginController(IUserService userService)
+        public LoginController(IUserService UserService)
         {
-            _userService = userService;
+            userService = UserService;
         }
 
         [HttpGet("/login")]
@@ -29,7 +29,7 @@ namespace HotelBookingGarnet.Controllers.Login
         {
             if (ModelState.IsValid)
             {
-                var errors = await _userService.LoginAsync(model);
+                var errors = await userService.LoginAsync(model);
                 if (errors.Count == 0)
                 {
                     return RedirectToAction(nameof(HomeController.Index), "Home");

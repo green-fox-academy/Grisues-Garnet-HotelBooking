@@ -9,11 +9,11 @@ namespace HotelBookingGarnet.Controllers.Register
     [AllowAnonymous]
     public class RegisterController : Controller
     {
-        public IUserService _userService { get; set; }
+        public IUserService userService { get; set; }
 
-        public RegisterController(IUserService userService)
+        public RegisterController(IUserService UserService)
         {
-            _userService = userService;
+            userService = UserService;
         }
 
         [HttpGet("/register")]
@@ -31,7 +31,7 @@ namespace HotelBookingGarnet.Controllers.Register
                 return View(model);
             }
 
-            var result = await _userService.RegisterAsync(model);
+            var result = await userService.RegisterAsync(model);
 
             if (result.Succeeded)
             {

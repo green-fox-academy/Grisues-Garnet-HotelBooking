@@ -8,17 +8,17 @@ namespace HotelBookingGarnet.Controllers.Home
 {
     public class HomeController : Controller
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<User> userManager;
 
-        public HomeController(UserManager<User> userManager)
+        public HomeController(UserManager<User> UserManager)
         {
-            _userManager = userManager;
+            userManager = UserManager;
         }
 
         [HttpGet("/home")]
         public async Task<IActionResult> Index()
         {
-            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
             return View(new IndexViewModel {User = currentUser});
         }
     }
