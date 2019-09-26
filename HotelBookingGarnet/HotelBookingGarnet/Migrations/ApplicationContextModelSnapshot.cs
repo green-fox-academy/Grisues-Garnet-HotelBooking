@@ -14,7 +14,7 @@ namespace HotelBookingGarnet.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("HotelBookingGarnet.Models.Hotel", b =>
@@ -22,13 +22,11 @@ namespace HotelBookingGarnet.Migrations
                     b.Property<long>("HotelId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("UserId");
-
-                    b.Property<string>("UserId1");
+                    b.Property<string>("UserId");
 
                     b.HasKey("HotelId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Hotels");
                 });
@@ -104,6 +102,29 @@ namespace HotelBookingGarnet.Migrations
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "6544bc9b-a84f-4a23-bb04-c50d91cfa3ef",
+                            ConcurrencyStamp = "82edfc62-27a8-4a99-92ca-c3615e2d3cd6",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "742e0fa1-bcd2-44e4-bf6d-537480fa5774",
+                            ConcurrencyStamp = "86e90fac-e07a-4fea-9449-67d2b0034c3b",
+                            Name = "Guest",
+                            NormalizedName = "GUEST"
+                        },
+                        new
+                        {
+                            Id = "dbda2830-6585-47ca-b7dc-1cb82466cfe3",
+                            ConcurrencyStamp = "f22725f7-2d6c-41a3-ade1-d9350f5c8dc5",
+                            Name = "Hotel Manager",
+                            NormalizedName = "HOTEL MANAGER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -194,7 +215,7 @@ namespace HotelBookingGarnet.Migrations
                 {
                     b.HasOne("HotelBookingGarnet.Models.User")
                         .WithMany("Hotels")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

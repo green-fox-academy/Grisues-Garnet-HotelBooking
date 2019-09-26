@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+
+using System.ComponentModel.DataAnnotations;
 
 namespace HotelBookingGarnet.ViewModels
 {
@@ -30,5 +31,11 @@ namespace HotelBookingGarnet.ViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Are you a hotel manager?")]
+        public bool IsManager { get; set; }
     }
 }
+    
+
+

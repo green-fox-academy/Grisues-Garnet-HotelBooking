@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using HotelBookingGarnet.Controllers.Home;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HotelBookingGarnet.Controllers.Home;
@@ -35,7 +35,12 @@ namespace HotelBookingGarnet.Services
         {
             var user = new User {UserName = model.Username, Email = model.Email};
             var result = await userManager.CreateAsync(user, model.Password);
-            return result;
+            if (result.Succeeded)
+            {
+                await AddUserToRole(user, model);
+                return result;
+            }
+                return result;
         }
 
         public async Task<List<string>> LoginAsync(LoginViewModel model)
@@ -61,6 +66,18 @@ namespace HotelBookingGarnet.Services
             }
 
             return errors;
+        }
+
+     public async Task AddUserToRole(User user,RegisterViewModel model)
+        {
+            if (model.IsManager)
+            {
+                await userManager.AddToRoleAsync(user, "Hotel Manager");
+            }
+            else
+            {
+                await userManager.AddToRoleAsync(user, "Guest");
+            }
         }
     }
 }

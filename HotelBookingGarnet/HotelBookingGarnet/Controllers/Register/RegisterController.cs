@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authorization;

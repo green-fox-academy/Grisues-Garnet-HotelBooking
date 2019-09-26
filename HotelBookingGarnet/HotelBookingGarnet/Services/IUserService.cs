@@ -8,6 +8,7 @@ namespace HotelBookingGarnet.Services
 {
     public interface IUserService
     {
+        Task AddUserToRole(User user,RegisterViewModel model);
         Task<User> FindByEmailAsync(string email);
         Task<List<string>> LoginAsync(LoginViewModel model);
         Task<IdentityResult> RegisterAsync(RegisterViewModel model);
