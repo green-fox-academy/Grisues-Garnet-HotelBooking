@@ -47,7 +47,5 @@ namespace HotelBookingGarnet.Services
             await applicationContext.Hotels.AddAsync(hotel);
             await applicationContext.SaveChangesAsync();
         }
-        
-        
     }
 }

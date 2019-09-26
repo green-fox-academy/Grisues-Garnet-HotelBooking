@@ -38,6 +38,5 @@ namespace HotelBookingGarnet.Controllers.Hotel
             }
             return View(newHotel);
         }
-        
     }
 }

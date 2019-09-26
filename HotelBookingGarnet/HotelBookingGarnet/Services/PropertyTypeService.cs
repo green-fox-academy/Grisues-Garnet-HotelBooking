@@ -12,8 +12,7 @@ namespace HotelBookingGarnet.Services
         {
             this.applicationContext = applicationContext;
         }
-
-
+        
         public async Task<PropertyType> FindByTypeAsync(string type)
         {
             var propertType = await applicationContext.PropertyTypes.FirstOrDefaultAsync(a => a.Type == type);
