@@ -1,39 +1,46 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model IndexViewModel
-@inject SignInManager<User> signInManager
 
-
-
-@if (Model.User.Id.Equals(Model.hotel.UserId) || User.IsInRole("Admin") )
-{
-    <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.hotel.HotelId" method="get">
-        <button type="submit" class="btn btn-primary">Edit</button>
-    </form>
-}
-<div>
-    <h1>Name: @Model.hotel.HotelName</h1>
-</div>
-<div>
-    <h5>Country: @Model.hotel.Country</h5>
-</div>
-<div>
-    <h5>Region: @Model.hotel.Region</h5>
-</div>
-<div>
-    <h5>City: @Model.hotel.City</h5>
-</div>
-<div>
-    <h5>Address: @Model.hotel.Address</h5>
-</div>
-<div>
-    <h5>Description: @Model.hotel.Description</h5>
-</div>
-<div>
-    <h5>Star Rating: @Model.hotel.StarRating</h5>
-</div>
-<div>
-    <h5>Property type: @ViewData["propertyType"]</h5>
-</div>
-<div>
-    <h5>Price: @Model.hotel.Price Ft</h5>
+<div class="card">
+    <h1 class="card-header"> @Model.hotel.HotelName</h1>
+    <div class="card-body">
+        <div>
+            <h5 class="card-title">Country: </h5>
+            <p class="card-text">@Model.hotel.Country</p>
+        </div>
+        <div>
+            <h5 class="card-title">Region: </h5>
+            <p class="card-text">@Model.hotel.Region</p>
+        </div>
+        <div>
+            <h5 class="card-title">City: </h5>
+            <p class="card-text">@Model.hotel.City</p>
+        </div>
+        <div>
+            <h5 class="card-title">Address: </h5>
+            <p class="card-text">@Model.hotel.Address</p>
+        </div>
+        <div>
+            <h5 class="card-title">Description: </h5>
+            <p class="card-text">@Model.hotel.Description</p>
+        </div>
+        <div>
+            <h5 class="card-title">Star Rating: </h5>
+            <p class="card-text">@Model.hotel.StarRating</p>
+        </div>
+        <div>
+            <h5 class="card-title">Property type:</h5>
+            <p class="card-text"> @ViewData["propertyType"]</p>
+        </div>
+        <div>
+            <h5 class="card-title">Price:</h5>
+            <p class="card-text"> @Model.hotel.Price Ft</p>
+        </div>
+        @if (Model.User.Id.Equals(Model.hotel.UserId) || User.IsInRole("Admin"))
+        {
+            <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.hotel.HotelId" method="get">
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </form>
+        }
+    </div>
 </div>

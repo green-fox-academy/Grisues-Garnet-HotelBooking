@@ -40,8 +40,10 @@ namespace HotelBookingGarnet
                 options.Password.RequireNonAlphanumeric = false;
                 // cannot contain special char. dunno how!?
             });
+           
             services.AddMvc();
-         
+            services.AddPaging();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +58,7 @@ namespace HotelBookingGarnet
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseStaticFiles();
             app.UseMvc();
         } 
     }
