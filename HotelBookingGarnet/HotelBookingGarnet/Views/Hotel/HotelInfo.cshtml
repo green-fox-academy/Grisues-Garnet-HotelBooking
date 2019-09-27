@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IndexViewModel
+@inject SignInManager<User> signInManager
+
+
+
+@if (Model.User.Id.Equals(Model.hotel.UserId) || User.IsInRole("Admin") )
+{
+    <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.hotel.HotelId" method="get">
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </form>
+}
+<div>
+    <h1>Name: @Model.hotel.HotelName</h1>
+</div>
+<div>
+    <h5>Country: @Model.hotel.Country</h5>
+</div>
+<div>
+    <h5>Region: @Model.hotel.Region</h5>
+</div>
+<div>
+    <h5>City: @Model.hotel.City</h5>
+</div>
+<div>
+    <h5>Address: @Model.hotel.Address</h5>
+</div>
+<div>
+    <h5>Description: @Model.hotel.Description</h5>
+</div>
+<div>
+    <h5>Star Rating: @Model.hotel.StarRating</h5>
+</div>
+<div>
+    <h5>Property type: @ViewData["propertyType"]</h5>
+</div>
+<div>
+    <h5>Price: @Model.hotel.Price Ft</h5>
+</div>

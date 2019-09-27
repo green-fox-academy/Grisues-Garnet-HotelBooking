@@ -7,5 +7,7 @@ namespace HotelBookingGarnet.Services
     {
         Task<PropertyType> FindByTypeAsync(string type);
         Task<PropertyType> AddPropertyTypeAsync(string type);
+
+        Task<string> FindByIdAsync(long id);
     }
 }

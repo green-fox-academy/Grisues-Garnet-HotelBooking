@@ -1,9 +1,10 @@
 
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
-using HotelBookingGarnet.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using HotelBookingGarnet.ViewModels;
 
 namespace HotelBookingGarnet.Services
 {
@@ -40,7 +41,7 @@ namespace HotelBookingGarnet.Services
 
         public async Task<Hotel> FindHotelByIdAsync(long HotelId)
         {
-            var foundHotel = await applicationContext.Hotels.SingleOrDefaultAsync(x => x.HotelId == HotelId);
+            var foundHotel = await applicationContext.Hotels.Include(p => p.PropertyType).SingleOrDefaultAsync(x => x.HotelId == HotelId);
             return foundHotel;
         }
 
@@ -61,7 +62,10 @@ namespace HotelBookingGarnet.Services
                 Price = newHotel.Price,
                 UserId = userId
             };
-            
+
+            await applicationContext.Hotels.AddAsync(hotel);
+                        await applicationContext.SaveChangesAsync();
+
             propertyType.HotelPropertyTypes = new List<HotelPropertyType>();
             
             var smth = new HotelPropertyType();
@@ -72,8 +76,13 @@ namespace HotelBookingGarnet.Services
             
             propertyType.HotelPropertyTypes.Add(smth);
 
-            await applicationContext.Hotels.AddAsync(hotel);
+            
             await applicationContext.SaveChangesAsync();
+        }
+        public List<Hotel> GetHotels()
+        {
+            var qry = applicationContext.Hotels.AsNoTracking().OrderBy(h => h.HotelName).ToList();
+            return qry;
         }
     }
 }

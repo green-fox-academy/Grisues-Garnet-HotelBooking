@@ -1,0 +1,41 @@
+﻿@*@model ReflectionIT.Mvc.Paging.PagingList<HotelBookingGarnet.Models.Hotel>
+@using ReflectionIT.Mvc.Paging*@
+@model List<HotelBookingGarnet.Models.Hotel>
+@addTagHelper *,ReflectionIT.Mvc.Paging
+
+
+
+@{
+    ViewData["Title"] = "Hotels";
+}
+
+
+<div>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price/Night</th>
+        </tr>
+
+        @foreach (var hotel in Model)
+        {
+            <tr>
+                <td> @Html.DisplayFor(modelItem => hotel.HotelName)</td>
+                <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
+                <td> @Html.DisplayFor(modelItem => hotel.Price)</td>
+                <td>
+                    <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="post">
+                        <button type="submit" class="btn btn-primary">More Info</button>
+                    </form>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+@*<nav aria-label="Products navigation example">
+    <vc:pager paging-list="@Model" />
+</nav>*@
+
+
