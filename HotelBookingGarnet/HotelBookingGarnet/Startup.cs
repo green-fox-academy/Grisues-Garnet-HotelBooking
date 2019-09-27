@@ -56,6 +56,7 @@ namespace HotelBookingGarnet
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseStaticFiles();
             app.UseMvc();
         } 
     }

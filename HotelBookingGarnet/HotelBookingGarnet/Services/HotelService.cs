@@ -75,7 +75,6 @@ namespace HotelBookingGarnet.Services
             smth.PropertyTypeId = propertyType.PropertyTypeId;
             
             propertyType.HotelPropertyTypes.Add(smth);
-
             
             await applicationContext.SaveChangesAsync();
         }
