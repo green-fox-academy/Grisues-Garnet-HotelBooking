@@ -35,10 +35,7 @@ namespace HotelBookingGarnet.Controllers.Login
                     return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
             }
-
             return View(model);
         }
-
-
     }
 }

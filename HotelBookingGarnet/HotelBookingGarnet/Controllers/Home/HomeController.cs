@@ -12,15 +12,11 @@ namespace HotelBookingGarnet.Controllers.Home
     public class HomeController : Controller
     {
         private readonly IHotelService hotelService;
-        private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
         private readonly IUserService userService;
 
-        public HomeController(IHotelService hotelService, UserManager<User> userManager, SignInManager<User> signInManager, IUserService userService)
+        public HomeController(IHotelService hotelService, IUserService userService)
         {
             this.hotelService = hotelService;
-            this.userManager = userManager;
-            this.signInManager = signInManager;
             this.userService = userService;
         }
 

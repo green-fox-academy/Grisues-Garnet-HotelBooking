@@ -17,7 +17,6 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IHotelService hotelService;
         private readonly UserManager<User> userManager;
         private readonly IPropertyTypeService propertyTypeService;
-
         public HotelController(IHotelService hotelService, UserManager<User> userManager, IPropertyTypeService propertyTypeService)
         {
             this.hotelService = hotelService;
