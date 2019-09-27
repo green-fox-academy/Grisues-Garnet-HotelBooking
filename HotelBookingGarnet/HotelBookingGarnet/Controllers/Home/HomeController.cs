@@ -14,20 +14,29 @@ namespace HotelBookingGarnet.Controllers.Home
         private readonly IHotelService hotelService;
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
+        private readonly IUserService userService;
 
-        public HomeController(IHotelService hotelService, UserManager<User> userManager, SignInManager<User> signInManager)
+        public HomeController(IHotelService hotelService, UserManager<User> userManager, SignInManager<User> signInManager, IUserService userService)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.userService = userService;
         }
 
         [HttpGet("/")]
-        public async Task<IActionResult> Home(int page = 1)
+        public IActionResult Index(int page = 1)
         {
-            var hotels = hotelService.GetHotels();
+            var hotels =  hotelService.GetHotels();
             var model = PagingList.Create(hotels, 5, page);
             return View(model);
+        }
+        
+        [HttpPost("/logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await userService.Logout();
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 }

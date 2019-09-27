@@ -79,5 +79,9 @@ namespace HotelBookingGarnet.Services
                 await userManager.AddToRoleAsync(user, "Guest");
             }
         }
+        public async Task Logout()
+        {
+            await signInManager.SignOutAsync();
+        }
     }
 }

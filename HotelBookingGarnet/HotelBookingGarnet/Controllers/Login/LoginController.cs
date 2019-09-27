@@ -32,11 +32,13 @@ namespace HotelBookingGarnet.Controllers.Login
                 var errors = await userService.LoginAsync(model);
                 if (errors.Count == 0)
                 {
-                    return RedirectToAction("Home", "Home");
+                    return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
             }
 
             return View(model);
         }
+
+
     }
 }

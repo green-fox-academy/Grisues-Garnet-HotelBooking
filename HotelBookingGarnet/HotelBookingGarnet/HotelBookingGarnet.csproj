@@ -25,6 +25,7 @@
       <Folder Include="ViewModels" />
       <Folder Include="Views\Hotel" />
       <Folder Include="Views\User" />
+      <Folder Include="wwwroot\images\" />
     </ItemGroup>
 
 </Project>
