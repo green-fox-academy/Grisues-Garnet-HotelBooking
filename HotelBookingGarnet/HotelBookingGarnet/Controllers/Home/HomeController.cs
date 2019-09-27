@@ -25,12 +25,9 @@ namespace HotelBookingGarnet.Controllers.Home
         [HttpGet("/")]
         public async Task<IActionResult> Home(int page = 1)
         {
-            var currentUser = await userManager.GetUserAsync(HttpContext.User);
-           
-
             var hotels = hotelService.GetHotels();
-            //var model =  PagingList.Create(hotels, 3, page);
-            return View(hotels);
+            var model = PagingList.Create(hotels, 5, page);
+            return View(model);
         }
     }
 }

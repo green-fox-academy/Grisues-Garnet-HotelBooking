@@ -33,15 +33,13 @@ namespace HotelBookingGarnet.Controllers.Hotel
             var hotel = await hotelService.FindHotelByIdAsync(HotelId);
             var property = await propertyTypeService.FindByIdAsync(hotel.PropertyType.PropertyTypeId);
             ViewData["propertyType"] = property;
-            return View(new IndexViewModel { User = currentUser, hotel = hotel});
+            return View(new IndexViewModel { User = currentUser, hotel = hotel });
         }
 
-        
-        [Authorize(Roles = "Hotel Manager")]
+        [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpGet("/edit/{HotelId}")]
         public async Task<IActionResult> EditHotel(long HotelId)
         {
-
             var hotel = await hotelService.FindHotelByIdAsync(HotelId);
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             var hotelViewModel = new HotelViewModel();
@@ -56,13 +54,10 @@ namespace HotelBookingGarnet.Controllers.Hotel
             hotelViewModel.HotelName = hotel.HotelName;
             hotelViewModel.PropertyType = hotel.PropertyType.Type;
             hotelViewModel.StarRating = hotel.StarRating;
-            if (ModelState.IsValid)
-            {
-                return View(hotelViewModel);
-            }
+
             return View(hotelViewModel);
         }
-
+        [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpPost("/edit/{HotelId}")]
         public async Task<IActionResult> EditHotel(HotelViewModel editHotel, long HotelId)
         {

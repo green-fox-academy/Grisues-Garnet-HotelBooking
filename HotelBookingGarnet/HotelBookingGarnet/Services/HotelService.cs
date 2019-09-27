@@ -76,12 +76,11 @@ namespace HotelBookingGarnet.Services
             
             propertyType.HotelPropertyTypes.Add(smth);
 
-            
             await applicationContext.SaveChangesAsync();
         }
         public List<Hotel> GetHotels()
         {
-            var qry = applicationContext.Hotels.AsNoTracking().OrderBy(h => h.HotelName).ToList();
+            var qry = applicationContext.Hotels.AsQueryable().OrderBy(h => h.HotelName).ToList();
             return qry;
         }
     }

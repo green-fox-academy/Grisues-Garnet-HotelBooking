@@ -10,7 +10,6 @@ namespace HotelBookingGarnet.Services
 {
     public class Administrator
     {
-
         public static void CreateAdmin(UserManager<User> userManager)
         {
             if (userManager.FindByEmailAsync("admin@gmail.com").Result == null)

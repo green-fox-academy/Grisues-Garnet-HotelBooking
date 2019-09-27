@@ -40,6 +40,7 @@ namespace HotelBookingGarnet
                 options.Password.RequireNonAlphanumeric = false;
                 // cannot contain special char. dunno how!?
             });
+            services.AddPaging();
             services.AddMvc();
          
         }

@@ -1,13 +1,6 @@
-﻿@*@model ReflectionIT.Mvc.Paging.PagingList<HotelBookingGarnet.Models.Hotel>
-@using ReflectionIT.Mvc.Paging*@
-@model List<HotelBookingGarnet.Models.Hotel>
+﻿@model ReflectionIT.Mvc.Paging.PagingList<HotelBookingGarnet.Models.Hotel>
+@using ReflectionIT.Mvc.Paging
 @addTagHelper *,ReflectionIT.Mvc.Paging
-
-
-
-@{
-    ViewData["Title"] = "Hotels";
-}
 
 
 <div>
@@ -17,11 +10,10 @@
             <th>Description</th>
             <th>Price/Night</th>
         </tr>
-
         @foreach (var hotel in Model)
         {
             <tr>
-                <td> @Html.DisplayFor(modelItem => hotel.HotelName)</td>
+                <td> @Html.DisplayFor(modelItem => hotel.HotelName) @hotel.StarRating</td>
                 <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
                 <td> @Html.DisplayFor(modelItem => hotel.Price)</td>
                 <td>
@@ -31,11 +23,8 @@
                 </td>
             </tr>
         }
-
     </table>
 </div>
-@*<nav aria-label="Products navigation example">
+<nav aria-label="Hotels" class="nav">
     <vc:pager paging-list="@Model" />
-</nav>*@
-
-
+</nav>
