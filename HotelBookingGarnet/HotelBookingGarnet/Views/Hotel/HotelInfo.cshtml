@@ -1,41 +1,41 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@model Hotel
+@model IndexViewModel
 @inject SignInManager<User> signInManager
 
 
 
-@if (User.IsInRole("Hotel Manager"))
+@if (Model.User.Id.Equals(Model.hotel.UserId))
 {
-    <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.HotelId" method="post">
+    <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.hotel.HotelId" method="get">
         <button type="submit" class="btn btn-primary">Edit</button>
     </form>
 }
 <div>
-    <h1>Name: @Model.HotelName</h1>
+    <h1>Name: @Model.hotel.HotelName</h1>
 </div>
 <div>
-    <h5>Country: @Model.Country</h5>
+    <h5>Country: @Model.hotel.Country</h5>
 </div>
 <div>
-    <h5>Region: @Model.Region</h5>
+    <h5>Region: @Model.hotel.Region</h5>
 </div>
 <div>
-    <h5>City: @Model.City</h5>
+    <h5>City: @Model.hotel.City</h5>
 </div>
 <div>
-    <h5>Address: @Model.Address</h5>
+    <h5>Address: @Model.hotel.Address</h5>
 </div>
 <div>
-    <h5>Description: @Model.Description</h5>
+    <h5>Description: @Model.hotel.Description</h5>
 </div>
 <div>
-    <h5>Star Rating: @Model.StarRating</h5>
+    <h5>Star Rating: @Model.hotel.StarRating</h5>
 </div>
 <div>
-    <h5>Property type: @Model.PropertyType</h5>
+    <h5>Property type: @ViewData["propertyType"]</h5>
 </div>
 <div>
-    <h5>Price: @Model.Price Ft</h5>
+    <h5>Price: @Model.hotel.Price Ft</h5>
 </div>
 
 

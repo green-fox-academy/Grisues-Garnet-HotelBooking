@@ -41,7 +41,7 @@ namespace HotelBookingGarnet.Services
 
         public async Task<Hotel> FindHotelByIdAsync(long HotelId)
         {
-            var foundHotel = await applicationContext.Hotels.SingleOrDefaultAsync(x => x.HotelId == HotelId);
+            var foundHotel = await applicationContext.Hotels.Include(p => p.PropertyType).SingleOrDefaultAsync(x => x.HotelId == HotelId);
             return foundHotel;
         }
 
@@ -62,7 +62,10 @@ namespace HotelBookingGarnet.Services
                 Price = newHotel.Price,
                 UserId = userId
             };
-            
+
+            await applicationContext.Hotels.AddAsync(hotel);
+                        await applicationContext.SaveChangesAsync();
+
             propertyType.HotelPropertyTypes = new List<HotelPropertyType>();
             
             var smth = new HotelPropertyType();
@@ -73,7 +76,7 @@ namespace HotelBookingGarnet.Services
             
             propertyType.HotelPropertyTypes.Add(smth);
 
-            await applicationContext.Hotels.AddAsync(hotel);
+            
             await applicationContext.SaveChangesAsync();
         }
         public List<Hotel> GetHotels()

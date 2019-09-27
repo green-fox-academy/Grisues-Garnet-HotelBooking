@@ -29,8 +29,8 @@ namespace HotelBookingGarnet.Controllers.Home
            
 
             var hotels = hotelService.GetHotels();
-            var model =  PagingList.Create(hotels, 3, page);
-            return View(model);
+            //var model =  PagingList.Create(hotels, 3, page);
+            return View(hotels);
         }
     }
 }

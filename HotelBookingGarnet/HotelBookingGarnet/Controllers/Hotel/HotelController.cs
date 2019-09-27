@@ -9,6 +9,7 @@ using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using HotelBookingGarnet.Controllers.Home;
 
 namespace HotelBookingGarnet.Controllers.Hotel
 {
@@ -30,17 +31,20 @@ namespace HotelBookingGarnet.Controllers.Hotel
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             var hotel = await hotelService.FindHotelByIdAsync(HotelId);
-            //var property = await propertyTypeService.FindByIdAsync(hotel.HotelPropertyTypes);
-            return View(new IndexViewModel { User = currentUser, hotel = hotel });
+            var property = await propertyTypeService.FindByIdAsync(hotel.PropertyType.PropertyTypeId);
+            ViewData["propertyType"] = property;
+            return View(new IndexViewModel { User = currentUser, hotel = hotel});
         }
 
         
         [Authorize(Roles = "Hotel Manager")]
         [HttpGet("/edit/{HotelId}")]
-        public async Task<IActionResult> EditHotel(long HotelId, HotelViewModel hotelViewModel)
+        public async Task<IActionResult> EditHotel(long HotelId)
         {
+
             var hotel = await hotelService.FindHotelByIdAsync(HotelId);
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            var hotelViewModel = new HotelViewModel();
             hotelViewModel.User = currentUser;
             ViewData["HotelId"] = hotel.HotelId;
             hotelViewModel.Address = hotel.Address;
@@ -52,6 +56,10 @@ namespace HotelBookingGarnet.Controllers.Hotel
             hotelViewModel.HotelName = hotel.HotelName;
             hotelViewModel.PropertyType = hotel.PropertyType.Type;
             hotelViewModel.StarRating = hotel.StarRating;
+            if (ModelState.IsValid)
+            {
+                return View(hotelViewModel);
+            }
             return View(hotelViewModel);
         }
 
@@ -61,7 +69,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             if (ModelState.IsValid)
             {
                 await hotelService.EditHotelAsync(HotelId, editHotel);
-                return RedirectToAction("Home", "Home");
+                return RedirectToAction(nameof(HomeController.Home), "Home");
             }
 
             return View(editHotel);
@@ -82,7 +90,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             {
                 var currentUser = await userManager.GetUserAsync(HttpContext.User);
                 await hotelService.AddHotelAsync(newHotel, currentUser.Id);
-                RedirectToAction("Home", "Home");
+               return RedirectToAction(nameof(HomeController.Home),"Home");
             }
             return View(newHotel);
         }

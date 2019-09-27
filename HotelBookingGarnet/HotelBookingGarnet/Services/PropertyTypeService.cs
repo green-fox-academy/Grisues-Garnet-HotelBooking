@@ -36,14 +36,17 @@ namespace HotelBookingGarnet.Services
                 };
                 await applicationContext.PropertyTypes.AddAsync(propertyType);
                 await applicationContext.SaveChangesAsync();
+                return propertyType;
             }
 
             return findPropertyType;
         }
 
-        public HotelPropertyType FindByIdAsync(long id)
+        public async Task<string> FindByIdAsync(long id)
         {
-            return null;
+            var property = await applicationContext.PropertyTypes.FirstOrDefaultAsync(p => p.PropertyTypeId == id);
+            string prop = property.Type;
+            return prop;
         }
     }
 }
