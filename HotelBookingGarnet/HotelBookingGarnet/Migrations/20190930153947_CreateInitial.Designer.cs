@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingGarnet.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20190926161628_test")]
-    partial class test
+    [Migration("20190930153947_CreateInitial")]
+    partial class CreateInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -18,6 +18,20 @@ namespace HotelBookingGarnet.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("HotelBookingGarnet.Models.Bed", b =>
+                {
+                    b.Property<long>("BedId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("BedType");
+
+                    b.Property<int>("NumberOfBeds");
+
+                    b.HasKey("BedId");
+
+                    b.ToTable("Beds");
+                });
 
             modelBuilder.Entity("HotelBookingGarnet.Models.Hotel", b =>
                 {
@@ -76,6 +90,41 @@ namespace HotelBookingGarnet.Migrations
                     b.HasKey("PropertyTypeId");
 
                     b.ToTable("PropertyTypes");
+                });
+
+            modelBuilder.Entity("HotelBookingGarnet.Models.Room", b =>
+                {
+                    b.Property<long>("RoomId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long?>("HotelId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("NumberOfGuests");
+
+                    b.Property<int>("NumberOfRooms");
+
+                    b.Property<int>("Price");
+
+                    b.HasKey("RoomId");
+
+                    b.HasIndex("HotelId");
+
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("HotelBookingGarnet.Models.RoomBed", b =>
+                {
+                    b.Property<long>("RoomId");
+
+                    b.Property<long>("BedId");
+
+                    b.HasKey("RoomId", "BedId");
+
+                    b.HasIndex("BedId");
+
+                    b.ToTable("RoomBed");
                 });
 
             modelBuilder.Entity("HotelBookingGarnet.Models.User", b =>
@@ -151,9 +200,9 @@ namespace HotelBookingGarnet.Migrations
                     b.ToTable("AspNetRoles");
 
                     b.HasData(
-                        new { Id = "68d15fa9-cade-4c8c-8cb9-57afdf255d02", ConcurrencyStamp = "63603489-32e0-4a62-bc04-5ce6bc164d2f", Name = "Admin", NormalizedName = "ADMIN" },
-                        new { Id = "24922db1-0cf0-47c7-aaad-e6f9065813b0", ConcurrencyStamp = "9d6e6ff8-801e-4b00-a56a-3255bc066b52", Name = "Guest", NormalizedName = "GUEST" },
-                        new { Id = "769e661a-ae5e-4a0a-92f0-4d4b5d2cc819", ConcurrencyStamp = "3fff0eb4-364e-4226-85f9-40beb4a811d1", Name = "Hotel Manager", NormalizedName = "HOTEL MANAGER" }
+                        new { Id = "2624cfe1-ee29-4335-a28a-eb65f71af16f", ConcurrencyStamp = "bd2c68c6-b283-4539-98ac-8b3d8ded2256", Name = "Admin", NormalizedName = "ADMIN" },
+                        new { Id = "d709dce8-806a-4639-9dc1-f21ef54b06d8", ConcurrencyStamp = "a62201b8-bff4-4bc9-842e-ede24f7454dc", Name = "Guest", NormalizedName = "GUEST" },
+                        new { Id = "f661451f-8136-4d30-ac44-55e74bb4beb2", ConcurrencyStamp = "95051039-bad2-41f0-92e9-ee5ebb256a22", Name = "Hotel Manager", NormalizedName = "HOTEL MANAGER" }
                     );
                 });
 
@@ -262,6 +311,26 @@ namespace HotelBookingGarnet.Migrations
                     b.HasOne("HotelBookingGarnet.Models.PropertyType", "PropertyType")
                         .WithMany("HotelPropertyTypes")
                         .HasForeignKey("PropertyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HotelBookingGarnet.Models.Room", b =>
+                {
+                    b.HasOne("HotelBookingGarnet.Models.Hotel", "Hotel")
+                        .WithMany("Rooms")
+                        .HasForeignKey("HotelId");
+                });
+
+            modelBuilder.Entity("HotelBookingGarnet.Models.RoomBed", b =>
+                {
+                    b.HasOne("HotelBookingGarnet.Models.Bed", "Bed")
+                        .WithMany("RoomBeds")
+                        .HasForeignKey("BedId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HotelBookingGarnet.Models.Room", "Room")
+                        .WithMany("RoomBeds")
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

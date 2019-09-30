@@ -36,7 +36,7 @@
             <h5 class="card-title">Price:</h5>
             <p class="card-text"> @Model.hotel.Price Ft</p>
         </div>
-        @if (Model.User.Id.Equals(Model.hotel.UserId) || User.IsInRole("Admin"))
+        @if (Model.User != null && (Model.User.Id.Equals(Model.hotel.UserId) || User.IsInRole("Admin")))
         {
             <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.hotel.HotelId" method="get">
                 <button type="submit" class="btn btn-primary">Edit</button>
