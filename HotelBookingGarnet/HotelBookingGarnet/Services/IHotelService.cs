@@ -15,5 +15,6 @@ namespace HotelBookingGarnet.Services
         Task EditHotelAsync(long HotelId, HotelViewModel editHotel);
         Task<Hotel> FindHotelByIdAsync(long HotelId);
         Task AddHotelAsync(HotelViewModel newHotel, string userId);
+        Task<List<Hotel>> FilterHotelsAsync(string city);
     }
 }

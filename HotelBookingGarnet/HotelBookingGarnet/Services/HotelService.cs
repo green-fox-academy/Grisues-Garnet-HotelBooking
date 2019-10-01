@@ -78,10 +78,17 @@ namespace HotelBookingGarnet.Services
 
             await applicationContext.SaveChangesAsync();
         }
+        
         public List<Hotel> GetHotels()
         {
             var qry = applicationContext.Hotels.AsQueryable().OrderBy(h => h.HotelName).ToList();
             return qry;
+        }
+
+        public async Task<List<Hotel>> FilterHotelsAsync(string city)
+        {
+            var hotels = await applicationContext.Hotels.Where(h => h.City == city).OrderBy(h => h.HotelName).ToListAsync();
+            return hotels;
         }
     }
 }
