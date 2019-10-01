@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
+using HotelBookingGarnet.Utils;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,11 +24,16 @@ namespace HotelBookingGarnet.Controllers.Home
         }
 
         [HttpGet("/")]
-        public IActionResult Index(int page = 1)
+        public async Task<IActionResult> Index(QueryParam queryParam, int page = 1)
         {
-            var hotels = hotelService.GetHotels();
+//            var hotels = hotelService.GetHotels();
+            var hotels = await hotelService.FilterHotelsAsync(queryParam);
             var model = PagingList.Create(hotels, 5, page);
-            return View(model);
+            return View(new IndexViewModel
+            {
+                PagingList =  hotels,
+                QueryParam = queryParam
+            });
         }
 
 //        [HttpPost("/")]

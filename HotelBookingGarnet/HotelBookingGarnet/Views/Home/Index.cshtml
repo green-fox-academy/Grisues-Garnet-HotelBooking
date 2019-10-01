@@ -26,7 +26,7 @@
             <th>Description</th>
             <th>Price/Night</th>
         </tr>
-        @foreach (var hotel in Model.hotels)
+        @foreach (var hotel in Model.PagingList)
         {
             <tr>
                 <td> @Html.DisplayFor(modelItem => hotel.HotelName) @hotel.StarRating</td>
@@ -42,5 +42,5 @@
     </table>
 </div>
 <nav aria-label="Page navigation example" class="nav">
-    <vc:pager paging-list="@Model" />
+    <vc:pager paging-list="@Model.PagingList" />
 </nav>

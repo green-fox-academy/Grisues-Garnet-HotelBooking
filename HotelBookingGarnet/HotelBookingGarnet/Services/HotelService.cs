@@ -1,10 +1,15 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
+using HotelBookingGarnet.Utils;
 using Microsoft.EntityFrameworkCore;
 using HotelBookingGarnet.ViewModels;
+using Microsoft.VisualBasic;
+using ReflectionIT.Mvc.Paging;
+using Remotion.Linq.Clauses;
 
 namespace HotelBookingGarnet.Services
 {
@@ -85,10 +90,12 @@ namespace HotelBookingGarnet.Services
             return qry;
         }
 
-        public async Task<List<Hotel>> FilterHotelsAsync(string city)
+        public async Task<PagingList<Hotel>> FilterHotelsAsync(QueryParam queryParam)
         {
-            var hotels = await applicationContext.Hotels.Where(h => h.City == city).OrderBy(h => h.HotelName).ToListAsync();
-            return hotels;
+            var hotels = await applicationContext.Hotels
+                .Where(h => h.City.Contains(queryParam.City) || String.IsNullOrEmpty(queryParam.City))
+                .OrderBy(h => h.HotelName).ToListAsync();
+            return PagingList.Create(hotels, 5, queryParam.Page);
         }
     }
 }
