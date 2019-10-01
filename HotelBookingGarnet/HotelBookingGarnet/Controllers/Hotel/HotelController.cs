@@ -17,15 +17,20 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IHotelService hotelService;
         private readonly UserManager<User> userManager;
         private readonly IPropertyTypeService propertyTypeService;
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IPropertyTypeService propertyTypeService)
-        { 
+        private readonly IRoomService roomService;
+        private readonly IBedService bedService;
+
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IPropertyTypeService propertyTypeService, IRoomService roomService, IBedService bedService)
+        {
             this.hotelService = hotelService;
             this.userManager = userManager;
             this.propertyTypeService = propertyTypeService;
-          }
+            this.roomService = roomService;
+            this.bedService = bedService;
+        }
 
-        [Authorize]
-        [HttpPost("/info/{hotelId}")]
+        [AllowAnonymous]
+        [HttpGet("/info/{hotelId}")]
         public async Task<IActionResult> HotelInfo(long hotelId)
         { 
             var currentUser = await userManager.GetUserAsync(HttpContext.User); 
@@ -63,7 +68,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             if (ModelState.IsValid)
             { 
                 await hotelService.EditHotelAsync(hotelId, editHotel);
-                return RedirectToAction(nameof(HomeController.Index),"Home");
+                return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new {hotelId});
             }
             return View(editHotel);
         }
@@ -86,6 +91,47 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 return RedirectToAction(nameof(HomeController.Index),"Home");
             }
             return View(newHotel);
+        }
+        
+        [Authorize(Roles = "Hotel Manager, Admin")]
+        [HttpGet("/addroom/{hotelId}")]
+        public IActionResult AddRoom(long hotelId)
+        {
+            ViewData["hotelId"] = hotelId;
+            return View(new RoomViewModel());
+        }
+        
+        [Authorize(Roles = "Hotel Manager, Admin")]
+        [HttpPost("/addroom/{hotelId}")]
+        public async Task<IActionResult> AddRoom(RoomViewModel newRoom, long hotelId)
+        {
+            if (ModelState.IsValid)
+            {
+                await roomService.AddRoomAsync(newRoom, hotelId);
+                return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new {hotelId});
+            }
+            return View(newRoom);
+        }
+        [Authorize(Roles = "Hotel Manager, Admin")]
+        [HttpGet("/addbed/{hotelId}/{roomId}")]
+        public IActionResult AddBed(long hotelId, long roomId)
+        {
+            ViewData["roomId"] = roomId;
+            ViewData["hotelId"] = hotelId;
+            return View(new BedViewModel());
+        }
+
+        [Authorize(Roles = "Hotel Manager, Admin")]
+        [HttpPost("/addbed/{hotelId}/{roomId}")]
+        public async Task<IActionResult> AddBed(BedViewModel newBed, long hotelId, long roomId)
+        {
+            if (ModelState.IsValid)
+            {
+                await bedService.AddBedAsync(newBed, roomId);
+                return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new {hotelId});
+            }
+
+            return View(newBed);
         }
     }
 }

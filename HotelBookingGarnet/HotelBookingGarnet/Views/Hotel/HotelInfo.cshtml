@@ -41,6 +41,46 @@
             <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.hotel.HotelId" method="get">
                 <button type="submit" class="btn btn-primary">Edit</button>
             </form>
+            
+            <form asp-controller="Hotel" asp-action="AddRoom" asp-route-HotelId="@Model.hotel.HotelId" method="get">
+                <button type="submit" class="btn btn-success">Add room</button>
+            </form>
         }
+        <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Cancel</a>
+        
+        
+        @if (Model.hotel.Rooms.Count != 0)
+        {
+            <table class="table">
+                <tr>
+                    <th>Room name</th>
+                    <th>Price</th>
+                    <th>Number of guests</th>
+                    <th>Number of rooms</th>
+                    <th>Beds</th>
+                </tr>
+                @foreach (var room in Model.hotel.Rooms)
+                {
+                    <tr>
+                        <td>@room.RoomName</td>
+                        <td>@room.Price</td>
+                        <td>@room.NumberOfGuests</td>
+                        <td>@room.NumberOfRooms</td>
+                        <td>
+                            @*@foreach (var bed in room.RoomBeds)
+                            {
+                                <span>@bed.Bed.NumberOfBeds</span>
+                                <span>@bed.Bed.BedType</span>                        
+                            }*@
+                            @if (Model.User != null && (Model.User.Id.Equals(Model.hotel.UserId) || User.IsInRole("Admin")))
+                            {
+                                <a asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@Model.hotel.HotelId" asp-route-roomId="@room.RoomId">Add bed</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+        
     </div>
 </div>

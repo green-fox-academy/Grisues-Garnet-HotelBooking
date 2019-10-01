@@ -1,0 +1,23 @@
+﻿@model BedViewModel
+
+<h1>Add bed(s) to your room</h1>
+
+<form asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@ViewData["hotelId"]" asp-route-roomId="@ViewData["roomId"]" method="post">
+    <div>
+        <label asp-for="BedType">Type of bed</label>
+        <select type="text" asp-for="BedType" class="form-control">
+            <option value="full bed">full bed</option>
+            <option value="twin bed">twin bed</option>
+            <option value="single bed">single bed</option>
+            <option value="sofa bed">sofa bed</option>
+        </select>
+        <span asp-validation-for="BedType" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="NumberOfBeds">Number of beds</label>
+        <input type="text" asp-for="NumberOfBeds" class="form-control"/>
+        <span asp-validation-for="NumberOfBeds" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Add</button>
+</form>
+<a class="btn btn-danger" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">Cancel</a>
