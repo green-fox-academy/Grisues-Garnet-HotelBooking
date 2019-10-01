@@ -32,7 +32,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             var hotel = await hotelService.FindHotelByIdAsync(hotelId); 
             var property = await propertyTypeService.FindByIdAsync(hotel.PropertyType.PropertyTypeId);
             ViewData["propertyType"] = property;
-            return View(new IndexViewModel { User = currentUser, hotel = hotel });
+            return View(new IndexViewModel { User = currentUser, Hotel = hotel });
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]
