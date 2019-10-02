@@ -33,7 +33,7 @@
                     <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
                     <td> @Html.DisplayFor(modelItem => hotel.Price)</td>
                     <td>
-                        <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="post">
+                        <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
                             <button type="submit" class="btn btn-primary">More Info</button>
                         </form>
                     </td>

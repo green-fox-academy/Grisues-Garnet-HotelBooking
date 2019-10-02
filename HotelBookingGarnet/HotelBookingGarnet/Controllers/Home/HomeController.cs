@@ -1,14 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using HotelBookingGarnet.Models;
+﻿using System.Threading.Tasks;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.Utils;
 using HotelBookingGarnet.ViewModels;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ReflectionIT.Mvc.Paging;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 
 namespace HotelBookingGarnet.Controllers.Home
 {

@@ -27,7 +27,7 @@ namespace HotelBookingGarnet
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
-        {           
+        {
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
             services.AddDbContext<ApplicationContext>(builder =>
@@ -35,15 +35,17 @@ namespace HotelBookingGarnet
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IHotelService, HotelService>();
             services.AddTransient<IPropertyTypeService, PropertyTypeService>();
+            services.AddTransient<IRoomService, RoomService>();
+            services.AddTransient<IBedService, BedService>();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
-                // cannot contain special char. dunno how!?
             });
-           
+
+            services.Configure<IdentityOptions>(options => { options.Password.RequireNonAlphanumeric = false; });
+            
             services.AddMvc();
             services.AddPaging();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +62,6 @@ namespace HotelBookingGarnet
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseMvc();
-        } 
+        }
     }
 }

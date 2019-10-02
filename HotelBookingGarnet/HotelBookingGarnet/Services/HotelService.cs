@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +6,7 @@ using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Utils;
 using Microsoft.EntityFrameworkCore;
 using HotelBookingGarnet.ViewModels;
-using Microsoft.VisualBasic;
 using ReflectionIT.Mvc.Paging;
-using Remotion.Linq.Clauses;
 
 namespace HotelBookingGarnet.Services
 {
@@ -23,7 +20,7 @@ namespace HotelBookingGarnet.Services
             this.applicationContext = applicationContext;
             this.propertyTypeService = propertyTypeService;
         }
-        
+
         public async Task EditHotelAsync(long HotelId, HotelViewModel editHotel)
         {
             var hotelToEdit = await FindHotelByIdAsync(HotelId);
@@ -38,22 +35,24 @@ namespace HotelBookingGarnet.Services
                 hotelToEdit.Description = editHotel.Description;
                 hotelToEdit.StarRating = editHotel.StarRating;
                 hotelToEdit.Price = editHotel.Price;
-                hotelToEdit.PropertyType = property;
             }
+
             applicationContext.Hotels.Update(hotelToEdit);
             await applicationContext.SaveChangesAsync();
         }
 
         public async Task<Hotel> FindHotelByIdAsync(long HotelId)
         {
-            var foundHotel = await applicationContext.Hotels.Include(p => p.PropertyType).SingleOrDefaultAsync(x => x.HotelId == HotelId);
+            var foundHotel = await applicationContext.Hotels.Include(p => p.HotelPropertyTypes)
+                .Include(h => h.Rooms).SingleOrDefaultAsync(x => x.HotelId == HotelId);
+
             return foundHotel;
         }
 
         public async Task AddHotelAsync(HotelViewModel newHotel, string userId)
         {
             var propertyType = await propertyTypeService.AddPropertyTypeAsync(newHotel.PropertyType);
-            
+
             var hotel = new Hotel
             {
                 HotelName = newHotel.HotelName,
@@ -63,23 +62,22 @@ namespace HotelBookingGarnet.Services
                 Address = newHotel.Address,
                 Description = newHotel.Description,
                 StarRating = newHotel.StarRating,
-                PropertyType = propertyType,
                 Price = newHotel.Price,
                 UserId = userId
             };
 
             await applicationContext.Hotels.AddAsync(hotel);
-                        await applicationContext.SaveChangesAsync();
+            await applicationContext.SaveChangesAsync();
 
             propertyType.HotelPropertyTypes = new List<HotelPropertyType>();
-            
-            var smth = new HotelPropertyType();
-            smth.Hotel = hotel;
-            smth.HotelId = hotel.HotelId;
-            smth.PropertyType = propertyType;
-            smth.PropertyTypeId = propertyType.PropertyTypeId;
-            
-            propertyType.HotelPropertyTypes.Add(smth);
+
+            var connection = new HotelPropertyType();
+            connection.Hotel = hotel;
+            connection.HotelId = hotel.HotelId;
+            connection.PropertyType = propertyType;
+            connection.PropertyTypeId = propertyType.PropertyTypeId;
+
+            propertyType.HotelPropertyTypes.Add(connection);
 
             await applicationContext.SaveChangesAsync();
         }

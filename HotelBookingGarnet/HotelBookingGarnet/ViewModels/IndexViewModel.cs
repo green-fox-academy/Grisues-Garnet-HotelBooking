@@ -8,10 +8,10 @@ namespace HotelBookingGarnet.ViewModels
     public class IndexViewModel
     {
         public User User { get; set; }
-        public Hotel hotel { get; set; }
-        public List<Hotel> hotels { get; set; }
-        public PropertyType propertyType { get; set;}
         public QueryParam QueryParam { get; set; }
         public PagingList<Hotel> PagingList { get; set; }
+        public Hotel Hotel { get; set; }
+        public List<Hotel> Hotels { get; set; }
+        public PropertyType PropertyType { get; set; }
     }
 }

@@ -2,31 +2,31 @@
 @model IndexViewModel
 
 <div class="card">
-    <h1 class="card-header"> @Model.hotel.HotelName</h1>
+    <h1 class="card-header"> @Model.Hotel.HotelName</h1>
     <div class="card-body">
         <div>
             <h5 class="card-title">Country: </h5>
-            <p class="card-text">@Model.hotel.Country</p>
+            <p class="card-text">@Model.Hotel.Country</p>
         </div>
         <div>
             <h5 class="card-title">Region: </h5>
-            <p class="card-text">@Model.hotel.Region</p>
+            <p class="card-text">@Model.Hotel.Region</p>
         </div>
         <div>
             <h5 class="card-title">City: </h5>
-            <p class="card-text">@Model.hotel.City</p>
+            <p class="card-text">@Model.Hotel.City</p>
         </div>
         <div>
             <h5 class="card-title">Address: </h5>
-            <p class="card-text">@Model.hotel.Address</p>
+            <p class="card-text">@Model.Hotel.Address</p>
         </div>
         <div>
             <h5 class="card-title">Description: </h5>
-            <p class="card-text">@Model.hotel.Description</p>
+            <p class="card-text">@Model.Hotel.Description</p>
         </div>
         <div>
             <h5 class="card-title">Star Rating: </h5>
-            <p class="card-text">@Model.hotel.StarRating</p>
+            <p class="card-text">@Model.Hotel.StarRating</p>
         </div>
         <div>
             <h5 class="card-title">Property type:</h5>
@@ -34,13 +34,55 @@
         </div>
         <div>
             <h5 class="card-title">Price:</h5>
-            <p class="card-text"> @Model.hotel.Price Ft</p>
+            <p class="card-text"> @Model.Hotel.Price Ft</p>
         </div>
-        @if (Model.User.Id.Equals(Model.hotel.UserId) || User.IsInRole("Admin"))
+
+        @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
         {
-            <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.hotel.HotelId" method="get">
+            <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.Hotel.HotelId" method="get">
                 <button type="submit" class="btn btn-primary">Edit</button>
             </form>
+            
+            <form asp-controller="Hotel" asp-action="AddRoom" asp-route-HotelId="@Model.Hotel.HotelId" method="get">
+                <button type="submit" class="btn btn-success">Add room</button>
+            </form>
+        }
+        <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Cancel</a>
+        
+        @if (Model.Hotel.Rooms.Count != 0)
+        {
+            <table class="table">
+                <tr>
+                    <th>Room name</th>
+                    <th>Price</th>
+                    <th>Number of guests</th>
+                    <th>Number of rooms</th>
+                    <th>Beds</th>
+                </tr>
+                @foreach (var room in Model.Hotel.Rooms)
+                {
+                    <tr>
+                        <td>@room.RoomName</td>
+                        <td>@room.Price</td>
+                        <td>@room.NumberOfGuests</td>
+                        <td>@room.NumberOfRooms</td>
+                        <td>
+                            @*@if (room.RoomBeds != null)
+                            {
+                                @foreach (var bed in room.RoomBeds)
+                                {
+                                    <span>@bed.Bed.NumberOfBeds</span>
+                                    <span>@bed.Bed.BedType</span>
+                                }  
+                            }*@
+                            @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
+                            {
+                                <a asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@Model.Hotel.HotelId" asp-route-roomId="@room.RoomId">Add bed</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
         }
     </div>
 </div>
