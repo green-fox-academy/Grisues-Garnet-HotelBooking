@@ -28,14 +28,12 @@ namespace HotelBookingGarnet.Services
             await applicationContext.AddAsync(bed);
             await applicationContext.SaveChangesAsync();
             
-            room.RoomBeds = new List<RoomBed>();
-
-            var connection = new RoomBed();
-            connection.Room = room;
-            connection.RoomId = roomId;
-            connection.Bed = bed;
-            connection.BedId = bed.BedId;
-            room.RoomBeds.Add(connection);
+            var roomBed = new RoomBed();
+            roomBed.Room = room;
+            roomBed.RoomId = roomId;
+            roomBed.Bed = bed;
+            roomBed.BedId = bed.BedId;
+            room.RoomBeds.Add(roomBed);
             
             await applicationContext.SaveChangesAsync();
         }
