@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,11 +43,12 @@ namespace HotelBookingGarnet.Services
             return findPropertyType;
         }
 
-        public async Task<string> FindByIdAsync(long id)
+        public async Task<string> FindPropertyByHotelIdAsync(long hotelId)
         {
-            var property = await applicationContext.PropertyTypes.FirstOrDefaultAsync(p => p.PropertyTypeId == id);
-            string prop = property.Type;
-            return prop;
+            var prop = await applicationContext.HotelPropertyType.Include(a => a.PropertyType)
+                .FirstOrDefaultAsync(a => a.HotelId == hotelId);
+
+            return prop.PropertyType.Type;
         }
     }
 }

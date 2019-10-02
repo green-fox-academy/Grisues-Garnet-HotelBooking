@@ -34,10 +34,10 @@ namespace HotelBookingGarnet.Controllers.Hotel
         public async Task<IActionResult> HotelInfo(long hotelId)
         { 
             var currentUser = await userManager.GetUserAsync(HttpContext.User); 
-            var hotel = await hotelService.FindHotelByIdAsync(hotelId); 
-            var property = await propertyTypeService.FindByIdAsync(hotel.PropertyType.PropertyTypeId);
+            var hotel = await hotelService.FindHotelByIdAsync(hotelId);
+            var property = await propertyTypeService.FindPropertyByHotelIdAsync(hotelId);
             ViewData["propertyType"] = property;
-            return View(new IndexViewModel { User = currentUser, hotel = hotel });
+            return View(new IndexViewModel { User = currentUser, Hotel = hotel });
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]
@@ -46,6 +46,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
         {
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            var property = await propertyTypeService.FindPropertyByHotelIdAsync(hotelId);
             var hotelViewModel = new HotelViewModel();
             hotelViewModel.User = currentUser;
             ViewData["hotelId"] = hotel.HotelId;
@@ -56,7 +57,8 @@ namespace HotelBookingGarnet.Controllers.Hotel
             hotelViewModel.Price = hotel.Price;
             hotelViewModel.Region = hotel.Region;
             hotelViewModel.HotelName = hotel.HotelName;
-            hotelViewModel.PropertyType = hotel.PropertyType.Type;
+            hotelViewModel.PropertyType = property;
+            
             hotelViewModel.StarRating = hotel.StarRating;
             return View(hotelViewModel);
         }

@@ -37,10 +37,11 @@ namespace HotelBookingGarnet.Services
             var result = await userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                await AddUserToRole(user, model);
+                await AddUserToRoleAsync(user, model);
                 return result;
             }
-                return result;
+
+            return result;
         }
 
         public async Task<List<string>> LoginAsync(LoginViewModel model)
@@ -68,7 +69,7 @@ namespace HotelBookingGarnet.Services
             return errors;
         }
 
-     public async Task AddUserToRole(User user,RegisterViewModel model)
+        public async Task AddUserToRoleAsync(User user, RegisterViewModel model)
         {
             if (model.IsManager)
             {
@@ -79,6 +80,7 @@ namespace HotelBookingGarnet.Services
                 await userManager.AddToRoleAsync(user, "Guest");
             }
         }
+
         public async Task Logout()
         {
             await signInManager.SignOutAsync();

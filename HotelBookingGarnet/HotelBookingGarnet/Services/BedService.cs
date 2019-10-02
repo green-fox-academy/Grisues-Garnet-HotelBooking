@@ -30,12 +30,12 @@ namespace HotelBookingGarnet.Services
             
             room.RoomBeds = new List<RoomBed>();
 
-            var smth = new RoomBed();
-            smth.Room = room;
-            smth.RoomId = roomId;
-            smth.Bed = bed;
-            smth.BedId = bed.BedId;
-            room.RoomBeds.Add(smth);
+            var connection = new RoomBed();
+            connection.Room = room;
+            connection.RoomId = roomId;
+            connection.Bed = bed;
+            connection.BedId = bed.BedId;
+            room.RoomBeds.Add(connection);
             
             await applicationContext.SaveChangesAsync();
         }

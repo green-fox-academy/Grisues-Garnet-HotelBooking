@@ -193,19 +193,12 @@ namespace HotelBookingGarnet.Migrations
                     Address = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     StarRating = table.Column<int>(nullable: false),
-                    PropertyTypeId = table.Column<long>(nullable: true),
                     Price = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Hotels", x => x.HotelId);
-                    table.ForeignKey(
-                        name: "FK_Hotels_PropertyTypes_PropertyTypeId",
-                        column: x => x.PropertyTypeId,
-                        principalTable: "PropertyTypes",
-                        principalColumn: "PropertyTypeId",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Hotels_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -288,17 +281,17 @@ namespace HotelBookingGarnet.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c965d103-f1fa-48cf-8af9-e65ef59432d2", "501ec7c3-f538-486d-b543-5c70868a4b9a", "Admin", "ADMIN" });
+                values: new object[] { "f093a1c4-45a4-40e6-bd94-a289acee36c7", "31763657-9268-40b2-84de-53a2144941af", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "7c603028-b738-4ab8-84a8-f524ab2bd841", "8e955dfb-2603-4731-8c1a-16adad5fbe78", "Guest", "GUEST" });
+                values: new object[] { "7245a001-1c61-42c2-90e4-021138c2f772", "6e81498d-6e85-45d0-95f1-e864e474ac8b", "Guest", "GUEST" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c3213ec7-5266-45c9-a1c0-9bd0175c4f98", "c8feeb86-0b2e-4410-8d52-9aad0439b3d9", "Hotel Manager", "HOTEL MANAGER" });
+                values: new object[] { "5335616c-4e6b-474e-9b54-39595174b327", "4f56c564-3178-427c-986a-5c4b747115af", "Hotel Manager", "HOTEL MANAGER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -340,11 +333,6 @@ namespace HotelBookingGarnet.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_HotelPropertyType_PropertyTypeId",
                 table: "HotelPropertyType",
-                column: "PropertyTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Hotels_PropertyTypeId",
-                table: "Hotels",
                 column: "PropertyTypeId");
 
             migrationBuilder.CreateIndex(
@@ -390,6 +378,9 @@ namespace HotelBookingGarnet.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "PropertyTypes");
+
+            migrationBuilder.DropTable(
                 name: "Beds");
 
             migrationBuilder.DropTable(
@@ -397,9 +388,6 @@ namespace HotelBookingGarnet.Migrations
 
             migrationBuilder.DropTable(
                 name: "Hotels");
-
-            migrationBuilder.DropTable(
-                name: "PropertyTypes");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
