@@ -47,6 +47,7 @@
                 <button type="submit" class="btn btn-success">Add room</button>
             </form>
         }
+        
         <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Cancel</a>
         
         @if (Model.Hotel.Rooms.Count != 0)
@@ -67,17 +68,26 @@
                         <td>@room.NumberOfGuests</td>
                         <td>@room.NumberOfRooms</td>
                         <td>
-                            @*@if (room.RoomBeds != null)
+                            @foreach (var bed in Model.RoomBeds)
                             {
-                                @foreach (var bed in room.RoomBeds)
+                                @if (room.RoomId == bed.RoomId)
                                 {
+                                    <div>
                                     <span>@bed.Bed.NumberOfBeds</span>
-                                    <span>@bed.Bed.BedType</span>
-                                }  
-                            }*@
+                                    @if (@bed.Bed.NumberOfBeds > 1)
+                                    {
+                                        <span>@(bed.Bed.BedType+"s")</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@bed.Bed.BedType</span>
+                                    }
+                                    </div>
+                                }
+                            }
                             @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
                             {
-                                <a asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@Model.Hotel.HotelId" asp-route-roomId="@room.RoomId">Add bed</a>
+                                <a asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@Model.Hotel.HotelId" asp-route-roomId="@room.RoomId">+ add bed</a>
                             }
                         </td>
                     </tr>
