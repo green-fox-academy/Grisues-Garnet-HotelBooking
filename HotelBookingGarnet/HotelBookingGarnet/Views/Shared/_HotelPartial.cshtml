@@ -54,6 +54,14 @@
         <span asp-validation-for="@Model.Price" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">@ViewData["Action"]</button>
-    <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Cancel</a>
+    @if (@ViewData["Action"].Equals("Add"))
+    {
+        <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Cancel</a>
+
+    }
+    else
+    {
+        <a class="btn btn-danger" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">Cancel</a>
+    }
 </form>
 

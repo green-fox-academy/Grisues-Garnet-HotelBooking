@@ -8,7 +8,6 @@ using HotelBookingGarnet.ViewModels;
 namespace HotelBookingGarnet.Services
 {
     public interface IHotelService
-
     {
         List<Hotel> GetHotels();
         Task EditHotelAsync(long HotelId, HotelViewModel editHotel);

@@ -32,7 +32,6 @@ namespace HotelBookingGarnet.Services
                 hotelToEdit.Description = editHotel.Description;
                 hotelToEdit.StarRating = editHotel.StarRating;
                 hotelToEdit.Price = editHotel.Price;
-                hotelToEdit.PropertyType = property;
             }
 
             applicationContext.Hotels.Update(hotelToEdit);
@@ -41,8 +40,9 @@ namespace HotelBookingGarnet.Services
 
         public async Task<Hotel> FindHotelByIdAsync(long HotelId)
         {
-            var foundHotel = await applicationContext.Hotels.Include(p => p.PropertyType)
-                .SingleOrDefaultAsync(x => x.HotelId == HotelId);
+            var foundHotel = await applicationContext.Hotels.Include(p => p.HotelPropertyTypes)
+                .Include(h => h.Rooms).SingleOrDefaultAsync(x => x.HotelId == HotelId);
+
             return foundHotel;
         }
 
@@ -59,7 +59,6 @@ namespace HotelBookingGarnet.Services
                 Address = newHotel.Address,
                 Description = newHotel.Description,
                 StarRating = newHotel.StarRating,
-                PropertyType = propertyType,
                 Price = newHotel.Price,
                 UserId = userId
             };
@@ -69,13 +68,13 @@ namespace HotelBookingGarnet.Services
 
             propertyType.HotelPropertyTypes = new List<HotelPropertyType>();
 
-            var smth = new HotelPropertyType();
-            smth.Hotel = hotel;
-            smth.HotelId = hotel.HotelId;
-            smth.PropertyType = propertyType;
-            smth.PropertyTypeId = propertyType.PropertyTypeId;
+            var connection = new HotelPropertyType();
+            connection.Hotel = hotel;
+            connection.HotelId = hotel.HotelId;
+            connection.PropertyType = propertyType;
+            connection.PropertyTypeId = propertyType.PropertyTypeId;
 
-            propertyType.HotelPropertyTypes.Add(smth);
+            propertyType.HotelPropertyTypes.Add(connection);
 
             await applicationContext.SaveChangesAsync();
         }
