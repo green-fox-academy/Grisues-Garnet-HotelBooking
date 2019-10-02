@@ -13,6 +13,5 @@ namespace HotelBookingGarnet.ViewModels
         public int NumberOfGuests { get; set; }
         [Required]
         public int NumberOfRooms { get; set; }
-/*        public Hotel Hotel { get; set; }*/
     }
 }

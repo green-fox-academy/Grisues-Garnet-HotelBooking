@@ -21,7 +21,6 @@ namespace HotelBookingGarnet.Services
             {
                 return null;
             }
-
             return propertType;
         }
 
@@ -39,7 +38,6 @@ namespace HotelBookingGarnet.Services
                 await applicationContext.SaveChangesAsync();
                 return propertyType;
             }
-
             return findPropertyType;
         }
 
@@ -47,7 +45,7 @@ namespace HotelBookingGarnet.Services
         {
             var prop = await applicationContext.HotelPropertyType.Include(a => a.PropertyType)
                 .FirstOrDefaultAsync(a => a.HotelId == hotelId);
-
+            
             return prop.PropertyType.Type;
         }
     }

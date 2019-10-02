@@ -114,6 +114,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             }
             return View(newRoom);
         }
+        
         [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpGet("/addbed/{hotelId}/{roomId}")]
         public IActionResult AddBed(long hotelId, long roomId)
@@ -132,7 +133,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 await bedService.AddBedAsync(newBed, roomId);
                 return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new {hotelId});
             }
-
+            
             return View(newBed);
         }
     }

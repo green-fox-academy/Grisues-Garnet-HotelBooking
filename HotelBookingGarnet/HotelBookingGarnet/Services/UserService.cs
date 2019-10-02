@@ -14,8 +14,7 @@ namespace HotelBookingGarnet.Services
         private readonly ApplicationContext applicationContext;
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
-
-
+        
         public UserService(ApplicationContext applicationContext, UserManager<User> UserManager,
             SignInManager<User> SignInManager)
         {
@@ -40,7 +39,6 @@ namespace HotelBookingGarnet.Services
                 await AddUserToRoleAsync(user, model);
                 return result;
             }
-
             return result;
         }
 
@@ -65,7 +63,6 @@ namespace HotelBookingGarnet.Services
             {
                 errors.Add("Invalid login attempt");
             }
-
             return errors;
         }
 

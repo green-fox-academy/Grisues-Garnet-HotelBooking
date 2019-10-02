@@ -41,11 +41,9 @@ namespace HotelBookingGarnet
             {
                 options.Password.RequireNonAlphanumeric = false;
             });
-           
 
             services.Configure<IdentityOptions>(options => { options.Password.RequireNonAlphanumeric = false; });
-
-
+            
             services.AddMvc();
             services.AddPaging();
         }
