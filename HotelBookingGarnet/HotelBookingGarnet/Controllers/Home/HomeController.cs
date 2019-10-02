@@ -24,27 +24,15 @@ namespace HotelBookingGarnet.Controllers.Home
         }
 
         [HttpGet("/")]
-        public async Task<IActionResult> Index(QueryParam queryParam, int page = 1)
+        public async Task<IActionResult> Index(QueryParam queryParam)
         {
-//            var hotels = hotelService.GetHotels();
             var hotels = await hotelService.FilterHotelsAsync(queryParam);
-            var model = PagingList.Create(hotels, 5, page);
             return View(new IndexViewModel
             {
                 PagingList =  hotels,
                 QueryParam = queryParam
             });
         }
-
-//        [HttpPost("/")]
-//        public async Task<IActionResult> Index(IndexViewModel viewModel, int page = 1)
-//        {
-//            var city = viewModel; 
-//            var hotels = await hotelService.FilterHotelsAsync(city);
-////            var model = PagingList.Create(hotels, 5, page);
-//            //return View(model);
-//            return RedirectToAction(nameof(HomeController.Index), "Home", viewModel);
-//        }
 
         [HttpPost("/logout")]
         public async Task<IActionResult> Logout()
