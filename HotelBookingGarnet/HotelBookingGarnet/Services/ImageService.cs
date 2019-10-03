@@ -3,6 +3,7 @@ using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 
@@ -29,19 +30,24 @@ namespace HotelBookingGarnet.Services
         {
             var blobContainer = await blobService.GetBlobContainer();
             var allBlobs = new List<Uri>();
-            //BlobContinuationToken blobContinuationToken = null;
             var stringID = id.ToString();
-            //do
-            //{
-                var response = blobContainer.ListBlobs(stringID, useFlatBlobListing: true);
-                foreach (IListBlobItem blob in response)
-                {
-                    if (blob.GetType() == typeof(CloudBlockBlob))
+            var response = blobContainer.ListBlobs(stringID, useFlatBlobListing: true);
+            foreach (IListBlobItem blob in response)
+            {
+              if (blob.GetType() == typeof(CloudBlockBlob))
                         allBlobs.Add(blob.Uri);
-                }
-            //    blobContinuationToken = response.ContinuationToken;
-            //} while (blobContinuationToken != null);
+            }
             return allBlobs;
+        }
+
+        public async Task<List<IListBlobItem>> ListDirectoryAsync()
+        {
+            var blobContainer = await blobService.GetBlobContainer();
+            CloudBlobDirectory dir = blobContainer.GetDirectoryReference("photos");
+            bool useFlatBlobListing = false;
+            var blobs = blobContainer.ListBlobs(null, useFlatBlobListing, BlobListingDetails.None);
+            var folders = blobs.Where(b => b as CloudBlobDirectory != null).ToList();
+            return folders;
         }
 
         public async Task UploadAsync(IFormFileCollection files,long id)

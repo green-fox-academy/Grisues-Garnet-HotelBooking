@@ -11,6 +11,7 @@ namespace HotelBookingGarnet.Services
     {
         Task UploadAsync(IFormFileCollection files, long Id);
         Task<IEnumerable<Uri>> ListAsync(long id);
+        Task<List<IListBlobItem>> ListDirectoryAsync();
         Task<CloudBlobDirectory> GetFolder(long id);
     }
 }
