@@ -1,0 +1,28 @@
+﻿@model RoomViewModel
+
+<h1>Add room to your hotel</h1>
+
+<form asp-controller="Hotel" asp-action="AddRoom" asp-route-hotelId="@ViewData["hotelId"]" method="post">
+    <div class="form-group">
+        <label asp-for="RoomName">Room name:</label>
+        <input type="text" asp-for="RoomName" class="form-control"/>
+        <span asp-validation-for="RoomName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price">Room price:</label>
+        <input type="text" asp-for="Price" class="form-control"/>
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NumberOfGuests">Number of guests:</label>
+        <input type="text" asp-for="NumberOfGuests" class="form-control"/>
+        <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+    </div>    
+    <div class="form-group">
+        <label asp-for="NumberOfRooms">Number of rooms of this type in the hotel:</label>
+        <input type="text" asp-for="NumberOfRooms" class="form-control"/>
+        <span asp-validation-for="NumberOfRooms" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Add Room</button>
+</form>
+<a class="btn btn-danger" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">Cancel</a>

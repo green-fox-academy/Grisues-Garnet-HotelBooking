@@ -1,13 +1,51 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>@ViewData["Title"]</title>
     <meta name="viewport" content="width-device-width"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>@ViewBag.Title</title>
 </head>
 <body>
 <div class="container">
-@RenderBody()
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" a asp-action="Index" asp-controller="Home">
+            <img src="/images/logo1.png" height="40" width="40">
+        </a>
+        <ul class="navbar-nav ml-auto">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                if (!User.IsInRole("Guest"))
+                {
+                    <form method="post" asp-action="AddHotel" asp-controller="Hotel">
+                        <button type="submit" class="nav-link btn btn-link py-0" style="width: auto">
+                            AddHotel
+                        </button>
+                    </form>
+                }
+                <form method="post" asp-action="Logout" asp-controller="Home">
+                    <button type="submit" class="nav-link btn btn-link py-0" style="width: auto">
+                        Logout (@User.Identity.Name)
+                    </button>
+                </form>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a asp-action="Login" asp-controller="Login" class="nav-link">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-action="Register" asp-controller="Register" class="nav-link">Register</a>
+                </li>
+            }
+        </ul>
+    </nav>
+    <div>
+        @RenderBody()
+    </div>
 </div>
 </body>
 </html>
