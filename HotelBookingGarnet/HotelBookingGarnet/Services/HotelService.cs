@@ -112,7 +112,6 @@ namespace HotelBookingGarnet.Services
                     }
                 }
             }
-            
             var hotels = await applicationContext.Hotels.Include(h => h.Rooms)
                 .Where(h => h.City.Contains(queryParam.City) || String.IsNullOrEmpty(queryParam.City))
                 .Where(h => h.IsItAvailable || queryParam.Guest == 0)
