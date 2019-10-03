@@ -59,7 +59,6 @@ namespace HotelBookingGarnet.Controllers.Hotel
             hotelViewModel.City = hotel.City;
             hotelViewModel.Country = hotel.Country;
             hotelViewModel.Description = hotel.Description;
-/*            hotelViewModel.Price = hotel.Price;*/
             hotelViewModel.Region = hotel.Region;
             hotelViewModel.HotelName = hotel.HotelName;
             hotelViewModel.PropertyType = property.PropertyType.Type;

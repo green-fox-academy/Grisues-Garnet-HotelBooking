@@ -97,12 +97,13 @@ namespace HotelBookingGarnet.Services
                         if (room.NumberOfAvailablePlaces >= queryParam.Guest)
                         {
                             hotel.IsItAvailable = true;
-                            applicationContext.SaveChanges(hotel.IsItAvailable);
+                            await applicationContext.SaveChangesAsync(hotel.IsItAvailable);
+                            break;
                         }
                         else
                         {
                             hotel.IsItAvailable = false;
-                            applicationContext.SaveChanges(hotel.IsItAvailable);
+                            await applicationContext.SaveChangesAsync(hotel.IsItAvailable);
                         }
                     }
                 }
