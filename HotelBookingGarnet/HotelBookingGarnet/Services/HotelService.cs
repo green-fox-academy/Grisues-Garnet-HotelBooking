@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,13 +11,16 @@ namespace HotelBookingGarnet.Services
     {
         private readonly ApplicationContext applicationContext;
         private readonly IPropertyTypeService propertyTypeService;
+        private readonly IImageService imageService;
 
-        public HotelService(ApplicationContext applicationContext, IPropertyTypeService propertyTypeService)
+        public HotelService(ApplicationContext applicationContext, IPropertyTypeService propertyTypeService,
+            IImageService imageService)
         {
             this.applicationContext = applicationContext;
             this.propertyTypeService = propertyTypeService;
+            this.imageService = imageService;
         }
-        
+
         public async Task EditHotelAsync(long HotelId, HotelViewModel editHotel)
         {
             var hotelToEdit = await FindHotelByIdAsync(HotelId);
@@ -33,22 +35,24 @@ namespace HotelBookingGarnet.Services
                 hotelToEdit.Description = editHotel.Description;
                 hotelToEdit.StarRating = editHotel.StarRating;
                 hotelToEdit.Price = editHotel.Price;
-                hotelToEdit.PropertyType = property;
             }
+
             applicationContext.Hotels.Update(hotelToEdit);
             await applicationContext.SaveChangesAsync();
         }
 
         public async Task<Hotel> FindHotelByIdAsync(long HotelId)
         {
-            var foundHotel = await applicationContext.Hotels.Include(p => p.PropertyType).SingleOrDefaultAsync(x => x.HotelId == HotelId);
+            var foundHotel = await applicationContext.Hotels.Include(p => p.HotelPropertyTypes)
+                .Include(h => h.Rooms).SingleOrDefaultAsync(x => x.HotelId == HotelId);
+
             return foundHotel;
         }
 
         public async Task<long> AddHotelAsync(HotelViewModel newHotel, string userId)
         {
             var propertyType = await propertyTypeService.AddPropertyTypeAsync(newHotel.PropertyType);
-            
+
             var hotel = new Hotel
             {
                 HotelName = newHotel.HotelName,
@@ -58,27 +62,28 @@ namespace HotelBookingGarnet.Services
                 Address = newHotel.Address,
                 Description = newHotel.Description,
                 StarRating = newHotel.StarRating,
-                PropertyType = propertyType,
                 Price = newHotel.Price,
                 UserId = userId
+                
             };
 
             await applicationContext.Hotels.AddAsync(hotel);
-                        await applicationContext.SaveChangesAsync();
+            await applicationContext.SaveChangesAsync();
 
             propertyType.HotelPropertyTypes = new List<HotelPropertyType>();
-            
-            var smth = new HotelPropertyType();
-            smth.Hotel = hotel;
-            smth.HotelId = hotel.HotelId;
-            smth.PropertyType = propertyType;
-            smth.PropertyTypeId = propertyType.PropertyTypeId;
-            
-            propertyType.HotelPropertyTypes.Add(smth);
+
+            var hotelPropertyType = new HotelPropertyType();
+            hotelPropertyType.Hotel = hotel;
+            hotelPropertyType.HotelId = hotel.HotelId;
+            hotelPropertyType.PropertyType = propertyType;
+            hotelPropertyType.PropertyTypeId = propertyType.PropertyTypeId;
+
+            propertyType.HotelPropertyTypes.Add(hotelPropertyType);
 
             await applicationContext.SaveChangesAsync();
             return hotel.HotelId;
         }
+
         public List<Hotel> GetHotels()
         {
             var qry = applicationContext.Hotels.AsQueryable().OrderBy(h => h.HotelName).ToList();
@@ -90,6 +95,16 @@ namespace HotelBookingGarnet.Services
             var foundedHotel =await applicationContext.Hotels.Include(a => a.HotelPropertyTypes)
                 .FirstOrDefaultAsync(a => a.HotelName == hotelName);
             return foundedHotel;
+        }
+
+        public async Task FindHotelThumb()
+        {
+            var hotels = GetHotels();
+            foreach (var hotel in hotels)
+            {
+                var images = await imageService.ListAsync(hotel.HotelId);
+                hotel.Uri = images[0].Path;
+            }
         }
     }
 }

@@ -8,13 +8,12 @@ using HotelBookingGarnet.ViewModels;
 namespace HotelBookingGarnet.Services
 {
     public interface IHotelService
-
     {
-       //Task<List<Hotel>> FindAllHotelAsync();
         List<Hotel> GetHotels();
         Task EditHotelAsync(long HotelId, HotelViewModel editHotel);
         Task<Hotel> FindHotelByIdAsync(long HotelId);
-        Task<long> AddHotelAsync(HotelViewModel newHotel, string userId);
+        Task<long> AddHotelAsync(HotelViewModel newHotel, string userId);   
         Task<Hotel> FindHotelByName(string hotelName);
+        Task FindHotelThumb();
     }
 }

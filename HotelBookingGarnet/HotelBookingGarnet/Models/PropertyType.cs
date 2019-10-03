@@ -7,6 +7,5 @@ namespace HotelBookingGarnet.Models
         public long PropertyTypeId { get; set; }
         public string Type { get; set; }
         public ICollection<HotelPropertyType> HotelPropertyTypes { get; set; }
-        
     }
 }
