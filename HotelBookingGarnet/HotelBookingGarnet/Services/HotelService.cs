@@ -14,11 +14,13 @@ namespace HotelBookingGarnet.Services
     {
         private readonly ApplicationContext applicationContext;
         private readonly IPropertyTypeService propertyTypeService;
+        private readonly IRoomService roomService;
 
-        public HotelService(ApplicationContext applicationContext, IPropertyTypeService propertyTypeService)
+        public HotelService(ApplicationContext applicationContext, IPropertyTypeService propertyTypeService, IRoomService roomService)
         {
             this.applicationContext = applicationContext;
             this.propertyTypeService = propertyTypeService;
+            this.roomService = roomService;
         }
 
         public async Task EditHotelAsync(long HotelId, HotelViewModel editHotel)
@@ -84,14 +86,30 @@ namespace HotelBookingGarnet.Services
         
         public List<Hotel> GetHotels()
         {
-            var qry = applicationContext.Hotels.AsQueryable().OrderBy(h => h.HotelName).ToList();
+            var qry = applicationContext.Hotels.Include(h => h.Rooms).AsQueryable().OrderBy(h => h.HotelName).ToList();
             return qry;
         }
 
         public async Task<PagingList<Hotel>> FilterHotelsAsync(QueryParam queryParam)
         {
-            var hotels = await applicationContext.Hotels
+            var findAllHotels = GetHotels();
+            foreach (var hotel in findAllHotels)
+            {
+                if (hotel.Rooms != null)
+                {
+                    foreach (var room in hotel.Rooms)
+                    {
+                        if (room.NumberOfAvailablePlaces >= queryParam.Guest)
+                        {
+                            hotel.IsItAvailable = true;
+                        }
+                    }
+                }
+            }
+            
+            var hotels = await applicationContext.Hotels.Include(h => h.Rooms)
                 .Where(h => h.City.Contains(queryParam.City) || String.IsNullOrEmpty(queryParam.City))
+                .Where(h => h.IsItAvailable || queryParam.Guest == 0)
                 .OrderBy(h => h.HotelName).ToListAsync();
             return PagingList.Create(hotels, 5, queryParam.Page);
         }
