@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+
 namespace HotelBookingGarnet.Utils
 {
     public class QueryParam
