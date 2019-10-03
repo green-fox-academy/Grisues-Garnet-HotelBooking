@@ -15,7 +15,7 @@ namespace HotelBookingGarnet.Services
 
         public async Task<CloudBlobContainer> GetBlobContainer()
         {
-            var containerName = "hotelphotos";
+            var containerName = "photos";
             if (string.IsNullOrWhiteSpace(containerName))
             {
                 throw new ArgumentException("Configuration must contain ContainerName");

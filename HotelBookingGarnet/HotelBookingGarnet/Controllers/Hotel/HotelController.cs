@@ -29,13 +29,13 @@ namespace HotelBookingGarnet.Controllers.Hotel
             this.imageService = imageService;
         }
 
-        [HttpPost("/info/{hotelId}")]
+        [HttpGet("/info/{hotelId}")]
         public async Task<IActionResult> HotelInfo(long hotelId)
         { 
             var currentUser = await userManager.GetUserAsync(HttpContext.User); 
             var hotel = await hotelService.FindHotelByIdAsync(hotelId); 
             var property = await propertyTypeService.FindByIdAsync(hotel.PropertyType.PropertyTypeId);
-            var blobsUri = await imageService.ListAsync(hotel.HotelName);
+            var blobsUri = await imageService.ListAsync(hotelId);
             ViewData["propertyType"] = property;
             return View(new IndexViewModel { User = currentUser, hotel = hotel, blobs = blobsUri });
         }
@@ -70,7 +70,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 await hotelService.EditHotelAsync(hotelId, editHotel);
                 if (editHotel.files != null)
                 {
-                    await imageService.UploadAsync(editHotel.files, editHotel.HotelName);
+                    await imageService.UploadAsync(editHotel.files,hotelId);
                 }
                 return RedirectToAction(nameof(HomeController.Index),"Home");
             }
@@ -91,12 +91,12 @@ namespace HotelBookingGarnet.Controllers.Hotel
             if (ModelState.IsValid)
             { 
                 var currentUser = await userManager.GetUserAsync(HttpContext.User); 
-                await hotelService.AddHotelAsync(newHotel, currentUser.Id);
+                var hotelId = await hotelService.AddHotelAsync(newHotel, currentUser.Id);
                 if (newHotel.files != null)
                 {
-                    await imageService.UploadAsync(newHotel.files, newHotel.HotelName);
+                    await imageService.UploadAsync(newHotel.files,hotelId);
                 }
-                return RedirectToAction(nameof(HomeController.Index),"Home");
+                return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new { hotelId});
             }
             return View(newHotel);
         }

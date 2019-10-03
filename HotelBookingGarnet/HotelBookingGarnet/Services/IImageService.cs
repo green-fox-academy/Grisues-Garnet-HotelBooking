@@ -9,8 +9,8 @@ namespace HotelBookingGarnet.Services
 {
     public interface IImageService
     {
-        Task UploadAsync(IFormFileCollection files);
-        Task<IEnumerable<Uri>> ListAsync();
+        Task UploadAsync(IFormFileCollection files, long Id);
+        Task<IEnumerable<Uri>> ListAsync(long id);
         Task<CloudBlobDirectory> GetFolder(long id);
     }
 }
