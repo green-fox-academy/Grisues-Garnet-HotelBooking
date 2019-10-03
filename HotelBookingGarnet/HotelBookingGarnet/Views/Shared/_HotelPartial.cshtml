@@ -1,6 +1,6 @@
 @model HotelViewModel
 
-<form asp-controller="Hotel" asp-action="@ViewData["Action"]" method="post">
+<form asp-controller="Hotel" asp-action="@ViewData["Action"]" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="@Model.HotelName">Hotle name</label>
         <input type="text" asp-for="@Model.HotelName"  class="form-control">
@@ -52,6 +52,10 @@
         <label asp-for="@Model.Price">Price per night</label>
         <input type="text" asp-for="@Model.Price" class="form-control">
         <span asp-validation-for="@Model.Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.files">Add new photos</label>
+        <input type="file" asp-for="@Model.files" multiple />
     </div>
     <button type="submit" class="btn btn-primary">@ViewData["Action"]</button>
     <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Cancel</a>

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using HotelBookingGarnet.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace HotelBookingGarnet.ViewModels
 {
@@ -24,5 +25,6 @@ namespace HotelBookingGarnet.ViewModels
         [Required]
         public int Price { get; set; }
         public User User { get; set; }
+        public IFormFileCollection files { get; set; }
     }
 }
