@@ -9,6 +9,5 @@ namespace HotelBookingGarnet.Services
     {
         Task AddRoomAsync(RoomViewModel newRoom, long hotelId);
         Task<Room> FindRoomByIdAsync(long roomId);
-        Task <List<Room>> FindAvailableRoomsAsync();
     }
 }

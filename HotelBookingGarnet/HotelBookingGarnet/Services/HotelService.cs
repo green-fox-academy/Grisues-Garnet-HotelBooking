@@ -14,19 +14,16 @@ namespace HotelBookingGarnet.Services
     {
         private readonly ApplicationContext applicationContext;
         private readonly IPropertyTypeService propertyTypeService;
-        private readonly IRoomService roomService;
 
-        public HotelService(ApplicationContext applicationContext, IPropertyTypeService propertyTypeService, IRoomService roomService)
+        public HotelService(ApplicationContext applicationContext, IPropertyTypeService propertyTypeService)
         {
             this.applicationContext = applicationContext;
             this.propertyTypeService = propertyTypeService;
-            this.roomService = roomService;
         }
 
-        public async Task EditHotelAsync(long HotelId, HotelViewModel editHotel)
+        public async Task EditHotelAsync(long hotelId, HotelViewModel editHotel)
         {
-            var hotelToEdit = await FindHotelByIdAsync(HotelId);
-            var property = await propertyTypeService.AddPropertyTypeAsync(editHotel.PropertyType);
+            var hotelToEdit = await FindHotelByIdAsync(hotelId);
             if (hotelToEdit != null)
             {
                 hotelToEdit.HotelName = editHotel.HotelName;
@@ -36,17 +33,16 @@ namespace HotelBookingGarnet.Services
                 hotelToEdit.Address = editHotel.Address;
                 hotelToEdit.Description = editHotel.Description;
                 hotelToEdit.StarRating = editHotel.StarRating;
-                hotelToEdit.Price = editHotel.Price;
             }
 
             applicationContext.Hotels.Update(hotelToEdit);
             await applicationContext.SaveChangesAsync();
         }
 
-        public async Task<Hotel> FindHotelByIdAsync(long HotelId)
+        public async Task<Hotel> FindHotelByIdAsync(long hotelId)
         {
             var foundHotel = await applicationContext.Hotels.Include(p => p.HotelPropertyTypes)
-                .Include(h => h.Rooms).SingleOrDefaultAsync(x => x.HotelId == HotelId);
+                .Include(h => h.Rooms).SingleOrDefaultAsync(x => x.HotelId == hotelId);
 
             return foundHotel;
         }
@@ -64,7 +60,6 @@ namespace HotelBookingGarnet.Services
                 Address = newHotel.Address,
                 Description = newHotel.Description,
                 StarRating = newHotel.StarRating,
-                Price = newHotel.Price,
                 UserId = userId
             };
 
@@ -102,12 +97,13 @@ namespace HotelBookingGarnet.Services
                         if (room.NumberOfAvailablePlaces >= queryParam.Guest)
                         {
                             hotel.IsItAvailable = true;
-                            applicationContext.SaveChanges(hotel.IsItAvailable);
+                            await applicationContext.SaveChangesAsync(hotel.IsItAvailable);
+                            break;
                         }
                         else
                         {
                             hotel.IsItAvailable = false;
-                            applicationContext.SaveChanges(hotel.IsItAvailable);
+                            await applicationContext.SaveChangesAsync(hotel.IsItAvailable);
                         }
                     }
                 }

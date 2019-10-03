@@ -12,7 +12,7 @@
     </div>
     <div class="form-group">
         <label asp-for="@Model.QueryParam.Guest">Number of guests</label>
-        <input asp-for="@Model.QueryParam.Guest" class="form-control" name="Guest"/>
+        <input asp-for="@Model.QueryParam.Guest" class="form-control" name="Guest" min="0"/>
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
 </form>
@@ -24,14 +24,23 @@
             <tr>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Price/Night</th>
+                <th>Price/Night from</th>
             </tr>
             @foreach (var hotel in Model.PagingList)
             {
                 <tr>
                     <td> @Html.DisplayFor(modelItem => hotel.HotelName) @hotel.StarRating</td>
                     <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
-                    <td> @Html.DisplayFor(modelItem => hotel.Price)</td>
+                    <td>
+                       @if (hotel.Price == 0)
+                       {
+                           <i>Unknown</i>
+                       }
+                       else
+                       {
+                            @Html.DisplayFor(modelItem => hotel.Price) <span>Ft</span>
+                       }
+                    </td>
                     <td>
                         <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
                             <button type="submit" class="btn btn-primary">More Info</button>
