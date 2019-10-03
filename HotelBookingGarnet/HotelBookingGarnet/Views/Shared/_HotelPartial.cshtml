@@ -48,11 +48,11 @@
         <input type="text" asp-for="@Model.PropertyType"  class="form-control">
         <span asp-validation-for="@Model.PropertyType" class="text-danger"></span>
     </div>
-    <div class="form-group">
+    @*<div class="form-group">
         <label asp-for="@Model.Price">Price per night</label>
         <input type="text" asp-for="@Model.Price" class="form-control">
         <span asp-validation-for="@Model.Price" class="text-danger"></span>
-    </div>
+    </div>*@
     <button type="submit" class="btn btn-primary">@ViewData["Action"]</button>
     @if (@ViewData["Action"].Equals("Add"))
     {

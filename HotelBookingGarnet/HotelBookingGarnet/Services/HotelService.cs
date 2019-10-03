@@ -11,17 +11,15 @@ namespace HotelBookingGarnet.Services
     {
         private readonly ApplicationContext applicationContext;
         private readonly IPropertyTypeService propertyTypeService;
-
         public HotelService(ApplicationContext applicationContext, IPropertyTypeService propertyTypeService)
         {
             this.applicationContext = applicationContext;
             this.propertyTypeService = propertyTypeService;
         }
 
-        public async Task EditHotelAsync(long HotelId, HotelViewModel editHotel)
+        public async Task EditHotelAsync(long hotelId, HotelViewModel editHotel)
         {
-            var hotelToEdit = await FindHotelByIdAsync(HotelId);
-            var property = await propertyTypeService.AddPropertyTypeAsync(editHotel.PropertyType);
+            var hotelToEdit = await FindHotelByIdAsync(hotelId);
             if (hotelToEdit != null)
             {
                 hotelToEdit.HotelName = editHotel.HotelName;
@@ -31,17 +29,17 @@ namespace HotelBookingGarnet.Services
                 hotelToEdit.Address = editHotel.Address;
                 hotelToEdit.Description = editHotel.Description;
                 hotelToEdit.StarRating = editHotel.StarRating;
-                hotelToEdit.Price = editHotel.Price;
+                /*hotelToEdit.Price = editHotel.Price;*/
             }
 
             applicationContext.Hotels.Update(hotelToEdit);
             await applicationContext.SaveChangesAsync();
         }
 
-        public async Task<Hotel> FindHotelByIdAsync(long HotelId)
+        public async Task<Hotel> FindHotelByIdAsync(long hotelId)
         {
             var foundHotel = await applicationContext.Hotels.Include(p => p.HotelPropertyTypes)
-                .Include(h => h.Rooms).SingleOrDefaultAsync(x => x.HotelId == HotelId);
+                .Include(h => h.Rooms).SingleOrDefaultAsync(x => x.HotelId == hotelId);
 
             return foundHotel;
         }
@@ -59,7 +57,7 @@ namespace HotelBookingGarnet.Services
                 Address = newHotel.Address,
                 Description = newHotel.Description,
                 StarRating = newHotel.StarRating,
-                Price = newHotel.Price,
+                /*Price = newHotel.Price,*/
                 UserId = userId
             };
 

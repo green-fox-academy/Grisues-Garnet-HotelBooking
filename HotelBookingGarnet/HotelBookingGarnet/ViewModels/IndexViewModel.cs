@@ -7,7 +7,6 @@ namespace HotelBookingGarnet.ViewModels
     {
         public User User { get; set; }
         public Hotel Hotel { get; set; }
-        public List<Hotel> Hotels { get; set; }
         public List<RoomBed> RoomBeds { get; set; }
     }
 }

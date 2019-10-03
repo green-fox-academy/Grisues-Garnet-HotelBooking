@@ -8,12 +8,14 @@ namespace HotelBookingGarnet.Services
     public class RoomService : IRoomService
     {
         private readonly ApplicationContext applicationContext;
+        private readonly IHotelService hotelService;
 
-        public RoomService(ApplicationContext applicationContext)
+        public RoomService(ApplicationContext applicationContext, IHotelService hotelService)
         {
             this.applicationContext = applicationContext;
+            this.hotelService = hotelService;
         }
-        
+
         public async Task AddRoomAsync(RoomViewModel newRoom, long hotelId)
         {
             var room = new Room
@@ -24,6 +26,14 @@ namespace HotelBookingGarnet.Services
                 NumberOfRooms = newRoom.NumberOfRooms,
                 HotelId = hotelId
             };
+
+            var hotel = await hotelService.FindHotelByIdAsync(hotelId);
+            if (hotel.Price > room.Price || hotel.Price == 0)
+            {
+                hotel.Price = room.Price;
+            }
+
+            applicationContext.Hotels.Update(hotel);
             await applicationContext.Rooms.AddAsync(room);
             await applicationContext.SaveChangesAsync();
         }
