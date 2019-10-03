@@ -13,6 +13,7 @@ namespace HotelBookingGarnet.ViewModels
         public Hotel Hotel { get; set; }
         public List<Hotel> Hotels { get; set; }
         public PropertyType PropertyType { get; set; }
-        public string ActionName { get; set; } 
+        public string ActionName { get; set; }
+        public List<RoomBed> RoomBeds { get; set; }
     }
 }

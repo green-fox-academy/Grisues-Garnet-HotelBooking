@@ -73,13 +73,13 @@ namespace HotelBookingGarnet.Services
 
             propertyType.HotelPropertyTypes = new List<HotelPropertyType>();
 
-            var connection = new HotelPropertyType();
-            connection.Hotel = hotel;
-            connection.HotelId = hotel.HotelId;
-            connection.PropertyType = propertyType;
-            connection.PropertyTypeId = propertyType.PropertyTypeId;
+            var hotelPropertyType = new HotelPropertyType();
+            hotelPropertyType.Hotel = hotel;
+            hotelPropertyType.HotelId = hotel.HotelId;
+            hotelPropertyType.PropertyType = propertyType;
+            hotelPropertyType.PropertyTypeId = propertyType.PropertyTypeId;
 
-            propertyType.HotelPropertyTypes.Add(connection);
+            propertyType.HotelPropertyTypes.Add(hotelPropertyType);
 
             await applicationContext.SaveChangesAsync();
         }
