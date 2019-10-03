@@ -46,6 +46,8 @@ namespace HotelBookingGarnet.Migrations
 
                     b.Property<string>("HotelName");
 
+                    b.Property<bool>("IsItAvailable");
+
                     b.Property<int>("Price");
 
                     b.Property<string>("Region");
@@ -92,6 +94,8 @@ namespace HotelBookingGarnet.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<long>("HotelId");
+
+                    b.Property<int>("NumberOfAvailablePlaces");
 
                     b.Property<int>("NumberOfGuests");
 
@@ -196,22 +200,22 @@ namespace HotelBookingGarnet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b38a99d3-295a-4fb7-889f-0960cab07841",
-                            ConcurrencyStamp = "0c616323-015a-4b06-a691-fdc23ae96eef",
+                            Id = "c67cdd87-8261-4308-b35e-ef3f407df6b2",
+                            ConcurrencyStamp = "b4b1da1b-121a-4326-b5ef-ddb0369135e4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b0c12b83-fa7a-4127-9aca-1d426d180f8c",
-                            ConcurrencyStamp = "19e631ee-d039-42bf-964c-a8b2a68f3a45",
+                            Id = "8ac5bc5d-ac35-4a63-9947-4daef32fc187",
+                            ConcurrencyStamp = "bffeb7cf-43ef-46a3-ae89-db595420815a",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "692c441f-fa60-4fbb-bbd2-c976c6605d2a",
-                            ConcurrencyStamp = "bf81e142-1b60-4382-ba90-16fcc9b419e8",
+                            Id = "1507b797-6239-4d87-9e53-fb1c16730c7a",
+                            ConcurrencyStamp = "023cd7b6-84cc-48af-ad44-0b4a06f0f647",
                             Name = "Hotel Manager",
                             NormalizedName = "HOTEL MANAGER"
                         });

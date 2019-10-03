@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +24,8 @@ namespace HotelBookingGarnet.Services
                 Price = newRoom.Price,
                 NumberOfGuests = newRoom.NumberOfGuests,
                 NumberOfRooms = newRoom.NumberOfRooms,
-                HotelId = hotelId
+                HotelId = hotelId,
+                NumberOfAvailablePlaces = newRoom.NumberOfGuests * newRoom.NumberOfRooms
             };
             await applicationContext.Rooms.AddAsync(room);
             await applicationContext.SaveChangesAsync();
@@ -32,6 +35,12 @@ namespace HotelBookingGarnet.Services
         {
             var room = await applicationContext.Rooms.Include(a => a.RoomBeds).FirstOrDefaultAsync(a => a.RoomId == roomId);
             return room;
+        }
+
+        public async Task<List<Room>> FindAvailableRoomsAsync()
+        {
+            var rooms = await applicationContext.Rooms.Where(r => r.NumberOfRooms != null).ToListAsync();
+            return rooms;
         }
     }
 }

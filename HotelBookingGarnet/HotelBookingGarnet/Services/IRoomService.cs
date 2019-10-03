@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
 
@@ -8,5 +9,6 @@ namespace HotelBookingGarnet.Services
     {
         Task AddRoomAsync(RoomViewModel newRoom, long hotelId);
         Task<Room> FindRoomByIdAsync(long roomId);
+        Task <List<Room>> FindAvailableRoomsAsync();
     }
 }
