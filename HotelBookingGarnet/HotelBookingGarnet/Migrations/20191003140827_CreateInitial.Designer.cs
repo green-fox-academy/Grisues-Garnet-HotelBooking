@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingGarnet.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191003134739_CreateInitial")]
+    [Migration("20191003140827_CreateInitial")]
     partial class CreateInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("HotelBookingGarnet.Models.Bed", b =>
@@ -47,6 +47,8 @@ namespace HotelBookingGarnet.Migrations
                     b.Property<string>("Description");
 
                     b.Property<string>("HotelName");
+
+                    b.Property<bool>("IsItAvailable");
 
                     b.Property<int>("Price");
 
@@ -94,6 +96,8 @@ namespace HotelBookingGarnet.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<long>("HotelId");
+
+                    b.Property<int>("NumberOfAvailablePlaces");
 
                     b.Property<int>("NumberOfGuests");
 
@@ -196,10 +200,27 @@ namespace HotelBookingGarnet.Migrations
                     b.ToTable("AspNetRoles");
 
                     b.HasData(
-                        new { Id = "19c1aba9-9a01-433f-baf5-b86a46c2b44d", ConcurrencyStamp = "04bd8aa4-c0c8-4fe3-91e5-06b810dd85b4", Name = "Admin", NormalizedName = "ADMIN" },
-                        new { Id = "37014ab8-1344-4da8-8469-8896ccb83796", ConcurrencyStamp = "3d20b8e2-db6a-4c3f-a81d-75839a0f3f61", Name = "Guest", NormalizedName = "GUEST" },
-                        new { Id = "f7712c16-644d-40e3-9d51-8ab2b083d222", ConcurrencyStamp = "3627b396-4ad1-4ae2-909d-c8e880eddc42", Name = "Hotel Manager", NormalizedName = "HOTEL MANAGER" }
-                    );
+                        new
+                        {
+                            Id = "f09a8947-7134-4edd-b10e-7b36171641d8",
+                            ConcurrencyStamp = "aea2df17-84dc-4ab4-8640-759eea3336c1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "f669325d-dcf5-4cf0-9eee-d16c62020cb8",
+                            ConcurrencyStamp = "43a09f4f-ab8a-4d0c-a4b6-044fc7f7e84d",
+                            Name = "Guest",
+                            NormalizedName = "GUEST"
+                        },
+                        new
+                        {
+                            Id = "6a8c571d-2fb1-4fca-a106-565d7ffaffab",
+                            ConcurrencyStamp = "9496b3ec-5681-46d8-9f7b-7ee04087547c",
+                            Name = "Hotel Manager",
+                            NormalizedName = "HOTEL MANAGER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

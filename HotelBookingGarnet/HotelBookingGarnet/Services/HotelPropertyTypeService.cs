@@ -41,18 +41,13 @@ namespace HotelBookingGarnet.Services
 
                     applicationContext.Remove(hotelPropertyType);
                     await applicationContext.SaveChangesAsync();
-                    
-                    
+
                     var newHotelPropertyType = new HotelPropertyType();
                     newHotelPropertyType.PropertyType = prop;
                     newHotelPropertyType.PropertyTypeId = prop.PropertyTypeId;
                     newHotelPropertyType.Hotel = hotel;
                     newHotelPropertyType.HotelId = hotelId;
                     hotel.HotelPropertyTypes.Add(newHotelPropertyType);
-
-/*                    hotelPropertyType.PropertyType = prop;
-                    hotelPropertyType.PropertyTypeId = prop.PropertyTypeId;
-                    applicationContext.HotelPropertyType.Update(hotelPropertyType);*/
                     await applicationContext.SaveChangesAsync();
                 }
                 else
@@ -66,10 +61,6 @@ namespace HotelBookingGarnet.Services
                     newHotelPropertyType.Hotel = hotel;
                     newHotelPropertyType.HotelId = hotelId;
                     hotel.HotelPropertyTypes.Add(newHotelPropertyType);
-
-/*                    hotelPropertyType.PropertyType = propertyType;
-                    hotelPropertyType.PropertyTypeId = propertyType.PropertyTypeId;
-                    applicationContext.HotelPropertyType.Update(hotelPropertyType);*/
                     await applicationContext.SaveChangesAsync();
                 }
             }

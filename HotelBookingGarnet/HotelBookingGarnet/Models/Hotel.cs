@@ -16,5 +16,6 @@ namespace HotelBookingGarnet.Models
         public string UserId { get; set; }
         public List<Room> Rooms { get; set; }
         public ICollection<HotelPropertyType> HotelPropertyTypes { get; set; }
+        public bool IsItAvailable { get; set; }
     }
 }

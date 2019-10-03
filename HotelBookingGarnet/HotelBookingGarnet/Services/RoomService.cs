@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +26,8 @@ namespace HotelBookingGarnet.Services
                 Price = newRoom.Price,
                 NumberOfGuests = newRoom.NumberOfGuests,
                 NumberOfRooms = newRoom.NumberOfRooms,
-                HotelId = hotelId
+                HotelId = hotelId,
+                NumberOfAvailablePlaces = newRoom.NumberOfGuests * newRoom.NumberOfRooms
             };
 
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);

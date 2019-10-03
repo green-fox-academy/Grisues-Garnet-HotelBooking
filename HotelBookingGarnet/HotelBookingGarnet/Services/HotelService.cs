@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
+using HotelBookingGarnet.Utils;
 using Microsoft.EntityFrameworkCore;
 using HotelBookingGarnet.ViewModels;
+using ReflectionIT.Mvc.Paging;
 
 namespace HotelBookingGarnet.Services
 {
@@ -11,6 +14,7 @@ namespace HotelBookingGarnet.Services
     {
         private readonly ApplicationContext applicationContext;
         private readonly IPropertyTypeService propertyTypeService;
+
         public HotelService(ApplicationContext applicationContext, IPropertyTypeService propertyTypeService)
         {
             this.applicationContext = applicationContext;
@@ -29,7 +33,6 @@ namespace HotelBookingGarnet.Services
                 hotelToEdit.Address = editHotel.Address;
                 hotelToEdit.Description = editHotel.Description;
                 hotelToEdit.StarRating = editHotel.StarRating;
-                /*hotelToEdit.Price = editHotel.Price;*/
             }
 
             applicationContext.Hotels.Update(hotelToEdit);
@@ -57,7 +60,6 @@ namespace HotelBookingGarnet.Services
                 Address = newHotel.Address,
                 Description = newHotel.Description,
                 StarRating = newHotel.StarRating,
-                /*Price = newHotel.Price,*/
                 UserId = userId
             };
 
@@ -76,11 +78,40 @@ namespace HotelBookingGarnet.Services
 
             await applicationContext.SaveChangesAsync();
         }
-
+        
         public List<Hotel> GetHotels()
         {
-            var qry = applicationContext.Hotels.AsQueryable().OrderBy(h => h.HotelName).ToList();
+            var qry = applicationContext.Hotels.Include(h => h.Rooms).AsQueryable().OrderBy(h => h.HotelName).ToList();
             return qry;
+        }
+
+        public async Task<PagingList<Hotel>> FilterHotelsAsync(QueryParam queryParam)
+        {
+            var allHotels = GetHotels();
+            foreach (var hotel in allHotels)
+            {
+                if (hotel.Rooms != null)
+                {
+                    foreach (var room in hotel.Rooms)
+                    {
+                        if (room.NumberOfAvailablePlaces >= queryParam.Guest)
+                        {
+                            hotel.IsItAvailable = true;
+                            applicationContext.SaveChanges(hotel.IsItAvailable);
+                        }
+                        else
+                        {
+                            hotel.IsItAvailable = false;
+                            applicationContext.SaveChanges(hotel.IsItAvailable);
+                        }
+                    }
+                }
+            }
+            var hotels = await applicationContext.Hotels.Include(h => h.Rooms)
+                .Where(h => h.City.Contains(queryParam.City) || String.IsNullOrEmpty(queryParam.City))
+                .Where(h => h.IsItAvailable || queryParam.Guest == 0)
+                .OrderBy(h => h.HotelName).ToListAsync();
+            return PagingList.Create(hotels, 5, queryParam.Page);
         }
     }
 }

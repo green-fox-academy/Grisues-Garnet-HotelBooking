@@ -11,5 +11,6 @@ namespace HotelBookingGarnet.Models
         public int NumberOfRooms { get; set; }
         public long HotelId { get; set; }
         public ICollection<RoomBed> RoomBeds { get; set; }
+        public int NumberOfAvailablePlaces { get; set; }
     }
 }

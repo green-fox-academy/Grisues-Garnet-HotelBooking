@@ -30,8 +30,17 @@ namespace HotelBookingGarnet
         {
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
-            services.AddDbContext<ApplicationContext>(builder =>
+
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production") { 
+                services.AddDbContext<ApplicationContext>(options =>
+                        options.UseMySql(Configuration.GetConnectionString("ProductionConnection")));
+            }
+            else
+            {
+                services.AddDbContext<ApplicationContext>(builder =>
                 builder.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            }
+            services.BuildServiceProvider().GetService<ApplicationContext>().Database.Migrate();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IHotelService, HotelService>();
             services.AddTransient<IPropertyTypeService, PropertyTypeService>();
