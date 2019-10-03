@@ -31,9 +31,10 @@ namespace HotelBookingGarnet
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
 
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production") { 
                 services.AddDbContext<ApplicationContext>(options =>
                         options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
+            }
             else
             {
                 services.AddDbContext<ApplicationContext>(builder =>
