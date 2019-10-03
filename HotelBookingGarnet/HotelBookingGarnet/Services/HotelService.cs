@@ -104,9 +104,13 @@ namespace HotelBookingGarnet.Services
                             hotel.IsItAvailable = true;
                             applicationContext.SaveChanges(hotel.IsItAvailable);
                         }
+                        else
+                        {
+                            hotel.IsItAvailable = false;
+                            applicationContext.SaveChanges(hotel.IsItAvailable);
+                        }
                     }
                 }
-                
             }
             
             var hotels = await applicationContext.Hotels.Include(h => h.Rooms)
