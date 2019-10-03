@@ -19,14 +19,16 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IPropertyTypeService propertyTypeService;
         private readonly IRoomService roomService;
         private readonly IBedService bedService;
+        private readonly IRoomBedService roomBedService;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IPropertyTypeService propertyTypeService, IRoomService roomService, IBedService bedService)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IPropertyTypeService propertyTypeService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
             this.propertyTypeService = propertyTypeService;
             this.roomService = roomService;
             this.bedService = bedService;
+            this.roomBedService = roomBedService;
         }
 
         [AllowAnonymous]
@@ -36,8 +38,9 @@ namespace HotelBookingGarnet.Controllers.Hotel
             var currentUser = await userManager.GetUserAsync(HttpContext.User); 
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
             var property = await propertyTypeService.FindPropertyByHotelIdAsync(hotelId);
+            var roomBeds = roomBedService.GetRoomBeds();
             ViewData["propertyType"] = property;
-            return View(new IndexViewModel { User = currentUser, Hotel = hotel });
+            return View(new IndexViewModel { User = currentUser, Hotel = hotel, RoomBeds = roomBeds});
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]
