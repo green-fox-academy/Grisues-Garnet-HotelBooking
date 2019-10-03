@@ -5,5 +5,6 @@ namespace HotelBookingGarnet.Utils
         public string City { get; set; } = "";
         public int Guest { get; set; } = 0;
         public int Page { get; set; } = 1;
+        
     }
 }

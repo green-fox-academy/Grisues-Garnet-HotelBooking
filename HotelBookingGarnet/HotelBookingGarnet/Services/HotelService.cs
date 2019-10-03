@@ -92,8 +92,8 @@ namespace HotelBookingGarnet.Services
 
         public async Task<PagingList<Hotel>> FilterHotelsAsync(QueryParam queryParam)
         {
-            var findAllHotels = GetHotels();
-            foreach (var hotel in findAllHotels)
+            var allHotels = GetHotels();
+            foreach (var hotel in allHotels)
             {
                 if (hotel.Rooms != null)
                 {

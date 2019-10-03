@@ -26,7 +26,8 @@ namespace HotelBookingGarnet.Controllers.Home
             return View(new IndexViewModel
             {
                 PagingList =  hotels,
-                QueryParam = queryParam
+                QueryParam = queryParam,
+                ActionName = nameof(Index)
             });
         }
 
