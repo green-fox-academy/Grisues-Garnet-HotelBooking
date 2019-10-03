@@ -33,7 +33,7 @@ namespace HotelBookingGarnet
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production") { 
                 services.AddDbContext<ApplicationContext>(options =>
-                        options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
+                        options.UseMySql(Configuration.GetConnectionString("ProductionConnection")));
             }
             else
             {
