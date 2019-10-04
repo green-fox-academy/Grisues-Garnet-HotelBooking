@@ -66,8 +66,6 @@ namespace HotelBookingGarnet.Services
             await applicationContext.Hotels.AddAsync(hotel);
             await applicationContext.SaveChangesAsync();
 
-            propertyType.HotelPropertyTypes = new List<HotelPropertyType>();
-
             var hotelPropertyType = new HotelPropertyType();
             hotelPropertyType.Hotel = hotel;
             hotelPropertyType.HotelId = hotel.HotelId;
