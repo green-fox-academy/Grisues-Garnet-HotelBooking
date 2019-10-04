@@ -20,7 +20,7 @@ namespace HotelBookingGarnet.Controllers.Login
         [HttpGet("/login")]
         public IActionResult Login()
         {
-            return View();
+            return View(new LoginViewModel());
         }
 
         [HttpPost("/login")]
@@ -34,6 +34,8 @@ namespace HotelBookingGarnet.Controllers.Login
                 {
                     return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
+                model.ErrorMessages = errors;
+                return View(model);
             }
             return View(model);
         }
