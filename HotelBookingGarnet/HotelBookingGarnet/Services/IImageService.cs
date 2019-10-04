@@ -1,4 +1,5 @@
 ﻿using HotelBookingGarnet.Models;
+using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Storage.Blob;
 using System;
@@ -14,5 +15,6 @@ namespace HotelBookingGarnet.Services
         Task<List<IListBlobItem>> ListDirectoryAsync();
         Task<List<ImageDetails>> ListAsync(long id);
         Task<List<ImageDetails>> ListAllFoldersAsync();
+        List<string> Validate(IFormFileCollection files, HotelViewModel newHotel);
      }
 }

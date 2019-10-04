@@ -1,4 +1,5 @@
 ﻿using HotelBookingGarnet.Models;
+using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
@@ -44,7 +45,6 @@ namespace HotelBookingGarnet.Services
                 {
                     GetImagesFromBlobs(item, imageList, id);
                 }
-
             }
         }
 
@@ -83,22 +83,40 @@ namespace HotelBookingGarnet.Services
             return folders;
         }
 
-        public async Task UploadAsync(IFormFileCollection files,long id)
+        public List<string> Validate(IFormFileCollection files, HotelViewModel newHotel)
         {
-            var blobcontainer = await blobService.GetBlobContainer();
             for (int i = 0; i < files.Count; i++)
             {
                 if (CheckImageExtension(files[i]))
                 {
                     if (files[i].Length < fourMegaByte)
                     {
-                        var blob = blobcontainer.GetBlockBlobReference(id + "/" + files[i].FileName);
-                        using (var stream = files[i].OpenReadStream())
-                        {
-                            await blob.UploadFromStreamAsync(stream);
-                        }
                     }
-                } 
+                    else
+                    {
+                        newHotel.ErrorMessages.Add("The image max 4 MB");
+                        return newHotel.ErrorMessages;
+                    }
+                }
+                else
+                {
+                newHotel.ErrorMessages.Add("Please add only image formats!");
+                return newHotel.ErrorMessages;
+            }
+        }
+            return newHotel.ErrorMessages;
+        }
+
+        public async Task UploadAsync(IFormFileCollection files,long id)
+        {
+            var blobcontainer = await blobService.GetBlobContainer();
+            for (int i = 0; i < files.Count; i++)
+            {
+                var blob = blobcontainer.GetBlockBlobReference(id + "/" + files[i].FileName);
+                using (var stream = files[i].OpenReadStream())
+                {
+                    await blob.UploadFromStreamAsync(stream);
+                }
             }
         }
 
@@ -139,16 +157,12 @@ namespace HotelBookingGarnet.Services
         {
             CloudBlobDirectory directory = (CloudBlobDirectory)item;
             IEnumerable<IListBlobItem> blobs = directory.ListBlobs();
-            foreach (var blob in blobs)
+            var blob = blobs.First();
+            imageList.Add(new ImageDetails
             {
-                imageList.Add(new ImageDetails
-                {
-                    Name = blob.Uri.Segments[blob.Uri.Segments.Length - 1],
-                    Path = blob.Uri.ToString()
-                });
-                break;
-            }
-            
+                Name = blob.Uri.Segments[blob.Uri.Segments.Length - 1],
+                Path = blob.Uri.ToString()
+            });
         }
     }
 }

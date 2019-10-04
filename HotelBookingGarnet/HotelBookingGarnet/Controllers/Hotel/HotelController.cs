@@ -77,15 +77,15 @@ namespace HotelBookingGarnet.Controllers.Hotel
         public async Task<IActionResult> EditHotel(HotelViewModel editHotel, long hotelId)
         {
             if (ModelState.IsValid)
-            { 
-                await hotelService.EditHotelAsync(hotelId, editHotel);
-
-                if (editHotel.files != null)
+            {
+                var errors = imageService.Validate(editHotel.Files, editHotel);
+                if (errors.Count !=0)
                 {
-                    await imageService.UploadAsync(editHotel.files,hotelId);
+                    return View(editHotel);
                 }
-                
-                return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new {hotelId});
+                await hotelService.EditHotelAsync(hotelId, editHotel);
+                await imageService.UploadAsync(editHotel.Files, hotelId);
+                return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new { hotelId });
             }
             return View(editHotel);
         }
@@ -102,14 +102,16 @@ namespace HotelBookingGarnet.Controllers.Hotel
         public async Task<IActionResult> AddHotel(HotelViewModel newHotel)
         {
             if (ModelState.IsValid)
-            { 
+            {
+                var errors = imageService.Validate(newHotel.Files,newHotel);
+                if (errors.Count != 0)
+                {
+                    return View(newHotel);
+                }
                 var currentUser = await userManager.GetUserAsync(HttpContext.User); 
                 var hotelId = await hotelService.AddHotelAsync(newHotel, currentUser.Id);
-                if (newHotel.files != null)
-                {
-                    await imageService.UploadAsync(newHotel.files,hotelId);
-                }
-                return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new { hotelId});
+                await imageService.UploadAsync(newHotel.Files, hotelId);
+                return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new { hotelId });
             }
             return View(newHotel);
         }

@@ -14,17 +14,17 @@
 
         @foreach (var hotel in Model.pagingList)
         {
-            <tr>
-                <td><img src="@Model.folderList[(int)hotel.HotelId-1].Path" class="thumb" /></td>
-                <td> @Html.DisplayFor(modelItem => hotel.HotelName) @hotel.StarRating</td>
-                <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
-                <td> @Html.DisplayFor(modelItem => hotel.Price)</td>
-                <td>
-                    <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
-                        <button type="submit" class="btn btn-primary">More Info</button>
-                    </form>
-                </td>
-            </tr>
+    <tr>
+        <td><img src="@Model.folderList[(int)hotel.HotelId-1].Path" class="thumb" /></td>
+        <td> @Html.DisplayFor(modelItem => hotel.HotelName) @hotel.StarRating</td>
+        <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
+        <td> @Html.DisplayFor(modelItem => hotel.Price)</td>
+        <td>
+            <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
+                <button type="submit" class="btn btn-primary">More Info</button>
+            </form>
+        </td>
+    </tr>
         }
         </table>
 </div>

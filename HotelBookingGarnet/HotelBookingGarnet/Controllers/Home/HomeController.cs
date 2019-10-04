@@ -27,11 +27,11 @@ namespace HotelBookingGarnet.Controllers.Home
         public async Task<IActionResult> Index(int page = 1)
         {
             var hotels = hotelService.GetHotels();
-            var folders =await imageService.ListAllFoldersAsync();
+            var folders = await imageService.ListAllFoldersAsync();
             var model = PagingList.Create(hotels, 5, page);
             return View(new HomeViewModel { pagingList = model, folderList = folders });
         }
-        
+
         [HttpPost("/logout")]
         public async Task<IActionResult> Logout()
         {

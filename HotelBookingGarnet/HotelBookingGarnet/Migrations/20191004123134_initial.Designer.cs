@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingGarnet.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191003155754_initial")]
+    [Migration("20191004123134_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -198,9 +198,9 @@ namespace HotelBookingGarnet.Migrations
                     b.ToTable("AspNetRoles");
 
                     b.HasData(
-                        new { Id = "0815a0ee-2794-42e9-9949-bcbcac49dc27", ConcurrencyStamp = "39592753-c8b0-4555-9035-cd4da9abff49", Name = "Admin", NormalizedName = "ADMIN" },
-                        new { Id = "8bd3cb02-dc77-48a9-930f-504a53f5216a", ConcurrencyStamp = "8eeb758e-4038-4e13-9013-0b97eda81ef4", Name = "Guest", NormalizedName = "GUEST" },
-                        new { Id = "03be5ef6-35a3-4d51-826f-1ff2c3af8c7f", ConcurrencyStamp = "5e579fe8-bf93-4d40-a71f-ba23229e167b", Name = "Hotel Manager", NormalizedName = "HOTEL MANAGER" }
+                        new { Id = "79c42917-cd9d-4be0-8fdf-7ec78636c1a5", ConcurrencyStamp = "61a548cb-2947-4cd9-9a21-1b689d41b54b", Name = "Admin", NormalizedName = "ADMIN" },
+                        new { Id = "fc0c7e85-249f-451c-9e87-dbebcdd447e4", ConcurrencyStamp = "e6cd17da-53ee-44a3-953b-b4ef626de7c3", Name = "Guest", NormalizedName = "GUEST" },
+                        new { Id = "c8079a73-9aa0-41ef-89ab-4f680d90d1a0", ConcurrencyStamp = "0cd34626-6fea-40f9-9eb0-a9a0306e9ff5", Name = "Hotel Manager", NormalizedName = "HOTEL MANAGER" }
                     );
                 });
 

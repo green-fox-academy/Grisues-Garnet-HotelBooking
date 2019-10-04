@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using HotelBookingGarnet.Models;
 using Microsoft.AspNetCore.Http;
 
@@ -25,6 +26,9 @@ namespace HotelBookingGarnet.ViewModels
         [Required]
         public int Price { get; set; }
         public User User { get; set; }
-        public IFormFileCollection files { get; set; }
+        [Required(ErrorMessage ="Please add a photo!")]
+        [MaxLength ]
+        public IFormFileCollection Files { get; set; }
+        public List<string> ErrorMessages { get; set; } = new List<string>();
     }
 }
