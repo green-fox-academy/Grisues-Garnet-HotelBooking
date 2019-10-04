@@ -46,6 +46,8 @@ namespace HotelBookingGarnet.Migrations
 
                     b.Property<string>("HotelName");
 
+                    b.Property<bool>("IsItAvailable");
+
                     b.Property<int>("Price");
 
                     b.Property<string>("Region");
@@ -94,6 +96,8 @@ namespace HotelBookingGarnet.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<long>("HotelId");
+
+                    b.Property<int>("NumberOfAvailablePlaces");
 
                     b.Property<int>("NumberOfGuests");
 
@@ -196,9 +200,9 @@ namespace HotelBookingGarnet.Migrations
                     b.ToTable("AspNetRoles");
 
                     b.HasData(
-                        new { Id = "79c42917-cd9d-4be0-8fdf-7ec78636c1a5", ConcurrencyStamp = "61a548cb-2947-4cd9-9a21-1b689d41b54b", Name = "Admin", NormalizedName = "ADMIN" },
-                        new { Id = "fc0c7e85-249f-451c-9e87-dbebcdd447e4", ConcurrencyStamp = "e6cd17da-53ee-44a3-953b-b4ef626de7c3", Name = "Guest", NormalizedName = "GUEST" },
-                        new { Id = "c8079a73-9aa0-41ef-89ab-4f680d90d1a0", ConcurrencyStamp = "0cd34626-6fea-40f9-9eb0-a9a0306e9ff5", Name = "Hotel Manager", NormalizedName = "HOTEL MANAGER" }
+                        new { Id = "f36b8937-4d3e-4f9e-8bd2-1fe2eb3db5fe", ConcurrencyStamp = "eb324b32-aadc-4bc9-9734-749919357b2f", Name = "Admin", NormalizedName = "ADMIN" },
+                        new { Id = "a9cb8324-9c72-4734-a68a-f13f38ee9ba8", ConcurrencyStamp = "4ca2d385-47da-42aa-967a-6d1dc6878ede", Name = "Guest", NormalizedName = "GUEST" },
+                        new { Id = "895f6a0f-3f1a-467d-8d04-c326e79d52e1", ConcurrencyStamp = "7a520e2a-b7ae-4ad9-a7bb-9e17350e4531", Name = "Hotel Manager", NormalizedName = "HOTEL MANAGER" }
                     );
                 });
 

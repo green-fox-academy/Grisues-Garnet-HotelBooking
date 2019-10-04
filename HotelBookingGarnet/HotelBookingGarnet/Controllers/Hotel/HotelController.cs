@@ -22,9 +22,11 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IRoomService roomService;
         private readonly IBedService bedService;
         private readonly IRoomBedService roomBedService;
+        private readonly IHotelPropertyTypeService hotelPropertyTypeService;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IPropertyTypeService propertyTypeService, IImageService imageService, 
-            IRoomService roomService, IBedService bedService, IRoomBedService roomBedService)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IPropertyTypeService propertyTypeService,
+            IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, 
+            IHotelPropertyTypeService hotelPropertyTypeService)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
@@ -33,6 +35,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             this.roomService = roomService;
             this.bedService = bedService;
             this.roomBedService = roomBedService;
+            this.hotelPropertyTypeService = hotelPropertyTypeService;
         }
 
         [AllowAnonymous]
@@ -40,13 +43,12 @@ namespace HotelBookingGarnet.Controllers.Hotel
         public async Task<IActionResult> HotelInfo(long hotelId)
         { 
             var currentUser = await userManager.GetUserAsync(HttpContext.User); 
-            var hotel = await hotelService.FindHotelByIdAsync(hotelId); 
             var blobsUri = await imageService.ListAsync(hotelId);
-            var property = await propertyTypeService.FindPropertyByHotelIdAsync(hotelId);
+            var hotel = await hotelService.FindHotelByIdAsync(hotelId);
+            var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
             var roomBeds = roomBedService.GetRoomBeds();
-            ViewData["propertyType"] = property;
-            return View(new IndexViewModel { User = currentUser, Hotel = hotel, RoomBeds = roomBeds,blobs = blobsUri});
-
+            ViewData["propertyType"] = property.PropertyType.Type;
+            return View(new IndexViewModel { User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri });
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]
@@ -55,7 +57,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
         {
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            var property = await propertyTypeService.FindPropertyByHotelIdAsync(hotelId);
+            var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
             var hotelViewModel = new HotelViewModel();
             hotelViewModel.User = currentUser;
             ViewData["hotelId"] = hotel.HotelId;
@@ -63,10 +65,9 @@ namespace HotelBookingGarnet.Controllers.Hotel
             hotelViewModel.City = hotel.City;
             hotelViewModel.Country = hotel.Country;
             hotelViewModel.Description = hotel.Description;
-            hotelViewModel.Price = hotel.Price;
             hotelViewModel.Region = hotel.Region;
             hotelViewModel.HotelName = hotel.HotelName;
-            hotelViewModel.PropertyType = property;
+            hotelViewModel.PropertyType = property.PropertyType.Type;
             
             hotelViewModel.StarRating = hotel.StarRating;
             return View(hotelViewModel);
@@ -85,7 +86,8 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 }
                 await hotelService.EditHotelAsync(hotelId, editHotel);
                 await imageService.UploadAsync(editHotel.Files, hotelId);
-                return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new { hotelId });
+                await hotelPropertyTypeService.EditPropertyTypeAsync(hotelId, editHotel.PropertyType);
+                return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new {hotelId});
             }
             return View(editHotel);
         }

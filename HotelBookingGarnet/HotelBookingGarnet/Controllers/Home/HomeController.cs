@@ -1,12 +1,10 @@
 ﻿using System.Threading.Tasks;
-using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
+using HotelBookingGarnet.Utils;
 using HotelBookingGarnet.ViewModels;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ReflectionIT.Mvc.Paging;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 
 namespace HotelBookingGarnet.Controllers.Home
 {
@@ -24,12 +22,17 @@ namespace HotelBookingGarnet.Controllers.Home
         }
 
         [HttpGet("/")]
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(QueryParam queryParam)
         {
-            var hotels = hotelService.GetHotels();
+            var hotels = await hotelService.FilterHotelsAsync(queryParam);
             var folders = await imageService.ListAllFoldersAsync();
-            var model = PagingList.Create(hotels, 5, page);
-            return View(new HomeViewModel { pagingList = model, folderList = folders });
+            return View(new IndexViewModel
+            {
+                PagingList = hotels,
+                QueryParam = queryParam,
+                ActionName = nameof(Index),
+                FolderList = folders
+            }); 
         }
 
         [HttpPost("/logout")]

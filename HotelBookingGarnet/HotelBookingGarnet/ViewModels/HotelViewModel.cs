@@ -23,8 +23,6 @@ namespace HotelBookingGarnet.ViewModels
         public int StarRating { get; set; }
         [Required]
         public string PropertyType { get; set; }
-        [Required]
-        public int Price { get; set; }
         public User User { get; set; }
         [Required(ErrorMessage ="Please add a photo!")]
         [MaxLength ]

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
+using HotelBookingGarnet.Utils;
 using HotelBookingGarnet.ViewModels;
+using ReflectionIT.Mvc.Paging;
 
 namespace HotelBookingGarnet.Services
 {
@@ -14,6 +16,6 @@ namespace HotelBookingGarnet.Services
         Task<Hotel> FindHotelByIdAsync(long HotelId);
         Task<long> AddHotelAsync(HotelViewModel newHotel, string userId);   
         Task<Hotel> FindHotelByName(string hotelName);
-        Task FindHotelThumb();
+        Task<PagingList<Hotel>> FilterHotelsAsync(QueryParam queryParam);
     }
 }

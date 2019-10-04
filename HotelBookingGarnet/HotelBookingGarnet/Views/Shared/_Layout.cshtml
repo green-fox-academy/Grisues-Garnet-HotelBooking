@@ -21,7 +21,7 @@
             {
                 if (!User.IsInRole("Guest"))
                 {
-                    <form method="post" asp-action="AddHotel" asp-controller="Hotel">
+                    <form method="get" asp-action="AddHotel" asp-controller="Hotel">
                         <button type="submit" class="nav-link btn btn-link py-0" style="width: auto">
                             AddHotel
                         </button>
