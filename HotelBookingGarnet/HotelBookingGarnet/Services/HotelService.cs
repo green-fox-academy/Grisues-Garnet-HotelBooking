@@ -60,7 +60,8 @@ namespace HotelBookingGarnet.Services
                 Address = newHotel.Address,
                 Description = newHotel.Description,
                 StarRating = newHotel.StarRating,
-                UserId = userId
+                UserId = userId,
+                HotelPropertyTypes = new List<HotelPropertyType>()
             };
 
             await applicationContext.Hotels.AddAsync(hotel);
@@ -72,7 +73,7 @@ namespace HotelBookingGarnet.Services
             hotelPropertyType.PropertyType = propertyType;
             hotelPropertyType.PropertyTypeId = propertyType.PropertyTypeId;
 
-            propertyType.HotelPropertyTypes.Add(hotelPropertyType);
+            hotel.HotelPropertyTypes.Add(hotelPropertyType);
 
             await applicationContext.SaveChangesAsync();
         }
