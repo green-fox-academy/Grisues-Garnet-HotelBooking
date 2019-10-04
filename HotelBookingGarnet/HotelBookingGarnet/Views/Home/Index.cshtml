@@ -1,29 +1,63 @@
-﻿@using ReflectionIT.Mvc.Paging
-@model ReflectionIT.Mvc.Paging.PagingList<HotelBookingGarnet.Models.Hotel>
-@addTagHelper *,ReflectionIT.Mvc.Paging
+﻿@addTagHelper *,ReflectionIT.Mvc.Paging
+@model IndexViewModel
 
-<div>
-    <table class="table">
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price/Night</th>
-        </tr>
-        @foreach (var hotel in Model)
-        {
+@{
+    ViewBag.Title = "Home";
+}
+
+<form asp-controller="Home" asp-action="Index" method="get">
+    <div class="form-group">
+        <label asp-for="@Model.QueryParam.City" >City</label>
+        <input asp-for="@Model.QueryParam.City" class="form-control" name="City"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.QueryParam.Guest">Number of guests</label>
+        <input asp-for="@Model.QueryParam.Guest" class="form-control" name="Guest" min="0"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+@if (Model != null)
+{
+    <div>
+        <table class="table">
             <tr>
-                <td> @Html.DisplayFor(modelItem => hotel.HotelName) @hotel.StarRating</td>
-                <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
-                <td> @Html.DisplayFor(modelItem => hotel.Price)</td>
-                <td>
-                    <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
-                        <button type="submit" class="btn btn-primary">More Info</button>
-                    </form>
-                </td>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price/Night from</th>
             </tr>
-        }
-    </table>
+            @foreach (var hotel in Model.PagingList)
+            {
+                <tr>
+                    <td> @Html.DisplayFor(modelItem => hotel.HotelName) @hotel.StarRating</td>
+                    <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
+                    <td>
+                       @if (hotel.Price == 0)
+                       {
+                           <i>Unknown</i>
+                       }
+                       else
+                       {
+                            @Html.DisplayFor(modelItem => hotel.Price) <span>Ft</span>
+                       }
+                    </td>
+                    <td>
+                        <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
+                            <button type="submit" class="btn btn-primary">More Info</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+<div class="pagination-row">
+    @for (int i = 1; i <= Model.PagingList.PageCount; i++)
+    {
+        <a role="button" class="btn btn-primary"
+           asp-action="@Model.ActionName"
+           asp-route-city="@Model.QueryParam.City"
+           asp-route-guest="@Model.QueryParam.Guest"
+           asp-route-page="@i">@i</a>
+    }
 </div>
-<nav aria-label="Page navigation example" class="nav">
-    <vc:pager paging-list="@Model" />
-</nav>

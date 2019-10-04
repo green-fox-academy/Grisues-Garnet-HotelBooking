@@ -34,7 +34,16 @@
         </div>
         <div>
             <h5 class="card-title">Price:</h5>
-            <p class="card-text"> @Model.Hotel.Price Ft</p>
+            <p class="card-text">
+                @if (Model.Hotel.Price == 0)
+                {
+                    <i>Unknown</i>
+                }
+                else
+                {
+                    @Model.Hotel.Price <span>Ft</span>
+                }
+            </p>
         </div>
 
         @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
