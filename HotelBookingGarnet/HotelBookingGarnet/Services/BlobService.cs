@@ -38,7 +38,9 @@ namespace HotelBookingGarnet.Services
         private CloudBlobClient GetClient()
         {
             if (blobClient != null)
+            {
                 return blobClient;
+            }    
 
             blobClient = account.CreateCloudBlobClient();
             return blobClient;

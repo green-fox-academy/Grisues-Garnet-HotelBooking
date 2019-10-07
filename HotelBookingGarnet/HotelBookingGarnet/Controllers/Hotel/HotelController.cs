@@ -80,7 +80,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             if (ModelState.IsValid)
             {
                 var errors = imageService.Validate(editHotel.Files, editHotel);
-                if (errors.Count !=0)
+                if (errors.Count != 0)
                 {
                     return View(editHotel);
                 }

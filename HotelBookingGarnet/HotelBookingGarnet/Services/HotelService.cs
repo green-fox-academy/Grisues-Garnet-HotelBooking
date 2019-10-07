@@ -90,7 +90,7 @@ namespace HotelBookingGarnet.Services
 
         public async Task<Hotel> FindHotelByName(string hotelName)
         {
-            var foundedHotel =await applicationContext.Hotels.Include(a => a.HotelPropertyTypes)
+            var foundedHotel = await applicationContext.Hotels.Include(a => a.HotelPropertyTypes)
                 .FirstOrDefaultAsync(a => a.HotelName == hotelName);
             return foundedHotel;
         }

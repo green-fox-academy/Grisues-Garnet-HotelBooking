@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace HotelBookingGarnet.Services
 {
-    public class ImageService:IImageService
+    public class ImageService : IImageService
     {
         private readonly IBlobService blobService;
         private int fourMegaByte = 4 * 1024 * 1024;
@@ -31,12 +31,12 @@ namespace HotelBookingGarnet.Services
                var blobContainer = await blobService.GetBlobContainer();
                var response = await blobContainer.ListBlobsSegmentedAsync(null, blobContinuationToken);
                 blobContinuationToken = response.ContinuationToken;
-               await GetBlobDirectory(imageList, id);
+               await GetBlobDirectoryAsync(imageList, id);
             } while (blobContinuationToken != null);
             return imageList;
         }
 
-        private async Task GetBlobDirectory(List<ImageDetails> imageList, long id)
+        private async Task GetBlobDirectoryAsync(List<ImageDetails> imageList, long id)
         {
             var blobContainer = await blobService.GetBlobContainer();
             foreach (var item in blobContainer.ListBlobs())
@@ -91,6 +91,7 @@ namespace HotelBookingGarnet.Services
                 {
                     if (files[i].Length < fourMegaByte)
                     {
+                        return newHotel.ErrorMessages;
                     }
                     else
                     {
@@ -102,8 +103,8 @@ namespace HotelBookingGarnet.Services
                 {
                 newHotel.ErrorMessages.Add("Please add only image formats!");
                 return newHotel.ErrorMessages;
+                }
             }
-        }
             return newHotel.ErrorMessages;
         }
 
@@ -136,12 +137,12 @@ namespace HotelBookingGarnet.Services
                 var blobContainer = await blobService.GetBlobContainer();
                 var response = await blobContainer.ListBlobsSegmentedAsync(null, blobContinuationToken);
                 blobContinuationToken = response.ContinuationToken;
-                await GetAllBlobDirectory(imageList);
+                await GetAllBlobDirectoryAsync(imageList);
             } while (blobContinuationToken != null);
             return imageList;
         }
 
-        private async Task GetAllBlobDirectory(List<ImageDetails> imageList)
+        private async Task GetAllBlobDirectoryAsync(List<ImageDetails> imageList)
         {
             var blobContainer = await blobService.GetBlobContainer();
             foreach (var item in blobContainer.ListBlobs())

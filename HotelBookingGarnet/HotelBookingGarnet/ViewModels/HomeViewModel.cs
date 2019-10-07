@@ -9,7 +9,7 @@ namespace HotelBookingGarnet.ViewModels
 {
     public class HomeViewModel
     {
-        public PagingList<Hotel> pagingList { get; set; }
-        public List<ImageDetails> folderList { get; set; }
+        public PagingList<Hotel> PagingList { get; set; }
+        public List<ImageDetails> FolderList { get; set; }
     } 
 }
