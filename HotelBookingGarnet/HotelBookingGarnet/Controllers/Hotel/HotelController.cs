@@ -79,13 +79,17 @@ namespace HotelBookingGarnet.Controllers.Hotel
         {
             if (ModelState.IsValid)
             {
-                var errors = imageService.Validate(editHotel.Files, editHotel);
-                if (errors.Count != 0)
-                {
-                    return View(editHotel);
-                }
                 await hotelService.EditHotelAsync(hotelId, editHotel);
-                await imageService.UploadAsync(editHotel.Files, hotelId);
+                if (editHotel.Files != null)
+                {
+                    var errors = imageService.Validate(editHotel.Files, editHotel);
+                    if (errors.Count != 0)
+                    {
+                        return View(editHotel);
+                    }
+                    await imageService.UploadAsync(editHotel.Files, hotelId);
+                    await hotelService.SetIndexImageAsync(hotelId);
+                }
                 await hotelPropertyTypeService.EditPropertyTypeAsync(hotelId, editHotel.PropertyType);
                 return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new {hotelId});
             }
@@ -105,14 +109,18 @@ namespace HotelBookingGarnet.Controllers.Hotel
         {
             if (ModelState.IsValid)
             {
-                var errors = imageService.Validate(newHotel.Files,newHotel);
-                if (errors.Count != 0)
-                {
-                    return View(newHotel);
-                }
                 var currentUser = await userManager.GetUserAsync(HttpContext.User); 
                 var hotelId = await hotelService.AddHotelAsync(newHotel, currentUser.Id);
-                await imageService.UploadAsync(newHotel.Files, hotelId);
+                if (newHotel.Files != null)
+                {
+                    var errors = imageService.Validate(newHotel.Files, newHotel);
+                    if (errors.Count != 0)
+                    {
+                        return View(newHotel);
+                    }
+                    await imageService.UploadAsync(newHotel.Files, hotelId);
+                    await hotelService.SetIndexImageAsync(hotelId);
+                }
                 return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new { hotelId });
             }
             return View(newHotel);

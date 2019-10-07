@@ -25,13 +25,11 @@ namespace HotelBookingGarnet.Controllers.Home
         public async Task<IActionResult> Index(QueryParam queryParam)
         {
             var hotels = await hotelService.FilterHotelsAsync(queryParam);
-            var folders = await imageService.ListAllFoldersAsync();
             return View(new IndexViewModel
             {
                 PagingList = hotels,
                 QueryParam = queryParam,
                 ActionName = nameof(Index),
-                FolderList = folders
             }); 
         }
 

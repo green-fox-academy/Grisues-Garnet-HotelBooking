@@ -30,7 +30,14 @@
             @foreach (var hotel in Model.PagingList)
             {
         <tr>
-            <td><img src="@Model.FolderList[(int)hotel.HotelId-1].Path" class="thumb" /></td>
+            @if (hotel.Uri == null)
+            {
+                <td><img src="/images/defaultpic.png" class="thumb" /></td>
+            }
+            else
+            {
+                <td><img src="@hotel.Uri" class="thumb" /></td>
+            }
             <td> @Html.DisplayFor(modelItem => hotel.HotelName) @hotel.StarRating</td>
             <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
             <td>

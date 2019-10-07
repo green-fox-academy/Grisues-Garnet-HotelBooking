@@ -14,7 +14,7 @@ namespace HotelBookingGarnet.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("HotelBookingGarnet.Models.Bed", b =>
@@ -200,10 +200,27 @@ namespace HotelBookingGarnet.Migrations
                     b.ToTable("AspNetRoles");
 
                     b.HasData(
-                        new { Id = "f36b8937-4d3e-4f9e-8bd2-1fe2eb3db5fe", ConcurrencyStamp = "eb324b32-aadc-4bc9-9734-749919357b2f", Name = "Admin", NormalizedName = "ADMIN" },
-                        new { Id = "a9cb8324-9c72-4734-a68a-f13f38ee9ba8", ConcurrencyStamp = "4ca2d385-47da-42aa-967a-6d1dc6878ede", Name = "Guest", NormalizedName = "GUEST" },
-                        new { Id = "895f6a0f-3f1a-467d-8d04-c326e79d52e1", ConcurrencyStamp = "7a520e2a-b7ae-4ad9-a7bb-9e17350e4531", Name = "Hotel Manager", NormalizedName = "HOTEL MANAGER" }
-                    );
+                        new
+                        {
+                            Id = "f2572a44-4018-4b67-bc3a-6a620d2fb391",
+                            ConcurrencyStamp = "18b9d0ae-965b-4cad-b63b-600cd910dec4",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "02a4c0f5-7c7a-4dab-9154-612f3a526566",
+                            ConcurrencyStamp = "44b6e613-97cf-4fee-8c83-db46dca77aa8",
+                            Name = "Guest",
+                            NormalizedName = "GUEST"
+                        },
+                        new
+                        {
+                            Id = "282e65e4-4318-4e85-b0e9-c7d9f8a9d963",
+                            ConcurrencyStamp = "a4d6b4ab-8ef4-4c68-bd0b-7c79c3b99bda",
+                            Name = "Hotel Manager",
+                            NormalizedName = "HOTEL MANAGER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

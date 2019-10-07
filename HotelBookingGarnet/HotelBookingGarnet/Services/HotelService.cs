@@ -7,6 +7,7 @@ using HotelBookingGarnet.Utils;
 using Microsoft.EntityFrameworkCore;
 using HotelBookingGarnet.ViewModels;
 using ReflectionIT.Mvc.Paging;
+using Microsoft.AspNetCore.Http;
 
 namespace HotelBookingGarnet.Services
 {
@@ -123,6 +124,15 @@ namespace HotelBookingGarnet.Services
                 .Where(h => h.IsItAvailable || queryParam.Guest == 0)
                 .OrderBy(h => h.HotelName).ToListAsync();
             return PagingList.Create(hotels, 5, queryParam.Page);
+        }
+
+        public async Task SetIndexImageAsync(long hotelId)
+        {
+            var hotel = await FindHotelByIdAsync(hotelId);
+            var pictures = await imageService.ListAsync(hotelId);
+            hotel.Uri = pictures[0].Path;
+            applicationContext.Hotels.Update(hotel);
+            await applicationContext.SaveChangesAsync();
         }
     }
 }

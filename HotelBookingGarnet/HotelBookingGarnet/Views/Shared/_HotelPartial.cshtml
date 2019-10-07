@@ -48,8 +48,6 @@
             <input type="text" asp-for="@Model.PropertyType" class="form-control">
             <span asp-validation-for="@Model.PropertyType" class="text-danger"></span>
         </div>
-        @if (@ViewData["Action"].Equals("Add"))
-        {
             <div class="form-group">
                 @if (Model.ErrorMessages != null)
                 {
@@ -65,7 +63,6 @@
                     <span asp-validation-for="@Model.Files" class="text-danger"></span>
                 </div>
             </div>
-        }
         <button type="submit" class="btn btn-primary">@ViewData["Action"]</button>
         @if (@ViewData["Action"].Equals("Add"))
         {

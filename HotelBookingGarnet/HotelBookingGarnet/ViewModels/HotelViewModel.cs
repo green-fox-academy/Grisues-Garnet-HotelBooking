@@ -24,7 +24,6 @@ namespace HotelBookingGarnet.ViewModels
         [Required]
         public string PropertyType { get; set; }
         public User User { get; set; }
-        [Required(ErrorMessage ="Please add a photo!")]
         public IFormFileCollection Files { get; set; }
         public List<string> ErrorMessages { get; set; } = new List<string>();
     }
