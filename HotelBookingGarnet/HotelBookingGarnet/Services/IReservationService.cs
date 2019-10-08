@@ -8,6 +8,6 @@ namespace HotelBookingGarnet.Services
 {
    public interface IReservationService
     {
-        Task<Reservation> FindReservationByIdAsync(String UserId);
+        Task<List<Reservation>> FindReservationByIdAsync(String UserId);
     }
 }

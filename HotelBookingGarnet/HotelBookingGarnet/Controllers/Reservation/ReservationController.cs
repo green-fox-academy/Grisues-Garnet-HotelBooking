@@ -13,12 +13,12 @@ namespace HotelBookingGarnet.Controllers
     public class ReservationController : Controller
     {
 
-        private readonly IReservationService reservation;
+        private readonly IReservationService reservationService;
         private readonly UserManager<User> userManager;
 
-        public ReservationController(IReservationService reservation, UserManager<User> userManager)
+        public ReservationController(IReservationService reservationService, UserManager<User> userManager)
         {
-            this.reservation = reservation;
+            this.reservationService = reservationService;
             this.userManager = userManager;
         }
 
@@ -27,8 +27,8 @@ namespace HotelBookingGarnet.Controllers
         public async Task<IActionResult> MyReservation()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            var reservations = await reservation.FindReservationByIdAsync(currentUser.Id);
-            return View(reservation);
+            var reservations = await reservationService.FindReservationByIdAsync(currentUser.Id);
+            return View(reservations);
 
         }
     }

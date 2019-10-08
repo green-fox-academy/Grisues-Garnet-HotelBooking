@@ -1,4 +1,4 @@
-﻿
+﻿@model List<Reservation>
 
 @{
     ViewData["Title"] = "MyReservation";
@@ -13,9 +13,12 @@
         <th>Hotel</th>
         <th>More info</th>
     </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
+    @foreach (var reservation in @Model)
+    {
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    }
 </table>

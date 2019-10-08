@@ -16,9 +16,9 @@ namespace HotelBookingGarnet.Services
             this.applicationContext = applicationContext;
         }
 
-        public async Task<Reservation> FindReservationByIdAsync(string UserId)
+        public async Task<List<Reservation>> FindReservationByIdAsync(string userId)
         {
-            var reservations = await applicationContext.Reservation.FirstOrDefaultAsync(r => r.UserId == UserId);
+            var reservations = await applicationContext.Reservation.Where(a => a.UserId == userId).ToListAsync();
             return reservations;
 
         }
