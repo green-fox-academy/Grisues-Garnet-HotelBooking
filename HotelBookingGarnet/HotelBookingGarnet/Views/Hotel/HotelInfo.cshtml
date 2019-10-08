@@ -87,15 +87,15 @@
                                 @if (room.RoomId == bed.RoomId)
                                 {
                                     <div>
-                                    <span>@bed.Bed.NumberOfBeds</span>
-                                    @if (@bed.Bed.NumberOfBeds > 1)
-                                    {
-                                        <span>@(bed.Bed.BedType+"s")</span>
-                                    }
-                                    else
-                                    {
-                                        <span>@bed.Bed.BedType</span>
-                                    }
+                                        <span>@bed.Bed.NumberOfBeds</span>
+                                        @if (@bed.Bed.NumberOfBeds > 1)
+                                        {
+                                            <span>@(bed.Bed.BedType+"s")</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@bed.Bed.BedType</span>
+                                        }
                                     </div>
                                 }
                             }
@@ -103,6 +103,11 @@
                             {
                                 <a asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@Model.Hotel.HotelId" asp-route-roomId="@room.RoomId">+ add bed</a>
                             }
+                        </td>
+                        <td>
+                            <form asp-controller="Reservation" asp-action="AddReservation" asp-route-roomId="@room.RoomId" method="get">
+                                <button type="submit" class="btn btn-warning">Reserve Room</button>
+                            </form>
                         </td>
                     </tr>
                 }

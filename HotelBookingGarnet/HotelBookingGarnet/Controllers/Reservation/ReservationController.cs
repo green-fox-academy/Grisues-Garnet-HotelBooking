@@ -17,7 +17,7 @@ namespace HotelBookingGarnet.Controllers.Reservation
             this.userManager = userManager;
         }
 
-        [HttpGet("/newReservation")]
+        [HttpGet("/newReservation/{roomId}")]
         public IActionResult AddReservation()
         {
             return View(new ReservationViewModel());

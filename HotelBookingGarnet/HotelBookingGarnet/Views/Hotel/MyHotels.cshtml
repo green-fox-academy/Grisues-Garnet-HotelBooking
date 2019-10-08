@@ -1,0 +1,36 @@
+﻿@model List<Hotel>
+
+<h1>My Hotels</h1>
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th>Hotel name</th>
+        <th>Description</th>
+        <th>Price/Night</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (var hotel in Model)
+    {
+        <tr>
+            @if (hotel.Uri == null)
+            {
+                <td><img src="/images/defaultpic.png" class="thumb"/></td>
+            }
+            else
+            {
+                <td><img src="@hotel.Uri" class="thumb"/></td>
+            }
+            <td>@hotel.HotelName</td>
+            <td>@hotel.City</td>
+            <td>@hotel.Price</td>
+            <td>
+                <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
+                    <button type="submit" class="btn btn-primary">More Info</button>
+                </form>
+            </td>
+            <td><button type="button" class="btn btn-warning btn-sm">See upcoming reservations</button></td>
+        </tr>
+    }
+</table>

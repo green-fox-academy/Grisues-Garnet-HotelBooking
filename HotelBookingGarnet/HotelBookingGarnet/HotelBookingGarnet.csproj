@@ -24,6 +24,7 @@
 
       <Folder Include="Controllers\Home" />
       <Folder Include="Controllers\User" />
+      <Folder Include="Views\User" />
       <Folder Include="Views\Hotel" />
     </ItemGroup>
 
