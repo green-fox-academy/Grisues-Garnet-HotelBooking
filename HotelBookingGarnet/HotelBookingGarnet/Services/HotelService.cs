@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using HotelBookingGarnet.ViewModels;
 using ReflectionIT.Mvc.Paging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using TimeZoneInfo = System.TimeZoneInfo;
 
 namespace HotelBookingGarnet.Services
 {
@@ -17,13 +19,15 @@ namespace HotelBookingGarnet.Services
         private readonly ApplicationContext applicationContext;
         private readonly IPropertyTypeService propertyTypeService;
         private readonly IImageService imageService;
+        private readonly IMapper mapper;
 
         public HotelService(ApplicationContext applicationContext, IPropertyTypeService propertyTypeService,
-            IImageService imageService)
+            IImageService imageService, IMapper mapper)
         {
             this.applicationContext = applicationContext;
             this.propertyTypeService = propertyTypeService;
             this.imageService = imageService;
+            this.mapper = mapper;
         }
 
         public async Task EditHotelAsync(long hotelId, HotelViewModel editHotel)
@@ -31,17 +35,10 @@ namespace HotelBookingGarnet.Services
             var hotelToEdit = await FindHotelByIdAsync(hotelId);
             if (hotelToEdit != null)
             {
-                hotelToEdit.HotelName = editHotel.HotelName;
-                hotelToEdit.Country = editHotel.Country;
-                hotelToEdit.Region = editHotel.Region;
-                hotelToEdit.City = editHotel.City;
-                hotelToEdit.Address = editHotel.Address;
-                hotelToEdit.Description = editHotel.Description;
-                hotelToEdit.StarRating = editHotel.StarRating;
+                hotelToEdit = mapper.Map(editHotel, hotelToEdit);
+                applicationContext.Hotels.Update(hotelToEdit);
+                await applicationContext.SaveChangesAsync();
             }
-
-            applicationContext.Hotels.Update(hotelToEdit);
-            await applicationContext.SaveChangesAsync();
         }
 
         public async Task<Hotel> FindHotelByIdAsync(long hotelId)
@@ -55,35 +52,21 @@ namespace HotelBookingGarnet.Services
         public async Task<long> AddHotelAsync(HotelViewModel newHotel, string userId)
         {
             var propertyType = await propertyTypeService.AddPropertyTypeAsync(newHotel.PropertyType);
-
-            var hotel = new Hotel
-            {
-                HotelName = newHotel.HotelName,
-                Country = newHotel.Country,
-                Region = newHotel.Region,
-                City = newHotel.City,
-                Address = newHotel.Address,
-                Description = newHotel.Description,
-                StarRating = newHotel.StarRating,
-                UserId = userId,
-                HotelPropertyTypes = new List<HotelPropertyType>()
-            };
-
+            var hotel = mapper.Map<HotelViewModel, Hotel>(newHotel);
+            hotel.UserId = userId;
+            hotel.HotelPropertyTypes = new List<HotelPropertyType>();
             await applicationContext.Hotels.AddAsync(hotel);
             await applicationContext.SaveChangesAsync();
-
             var hotelPropertyType = new HotelPropertyType();
             hotelPropertyType.Hotel = hotel;
             hotelPropertyType.HotelId = hotel.HotelId;
             hotelPropertyType.PropertyType = propertyType;
             hotelPropertyType.PropertyTypeId = propertyType.PropertyTypeId;
-
             hotel.HotelPropertyTypes.Add(hotelPropertyType);
-
             await applicationContext.SaveChangesAsync();
             return hotel.HotelId;
         }
-        
+
         public List<Hotel> GetHotels()
         {
             var qry = applicationContext.Hotels.Include(h => h.Rooms).AsQueryable().OrderBy(h => h.HotelName).ToList();
@@ -112,14 +95,13 @@ namespace HotelBookingGarnet.Services
                             await applicationContext.SaveChangesAsync(hotel.IsItAvailable);
                             break;
                         }
-                        else
-                        {
-                            hotel.IsItAvailable = false;
-                            await applicationContext.SaveChangesAsync(hotel.IsItAvailable);
-                        }
+
+                        hotel.IsItAvailable = false;
+                        await applicationContext.SaveChangesAsync(hotel.IsItAvailable);
                     }
                 }
             }
+
             var hotels = await applicationContext.Hotels.Include(h => h.Rooms)
                 .Where(h => h.City.Contains(queryParam.City) || String.IsNullOrEmpty(queryParam.City))
                 .Where(h => h.IsItAvailable || queryParam.Guest == 0)
