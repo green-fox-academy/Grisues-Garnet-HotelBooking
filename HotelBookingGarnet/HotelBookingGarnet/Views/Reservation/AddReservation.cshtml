@@ -4,10 +4,11 @@
 
 <form asp-controller="Reservation" asp-action="@ViewData["Action"]" method="post">
     <div class="form-group">
-        
-        
+        <p>
+            <span>Date</span><input type="date-local" id="date" name="date" value="@Date.Now.ToString("s")"/>
+        </p>
+
     </div>
-    
-    
-    
+
+
 </form>
