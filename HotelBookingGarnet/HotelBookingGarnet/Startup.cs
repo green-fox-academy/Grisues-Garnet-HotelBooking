@@ -62,10 +62,10 @@ namespace HotelBookingGarnet
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new List<CultureInfo> {
-                    new CultureInfo("en"),
-                    new CultureInfo("hu")
+                    new CultureInfo("en-GB"),
+                    new CultureInfo("hu-HU")
                 };
-                options.DefaultRequestCulture = new RequestCulture("en");
+                options.DefaultRequestCulture = new RequestCulture("en-GB");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
             });

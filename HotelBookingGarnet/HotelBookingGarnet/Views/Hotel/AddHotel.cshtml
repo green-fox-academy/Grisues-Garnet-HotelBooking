@@ -1,8 +1,8 @@
 ﻿
-<h3>Add a new hotel</h3>
+<h3>@localizer["Add a new hotel"]</h3>
 
 @{
-    ViewBag.Title = "Add";
-    ViewData["Action"] = "Add";
+    ViewBag.Title = localizer["Add"];
+    ViewData["Action"] =localizer["Add"];
     await Html.RenderPartialAsync("_HotelPartial");
 }

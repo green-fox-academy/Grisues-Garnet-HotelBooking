@@ -179,6 +179,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             return View(currentUser);
         }
 
+        [Authorize]
         [HttpPost("/settings")]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
