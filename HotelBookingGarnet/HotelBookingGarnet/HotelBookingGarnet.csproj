@@ -10,6 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="9.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />
         <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.0" />
@@ -24,6 +25,7 @@
       <Folder Include="Controllers\Home" />
       <Folder Include="Controllers\User" />
       <Folder Include="Views\User" />
+      <Folder Include="Views\Hotel" />
     </ItemGroup>
 
 </Project>
