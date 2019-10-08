@@ -7,14 +7,14 @@
 
 <form asp-controller="Home" asp-action="Index" method="get">
     <div class="form-group">
-        <label asp-for="@Model.QueryParam.City" >City</label>
+        <label asp-for="@Model.QueryParam.City" >@localizer["City"]</label>
         <input asp-for="@Model.QueryParam.City" class="form-control" name="City"/>
     </div>
     <div class="form-group">
-        <label asp-for="@Model.QueryParam.Guest">Number of guests</label>
+        <label asp-for="@Model.QueryParam.Guest">@localizer["Number of guests"]</label>
         <input asp-for="@Model.QueryParam.Guest" class="form-control" name="Guest" min="0"/>
     </div>
-    <button type="submit" class="btn btn-primary">Search</button>
+    <button type="submit" class="btn btn-primary">@localizer["Search"]</button>
 </form>
 
 @if (Model != null)
@@ -23,9 +23,9 @@
         <table class="table">
             <tr>
                 <th></th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price/Night from</th>
+                <th>@localizer["Name"]</th>
+                <th>@localizer["Description"]</th>
+                <th>@localizer["Price/Night"]</th>
             </tr>
             @foreach (var hotel in Model.PagingList)
             {
@@ -43,7 +43,7 @@
             <td>
                 @if (hotel.Price == 0)
                 {
-                    <i>Unknown</i>
+                    <i>@localizer["Unknown"]</i>
                 }
                 else
                 {
@@ -52,7 +52,7 @@
             </td>
             <td>
                 <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
-                    <button type="submit" class="btn btn-primary">More Info</button>
+                    <button type="submit" class="btn btn-primary">@localizer["More Info"]</button>
                 </form>
             </td>
         </tr>

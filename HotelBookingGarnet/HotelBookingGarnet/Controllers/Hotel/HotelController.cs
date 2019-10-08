@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using HotelBookingGarnet.Controllers.Home;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
 
 namespace HotelBookingGarnet.Controllers.Hotel
 {
@@ -168,12 +170,24 @@ namespace HotelBookingGarnet.Controllers.Hotel
             return View(newBed);
         }
 
+        [Authorize]
         [HttpGet("/settings")]
         public async Task<IActionResult> Settings()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
 
             return View(currentUser);
+        }
+
+        [HttpPost("/settings")]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddDays(1) });
+
+            return LocalRedirect(returnUrl);
         }
     }
 }
