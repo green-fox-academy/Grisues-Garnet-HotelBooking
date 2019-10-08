@@ -167,5 +167,13 @@ namespace HotelBookingGarnet.Controllers.Hotel
             
             return View(newBed);
         }
+
+        [HttpGet("/settings")]
+        public async Task<IActionResult> Settings()
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+
+            return View(currentUser);
+        }
     }
 }
