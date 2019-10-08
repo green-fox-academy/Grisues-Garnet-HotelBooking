@@ -39,6 +39,7 @@ namespace HotelBookingGarnet
             }
 
             services.BuildServiceProvider().GetService<ApplicationContext>().Database.Migrate();
+            services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IHotelService, HotelService>();
             services.AddTransient<IPropertyTypeService, PropertyTypeService>();

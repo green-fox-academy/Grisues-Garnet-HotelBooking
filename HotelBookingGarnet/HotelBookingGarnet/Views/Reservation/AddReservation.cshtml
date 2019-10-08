@@ -4,11 +4,27 @@
 
 <form asp-controller="Reservation" asp-action="@ViewData["Action"]" method="post">
     <div class="form-group">
-        <p>
-            <span>Date</span><input type="date-local" id="date" name="date" value="@Date.Now.ToString("s")"/>
-        </p>
-
+        <label asp-for="ReservationStart">Start date:</label>
+        <input type="date" input asp-for="ReservationStart" value="YYYY-MM-DD" min="2019-01-01" max="2020-12-31">
+        <span asp-validation-for="ReservationStart" class="text-danger"></span>
+        <label asp-for="ReservationEnd">Start date:</label>
+        <input type="date" input asp-for="ReservationEnd" value="YYYY-MM-DD" min="2019-01-01" max="2020-12-31">
+        <span asp-validation-for="ReservationEnd" class="text-danger"></span>
     </div>
-
-
+    <div class="form-group">
+        <label asp-for="NumberOfGuest">Number of guests:</label>
+        <input type="text" asp-for="NumberOfGuest" class="form-control"/>
+        <span asp-validation-for="NumberOfGuest" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NameOfGuests">Name of the guests (please type all guests name, separated with comas):</label>
+        <input type="text" asp-for="NameOfGuests" class="form-control"/>
+        <span asp-validation-for="NameOfGuests" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+            <label asp-for="PhoneNumber">Contact phone number (not required)</label>
+            <input type="tel" asp-for="PhoneNumber" class="form-control"/>
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+    <button type="submit" class="btn btn-success">Add Reservation</button>
 </form>
