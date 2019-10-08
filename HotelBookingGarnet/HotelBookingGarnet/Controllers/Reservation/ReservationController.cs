@@ -28,9 +28,9 @@ namespace HotelBookingGarnet.Controllers.Reservation
         {
             if (ModelState.IsValid) 
             {
-                var currentUser = await userManager.GetUserAsync(HttpContext.User);
-                await reservationService.AddReservationAsync(newReservation, currentUser.Id);
-                return RedirectToAction(nameof(ReservationController.ConfirmationPage), "Reservation");
+//                var currentUser = await userManager.GetUserAsync(HttpContext.User);
+//                await reservationService.AddReservationAsync(newReservation, currentUser.Id);
+//                return RedirectToAction(nameof(ReservationController.ConfirmationPage), "Reservation");
             }
             return View(newReservation);
         }
