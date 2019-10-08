@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HotelBookingGarnet.Services
 {
-    interface IReservation
+   public interface IReservationService
     {
         Task<Reservation> FindReservationByIdAsync(String UserId);
     }

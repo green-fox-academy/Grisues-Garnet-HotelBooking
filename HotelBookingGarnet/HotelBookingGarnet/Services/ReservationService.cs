@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingGarnet.Services
 {
-    public class ReservationService : IReservation
+    public class ReservationService : IReservationService
     {
         protected readonly ApplicationContext applicationContext;
 
@@ -18,9 +18,9 @@ namespace HotelBookingGarnet.Services
 
         public async Task<Reservation> FindReservationByIdAsync(string UserId)
         {
-            
-          var reservations =  await applicationContext.Reservation.FirstOrDefaultAsync(r => r.UserId == UserId);
+            var reservations = await applicationContext.Reservation.FirstOrDefaultAsync(r => r.UserId == UserId);
             return reservations;
+
         }
     }
 }

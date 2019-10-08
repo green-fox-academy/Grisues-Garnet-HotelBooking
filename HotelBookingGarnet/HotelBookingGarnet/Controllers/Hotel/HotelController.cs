@@ -167,11 +167,6 @@ namespace HotelBookingGarnet.Controllers.Hotel
             
             return View(newBed);
         }
-        [Authorize(Roles = "Guest")]
-        [HttpGet("/myreservation")]
-        public IActionResult MyReservation()
-        {
-            return View();
-        }
+       
     }
 }

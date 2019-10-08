@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
 
@@ -9,32 +10,29 @@ namespace HotelBookingGarnet.Services
     {
         private readonly ApplicationContext applicationContext;
         private readonly IRoomService roomService;
+        private readonly IMapper mapper;
 
-        public BedService(ApplicationContext applicationContext, IRoomService roomService)
+        public BedService(ApplicationContext applicationContext, IRoomService roomService, IMapper mapper)
         {
             this.applicationContext = applicationContext;
             this.roomService = roomService;
+            this.mapper = mapper;
         }
 
         public async Task AddBedAsync(BedViewModel newBed, long roomId)
         {
             var room = await roomService.FindRoomByIdAsync(roomId);
-            var bed = new Bed
-            {
-                BedType = newBed.BedType,
-                NumberOfBeds = newBed.NumberOfBeds
-            };
-            
+            var bed = mapper.Map<BedViewModel, Bed>(newBed);
             await applicationContext.AddAsync(bed);
             await applicationContext.SaveChangesAsync();
-            
+
             var roomBed = new RoomBed();
             roomBed.Room = room;
             roomBed.RoomId = roomId;
             roomBed.Bed = bed;
             roomBed.BedId = bed.BedId;
             room.RoomBeds.Add(roomBed);
-            
+
             await applicationContext.SaveChangesAsync();
         }
     }
