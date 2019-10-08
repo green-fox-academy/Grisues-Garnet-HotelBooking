@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ReflectionIT.Mvc.Paging;
+using AutoMapper;
+using HotelBookingGarnet.Services.Helpers.AutoMapper;
 
 namespace HotelBookingGarnet
 {
@@ -50,7 +52,7 @@ namespace HotelBookingGarnet
             services.AddTransient<IRoomBedService, RoomBedService>();
             services.AddTransient<IHotelPropertyTypeService, HotelPropertyTypeService>();
             services.Configure<IdentityOptions>(options => { options.Password.RequireNonAlphanumeric = false; });
-            
+            services.SetUpAutoMapper();
             services.AddMvc();
             services.AddPaging();
         }
