@@ -122,8 +122,8 @@ namespace HotelBookingGarnet.Services
         {
             var timeZones = TimeZoneInfo.GetSystemTimeZones();
             List<SelectListItem> items = new List<SelectListItem>();
-            foreach (var timeZone in timeZones) 
-            {
+            foreach (var timeZone in timeZones)
+            { 
                 items.Add(new SelectListItem() {Text = timeZone.Id});
             }
             return items;
