@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HotelBookingGarnet.ViewModels;
 using ReflectionIT.Mvc.Paging;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HotelBookingGarnet.Services
 {
@@ -133,6 +134,17 @@ namespace HotelBookingGarnet.Services
             hotel.Uri = pictures[0].Path;
             applicationContext.Hotels.Update(hotel);
             await applicationContext.SaveChangesAsync();
+        }
+
+        public List<SelectListItem> FindTimeZones()
+        {
+            var timeZones = TimeZoneInfo.GetSystemTimeZones();
+            List<SelectListItem> items = new List<SelectListItem>();
+            foreach (var timeZone in timeZones) 
+            {
+                items.Add(new SelectListItem() {Text = timeZone.Id});
+            }
+            return items;
         }
     }
 }

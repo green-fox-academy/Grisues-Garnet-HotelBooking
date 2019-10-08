@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using HotelBookingGarnet.Controllers.Home;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.WindowsAzure.Storage;
 
 namespace HotelBookingGarnet.Controllers.Hotel
@@ -68,8 +69,8 @@ namespace HotelBookingGarnet.Controllers.Hotel
             hotelViewModel.Region = hotel.Region;
             hotelViewModel.HotelName = hotel.HotelName;
             hotelViewModel.PropertyType = property.PropertyType.Type;
-            
             hotelViewModel.StarRating = hotel.StarRating;
+            ViewBag.TimeZones = hotelService.FindTimeZones();
             return View(hotelViewModel);
         }
         
@@ -100,6 +101,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
         [HttpGet("/addhotel")]
         public IActionResult AddHotel()
         {
+            ViewBag.TimeZones = hotelService.FindTimeZones();
             return View(new HotelViewModel());
         }
 

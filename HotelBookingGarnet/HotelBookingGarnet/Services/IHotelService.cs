@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Utils;
 using HotelBookingGarnet.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ReflectionIT.Mvc.Paging;
 
 namespace HotelBookingGarnet.Services
@@ -18,5 +19,6 @@ namespace HotelBookingGarnet.Services
         Task<Hotel> FindHotelByName(string hotelName);
         Task<PagingList<Hotel>> FilterHotelsAsync(QueryParam queryParam);
         Task SetIndexImageAsync(long hotelId);
+        List<SelectListItem> FindTimeZones(); 
     }
 }

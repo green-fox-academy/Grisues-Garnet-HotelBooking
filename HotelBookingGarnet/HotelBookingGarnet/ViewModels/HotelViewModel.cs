@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using HotelBookingGarnet.Models;
 using Microsoft.AspNetCore.Http;
@@ -26,5 +27,6 @@ namespace HotelBookingGarnet.ViewModels
         public User User { get; set; }
         public IFormFileCollection Files { get; set; }
         public List<string> ErrorMessages { get; set; } = new List<string>();
+       
     }
 }
