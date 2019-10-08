@@ -2,7 +2,7 @@
 
     <form asp-controller="Hotel" asp-action="@ViewData["Action"]" method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label asp-for="@Model.HotelName">Hotle name</label>
+            <label asp-for="@Model.HotelName">Hotel name</label>
             <input type="text" asp-for="@Model.HotelName" class="form-control">
             <span asp-validation-for="@Model.HotelName" class="text-danger"></span>
         </div>
