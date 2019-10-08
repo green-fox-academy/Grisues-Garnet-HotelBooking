@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HotelBookingGarnet.Migrations
 {
-    public partial class CreateInitial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -195,6 +195,7 @@ namespace HotelBookingGarnet.Migrations
                     StarRating = table.Column<int>(nullable: false),
                     Price = table.Column<int>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
+                    Uri = table.Column<string>(nullable: true),
                     IsItAvailable = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -283,17 +284,17 @@ namespace HotelBookingGarnet.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "9144ae68-3454-491f-94fe-5a5f7ed9b5e2", "2d6b84d6-b882-4f9a-9f90-ab3acf74546f", "Admin", "ADMIN" });
+                values: new object[] { "f2572a44-4018-4b67-bc3a-6a620d2fb391", "18b9d0ae-965b-4cad-b63b-600cd910dec4", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "272d4700-2d8c-4963-bee3-8a2d74c96aff", "eb54c055-d45c-4b36-9980-30fd4db0ba7d", "Guest", "GUEST" });
+                values: new object[] { "02a4c0f5-7c7a-4dab-9154-612f3a526566", "44b6e613-97cf-4fee-8c83-db46dca77aa8", "Guest", "GUEST" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "41d0175f-7668-4bcc-88ba-941601c56c37", "a1c224b0-72c8-4ff7-a1a4-8f1e796e997d", "Hotel Manager", "HOTEL MANAGER" });
+                values: new object[] { "282e65e4-4318-4e85-b0e9-c7d9f8a9d963", "a4d6b4ab-8ef4-4c68-bd0b-7c79c3b99bda", "Hotel Manager", "HOTEL MANAGER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

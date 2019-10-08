@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HotelBookingGarnet.Models;
+﻿using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ReflectionIT.Mvc.Paging;
+using System;
 
 namespace HotelBookingGarnet
 {
@@ -45,6 +41,8 @@ namespace HotelBookingGarnet
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IHotelService, HotelService>();
             services.AddTransient<IPropertyTypeService, PropertyTypeService>();
+            services.AddTransient<IBlobService, BlobService>();
+            services.AddTransient<IImageService, ImageService>();
             services.AddTransient<IRoomService, RoomService>();
             services.AddTransient<IBedService, BedService>();
             services.AddTransient<IRoomBedService, RoomBedService>();
