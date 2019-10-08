@@ -26,6 +26,11 @@
                             AddHotel
                         </button>
                     </form>
+                    <form method="get" asp-action="MyHotels" asp-controller="Hotel">
+                        <button type="submit" class="nav-link btn btn-link py-0" style="width: auto">
+                            My Hotels
+                        </button>
+                    </form>
                 }
                 <form method="post" asp-action="Logout" asp-controller="Home">
                     <button type="submit" class="nav-link btn btn-link py-0" style="width: auto">
