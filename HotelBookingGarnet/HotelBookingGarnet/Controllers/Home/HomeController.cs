@@ -12,11 +12,13 @@ namespace HotelBookingGarnet.Controllers.Home
     {
         private readonly IHotelService hotelService;
         private readonly IUserService userService;
+        private readonly IImageService imageService;
 
-        public HomeController(IHotelService hotelService, IUserService userService)
+        public HomeController(IHotelService hotelService, IUserService userService, IImageService imageService)
         {
             this.hotelService = hotelService;
             this.userService = userService;
+            this.imageService = imageService;
         }
 
         [HttpGet("/")]
@@ -25,10 +27,10 @@ namespace HotelBookingGarnet.Controllers.Home
             var hotels = await hotelService.FilterHotelsAsync(queryParam);
             return View(new IndexViewModel
             {
-                PagingList =  hotels,
+                PagingList = hotels,
                 QueryParam = queryParam,
-                ActionName = nameof(Index)
-            });
+                ActionName = nameof(Index),
+            }); 
         }
 
         [HttpPost("/logout")]

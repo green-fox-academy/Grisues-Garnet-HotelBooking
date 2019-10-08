@@ -45,8 +45,13 @@
                 }
             </p>
         </div>
-
-        @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
+        <div class="imageBlock">
+            @foreach (var blob in @Model.FolderList)
+            {
+            <img src="@blob.Path" class="thumb"/>
+            }
+        </div>
+        @if (Model.User != null &&  (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
         {
             <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.Hotel.HotelId" method="get">
                 <button type="submit" class="btn btn-primary">Edit</button>

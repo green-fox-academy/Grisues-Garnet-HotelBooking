@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using HotelBookingGarnet.Controllers.Home;
+using Microsoft.WindowsAzure.Storage;
 
 namespace HotelBookingGarnet.Controllers.Hotel
 {
@@ -17,16 +18,20 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IHotelService hotelService;
         private readonly UserManager<User> userManager;
         private readonly IPropertyTypeService propertyTypeService;
+        private readonly IImageService imageService;
         private readonly IRoomService roomService;
         private readonly IBedService bedService;
         private readonly IRoomBedService roomBedService;
         private readonly IHotelPropertyTypeService hotelPropertyTypeService;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IPropertyTypeService propertyTypeService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IHotelPropertyTypeService hotelPropertyTypeService)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IPropertyTypeService propertyTypeService,
+            IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, 
+            IHotelPropertyTypeService hotelPropertyTypeService)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
             this.propertyTypeService = propertyTypeService;
+            this.imageService = imageService;
             this.roomService = roomService;
             this.bedService = bedService;
             this.roomBedService = roomBedService;
@@ -38,11 +43,12 @@ namespace HotelBookingGarnet.Controllers.Hotel
         public async Task<IActionResult> HotelInfo(long hotelId)
         { 
             var currentUser = await userManager.GetUserAsync(HttpContext.User); 
+            var blobsUri = await imageService.ListAsync(hotelId);
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
             var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
             var roomBeds = roomBedService.GetRoomBeds();
             ViewData["propertyType"] = property.PropertyType.Type;
-            return View(new IndexViewModel { User = currentUser, Hotel = hotel, RoomBeds = roomBeds});
+            return View(new IndexViewModel { User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri });
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]
@@ -72,8 +78,18 @@ namespace HotelBookingGarnet.Controllers.Hotel
         public async Task<IActionResult> EditHotel(HotelViewModel editHotel, long hotelId)
         {
             if (ModelState.IsValid)
-            { 
+            {
                 await hotelService.EditHotelAsync(hotelId, editHotel);
+                if (editHotel.Files != null)
+                {
+                    var errors = imageService.Validate(editHotel.Files, editHotel);
+                    if (errors.Count != 0)
+                    {
+                        return View(editHotel);
+                    }
+                    await imageService.UploadAsync(editHotel.Files, hotelId);
+                    await hotelService.SetIndexImageAsync(hotelId);
+                }
                 await hotelPropertyTypeService.EditPropertyTypeAsync(hotelId, editHotel.PropertyType);
                 return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new {hotelId});
             }
@@ -92,10 +108,20 @@ namespace HotelBookingGarnet.Controllers.Hotel
         public async Task<IActionResult> AddHotel(HotelViewModel newHotel)
         {
             if (ModelState.IsValid)
-            { 
+            {
                 var currentUser = await userManager.GetUserAsync(HttpContext.User); 
-                await hotelService.AddHotelAsync(newHotel, currentUser.Id); 
-                return RedirectToAction(nameof(HomeController.Index),"Home");
+                var hotelId = await hotelService.AddHotelAsync(newHotel, currentUser.Id);
+                if (newHotel.Files != null)
+                {
+                    var errors = imageService.Validate(newHotel.Files, newHotel);
+                    if (errors.Count != 0)
+                    {
+                        return View(newHotel);
+                    }
+                    await imageService.UploadAsync(newHotel.Files, hotelId);
+                    await hotelService.SetIndexImageAsync(hotelId);
+                }
+                return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new { hotelId });
             }
             return View(newHotel);
         }
@@ -140,6 +166,12 @@ namespace HotelBookingGarnet.Controllers.Hotel
             }
             
             return View(newBed);
+        }
+        [Authorize(Roles = "Guest")]
+        [HttpGet("/myreservation")]
+        public IActionResult MyReservation()
+        {
+            return View();
         }
     }
 }
