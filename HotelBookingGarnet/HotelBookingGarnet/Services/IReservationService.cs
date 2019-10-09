@@ -9,5 +9,7 @@ namespace HotelBookingGarnet.Services
    public interface IReservationService
     {
         Task<List<Reservation>> FindReservationByIdAsync(String UserId);
+
+        void DeleteReservationById(long ReservationId);
     }
 }

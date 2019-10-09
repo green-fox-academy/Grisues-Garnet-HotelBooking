@@ -119,5 +119,13 @@ namespace HotelBookingGarnet.Services
             applicationContext.Hotels.Update(hotel);
             await applicationContext.SaveChangesAsync();
         }
+
+        public List<Hotel> ListMyHotels(string userId)
+        {
+            var myHotels = applicationContext.Hotels.Include(h => h.Rooms)
+                .Include(h => h.HotelPropertyTypes)
+                .Where(h => h.UserId == userId).AsQueryable().OrderBy(h => h.HotelName).ToList();
+            return myHotels;
+        }
     }
 }

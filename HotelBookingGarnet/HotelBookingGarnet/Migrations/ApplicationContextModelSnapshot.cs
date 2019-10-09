@@ -103,6 +103,10 @@ namespace HotelBookingGarnet.Migrations
 
                     b.Property<string>("PhoneNumber");
 
+                    b.Property<DateTime>("ReservationEnd");
+
+                    b.Property<DateTime>("ReservationStart");
+
                     b.Property<long>("RoomId");
 
                     b.Property<int>("TotalPrice");
@@ -230,22 +234,22 @@ namespace HotelBookingGarnet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "af58dc39-affd-494b-8dd6-499dc83e20e4",
-                            ConcurrencyStamp = "c67f64ec-d3ee-4e83-a36d-166770db4111",
+                            Id = "98641e8e-4428-4a1a-b1cb-ec84cffb5319",
+                            ConcurrencyStamp = "18de97d6-79fb-4c77-a2da-4a6e293e0ab0",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d332223f-3580-49d7-a40a-e45ea415ec6c",
-                            ConcurrencyStamp = "b0b6244c-09a5-4e6d-b44a-5e259b9e3b33",
+                            Id = "bd429fb2-21ad-4f10-abf0-80d1d59f1999",
+                            ConcurrencyStamp = "0f517bc0-5458-456a-ba98-4655586d70ba",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "f2906ac9-5611-4e8d-bc27-470de5836c2c",
-                            ConcurrencyStamp = "9c73e18f-b348-4760-8d17-5e78adce7be6",
+                            Id = "7d8423c8-4694-404a-8004-21fd0bb5040a",
+                            ConcurrencyStamp = "ba5fa30f-39e5-4ef2-a89a-06f3fdecad0f",
                             Name = "Hotel Manager",
                             NormalizedName = "HOTEL MANAGER"
                         });

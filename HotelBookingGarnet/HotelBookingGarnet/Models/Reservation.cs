@@ -11,8 +11,8 @@ namespace HotelBookingGarnet.Models
         public string PhoneNumber { get; set; }
         public string NameOfGuests { get; set; }
         public long RoomId { get; set; }
-        //public DateTime ReservationStart { get; set; }
-        //public DateTime ReservationEnd { get; set; }
+        public DateTime ReservationStart { get; set; }
+        public DateTime ReservationEnd { get; set; }
         public string UserId { get; set; }
         public long HotelId { get; set; }
     }

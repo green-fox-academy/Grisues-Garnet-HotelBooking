@@ -34,8 +34,14 @@ namespace HotelBookingGarnet.Controllers
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             var reservations = await reservationService.FindReservationByIdAsync(currentUser.Id);
             var hotel =  hotelService.GetHotels();
-            return View(new IndexViewModel { Reservation = reservations, HotelList = hotel });
+            return View(new IndexViewModel { Reservations = reservations, HotelList = hotel });
 
+        }
+        [HttpPost("/cancelreservation/{reservationId}")]
+        public IActionResult CancelReservation(long ReservationId)
+        {
+            reservationService.DeleteReservationById(ReservationId);
+            return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation" );
         }
     }
 }

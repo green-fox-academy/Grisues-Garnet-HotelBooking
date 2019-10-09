@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingGarnet.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191008130910_asda")]
-    partial class asda
+    [Migration("20191009090401_a")]
+    partial class a
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -236,22 +236,22 @@ namespace HotelBookingGarnet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3b02a9b9-0773-4512-85df-1454df966ea9",
-                            ConcurrencyStamp = "6f74388c-eaed-4903-b99a-11085ec8e327",
+                            Id = "98641e8e-4428-4a1a-b1cb-ec84cffb5319",
+                            ConcurrencyStamp = "18de97d6-79fb-4c77-a2da-4a6e293e0ab0",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "3bd060b8-66c7-4f0d-9ab7-5d9c94761c5f",
-                            ConcurrencyStamp = "c4c6bae2-131f-4d28-a8ee-3805e19af2d4",
+                            Id = "bd429fb2-21ad-4f10-abf0-80d1d59f1999",
+                            ConcurrencyStamp = "0f517bc0-5458-456a-ba98-4655586d70ba",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "95bac20d-e379-4eb6-ae99-4f829c71078e",
-                            ConcurrencyStamp = "77740ab9-0342-4eee-af15-f4a3d9cf1c9c",
+                            Id = "7d8423c8-4694-404a-8004-21fd0bb5040a",
+                            ConcurrencyStamp = "ba5fa30f-39e5-4ef2-a89a-06f3fdecad0f",
                             Name = "Hotel Manager",
                             NormalizedName = "HOTEL MANAGER"
                         });

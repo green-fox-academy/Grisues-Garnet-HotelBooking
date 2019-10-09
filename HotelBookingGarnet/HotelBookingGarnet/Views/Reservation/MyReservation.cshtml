@@ -10,16 +10,18 @@
 <table class="table">
     <tr>
         <th>Reservation Start</th>
+        <th>Reservation End</th>
         <th>Hotel</th>
         <th>Number of Guests</th>
         <th>Total price</th>
         <th>Name of Guests</th>
     </tr>
-    @foreach (var reservation in @Model.Reservation)
+    @foreach (var reservation in @Model.Reservations)
     {
         @foreach (var hotel in Model.HotelList)
         {<tr>
-              <td>Valamikor réges régen...</td>
+              <td>@reservation.ReservationStart</td>
+              <td>@reservation.ReservationEnd</td>
              @if (reservation.HotelId == hotel.HotelId)
              {
               <td>@hotel.HotelName</td>
@@ -27,6 +29,11 @@
               <td>@reservation.NumberOfGuest</td>
               <td>@reservation.TotalPrice ft</td>
               <td>@reservation.NameOfGuests</td>
+              <td>
+                  <form asp-controller="Reservation" asp-action="CancelReservation" asp-route-ReservationId="@reservation.ReservationId" method="post">
+                      <button type="submit" class="btn btn-primary">Cancel</button>
+                  </form>
+              </td>
         </tr>
         }
     }
