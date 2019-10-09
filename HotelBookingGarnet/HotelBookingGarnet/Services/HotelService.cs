@@ -117,16 +117,5 @@ namespace HotelBookingGarnet.Services
             applicationContext.Hotels.Update(hotel);
             await applicationContext.SaveChangesAsync();
         }
-
-        public List<SelectListItem> FindTimeZones()
-        {
-            var timeZones = TimeZoneInfo.GetSystemTimeZones();
-            List<SelectListItem> items = new List<SelectListItem>();
-            foreach (var timeZone in timeZones)
-            { 
-                items.Add(new SelectListItem() {Text = timeZone.Id});
-            }
-            return items;
-        }
     }
 }
