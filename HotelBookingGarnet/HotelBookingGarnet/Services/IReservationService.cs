@@ -8,8 +8,8 @@ namespace HotelBookingGarnet.Services
 {
    public interface IReservationService
     {
-        Task<List<Reservation>> FindReservationByIdAsync(String UserId);
+        Task<List<Reservation>> FindReservationByIdAsync(string userId);
 
-        void DeleteReservationById(long ReservationId);
+        void DeleteReservationById(long reservationId);
     }
 }

@@ -16,16 +16,16 @@ namespace HotelBookingGarnet.Services
             this.applicationContext = applicationContext;
         }
 
-        public void DeleteReservationById(long ReservationId)
+        public void DeleteReservationById(long reservationId)
         {
-            var reservation = applicationContext.Reservation.FirstOrDefault(r => r.ReservationId == ReservationId);
-            applicationContext.Reservation.Remove(reservation);
+            var reservation = applicationContext.Reservations.FirstOrDefault(r => r.ReservationId == reservationId);
+            applicationContext.Reservations.Remove(reservation);
             applicationContext.SaveChanges();
         }
 
         public async Task<List<Reservation>> FindReservationByIdAsync(string userId)
         {
-            var reservations = await applicationContext.Reservation.Where(a => a.UserId == userId).ToListAsync();
+            var reservations = await applicationContext.Reservations.Where(a => a.UserId == userId).ToListAsync();
             return reservations;
 
         }

@@ -17,14 +17,12 @@ namespace HotelBookingGarnet.Controllers
         private readonly IReservationService reservationService;
         private readonly UserManager<User> userManager;
         private readonly IHotelService hotelService;
-        private readonly IRoomService roomService;
 
-        public ReservationController(IReservationService reservationService, UserManager<User> userManager, IHotelService hotelService, IRoomService roomService)
+        public ReservationController(IReservationService reservationService, UserManager<User> userManager, IHotelService hotelService)
         {
             this.reservationService = reservationService;
             this.userManager = userManager;
             this.hotelService = hotelService;
-            this.roomService = roomService;
         }
 
         [Authorize(Roles = "Guest")]
@@ -33,7 +31,7 @@ namespace HotelBookingGarnet.Controllers
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             var reservations = await reservationService.FindReservationByIdAsync(currentUser.Id);
-            var hotel =  hotelService.GetHotels();
+            var hotel = hotelService.GetHotels();
             return View(new IndexViewModel { Reservations = reservations, HotelList = hotel });
 
         }
