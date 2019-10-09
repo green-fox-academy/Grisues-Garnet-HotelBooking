@@ -19,6 +19,14 @@
         <ul class="navbar-nav ml-auto">
             @if (SignInManager.IsSignedIn(User))
             {
+                if (User.IsInRole("Guest"))
+                {
+                    <form method="get" asp-action="MyReservation" asp-controller="Reservation">
+                        <button type="submit" class="nav-link btn btn-link py-0" style="width: auto">
+                            My Reservation
+                        </button>
+                    </form>
+                }
                 if (!User.IsInRole("Guest"))
                 {
                     <form method="get" asp-action="AddHotel" asp-controller="Hotel">
