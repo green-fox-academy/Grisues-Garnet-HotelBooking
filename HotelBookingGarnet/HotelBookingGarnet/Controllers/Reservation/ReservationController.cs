@@ -13,15 +13,14 @@ namespace HotelBookingGarnet.Controllers
 {
     public class ReservationController : Controller
     {
-
-        private readonly IReservationService reservationService;
         private readonly UserManager<User> userManager;
+        private readonly IReservationService reservationService;
         private readonly IHotelService hotelService;
 
-        public ReservationController(IReservationService reservationService, UserManager<User> userManager, IHotelService hotelService)
+        public ReservationController(UserManager<User> userManager, IReservationService reservationService, IHotelService hotelService)
         {
-            this.reservationService = reservationService;
             this.userManager = userManager;
+            this.reservationService = reservationService;
             this.hotelService = hotelService;
         }
 
@@ -36,10 +35,21 @@ namespace HotelBookingGarnet.Controllers
 
         }
         [HttpPost("/cancelreservation/{reservationId}")]
-        public IActionResult CancelReservation(long ReservationId)
+        public async Task<IActionResult> CancelReservation(long reservationId)
         {
-            reservationService.DeleteReservationById(ReservationId);
+            await reservationService.DeleteReservationById(reservationId);
             return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation" );
+        }
+
+        [Authorize(Roles = "Hotel Manager, Admin")]
+        [HttpGet("/hotelReservation/{hotelId}")]
+        public async Task<IActionResult> HotelReservation(long hotelId)
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            var hotelReservations = await reservationService.FindReservationByHotelIdAsync(hotelId);
+            var hotel = await hotelService.FindHotelByIdAsync(hotelId);
+            
+            return View(new IndexViewModel{Reservations = hotelReservations, Hotel = hotel, User = currentUser});
         }
     }
 }
