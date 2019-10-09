@@ -1,0 +1,40 @@
+﻿@model List<Hotel>
+
+    <h1>@localizer["My Hotels"]</h1>
+
+<table class="table">
+    <tr>
+        <th></th>
+        <th>@localizer["Hotel name"]</th>
+        <th>@localizer["Description"]</th>
+        <th>@localizer["Price/Night"]</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (var hotel in Model)
+    {
+        <tr>
+            @if (hotel.Uri == null)
+            {
+                <td><img src="/images/defaultpic.png" class="thumb"/></td>
+            }
+            else
+            {
+                <td><img src="@hotel.Uri" class="thumb"/></td>
+            }
+            <td>@hotel.HotelName</td>
+            <td>@hotel.City</td>
+            <td>@hotel.Price</td>
+            <td>
+                <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
+                    <button type="submit" class="btn btn-primary">@localizer["More Info"]</button>
+                </form>
+            </td>
+            <td>
+                <form asp-controller="Reservation" asp-action="HotelReservation" asp-route-HotelId="@hotel.HotelId" method="get">
+                    <button type="submit" class="btn btn-warning btn-sm">@localizer["See upcoming reservations"]</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

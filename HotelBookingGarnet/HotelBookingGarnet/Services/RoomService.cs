@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.EntityFrameworkCore;
@@ -11,25 +12,21 @@ namespace HotelBookingGarnet.Services
     {
         private readonly ApplicationContext applicationContext;
         private readonly IHotelService hotelService;
+        private readonly IMapper mapper;
 
-        public RoomService(ApplicationContext applicationContext, IHotelService hotelService)
+        public RoomService(ApplicationContext applicationContext, IHotelService hotelService, IMapper mapper)
         {
             this.applicationContext = applicationContext;
             this.hotelService = hotelService;
+            this.mapper = mapper;
         }
 
         public async Task AddRoomAsync(RoomViewModel newRoom, long hotelId)
         {
-            var room = new Room
-            {
-                RoomName = newRoom.RoomName,
-                Price = newRoom.Price,
-                NumberOfGuests = newRoom.NumberOfGuests,
-                NumberOfRooms = newRoom.NumberOfRooms,
-                HotelId = hotelId,
-                NumberOfAvailablePlaces = newRoom.NumberOfGuests * newRoom.NumberOfRooms
-            };
-
+            var room = mapper.Map<RoomViewModel, Room>(newRoom);
+            room.HotelId = hotelId;
+            room.NumberOfAvailablePlaces = newRoom.NumberOfGuests * newRoom.NumberOfRooms;
+            
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
             if (hotel.Price > room.Price || hotel.Price == 0)
             {
@@ -43,7 +40,8 @@ namespace HotelBookingGarnet.Services
 
         public async Task<Room> FindRoomByIdAsync(long roomId)
         {
-            var room = await applicationContext.Rooms.Include(a => a.RoomBeds).FirstOrDefaultAsync(a => a.RoomId == roomId);
+            var room = await applicationContext.Rooms.Include(a => a.RoomBeds)
+                .FirstOrDefaultAsync(a => a.RoomId == roomId);
             return room;
         }
     }

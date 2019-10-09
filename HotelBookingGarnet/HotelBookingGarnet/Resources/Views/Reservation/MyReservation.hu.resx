@@ -117,22 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddHotel" xml:space="preserve">
-    <value>Hotel hozzáadása</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>Vissza</value>
   </data>
-  <data name="Login" xml:space="preserve">
-    <value>Bejelentkezés</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Kijelentkezés</value>
-  </data>
-  <data name="My Hotels" xml:space="preserve">
-    <value>Saját Hotelek</value>
-  </data>
-  <data name="My Reservation" xml:space="preserve">
+  <data name="MyReservation" xml:space="preserve">
     <value>Foglalásaim</value>
   </data>
-  <data name="Register" xml:space="preserve">
-    <value>Regisztráció</value>
+  <data name="Name of Guests" xml:space="preserve">
+    <value>Vendégek Neve</value>
+  </data>
+  <data name="Number of Guests" xml:space="preserve">
+    <value>Vendégek Száma</value>
+  </data>
+  <data name="Reservation End" xml:space="preserve">
+    <value>Foglalás Vége</value>
+  </data>
+  <data name="Reservation Start" xml:space="preserve">
+    <value>Foglalás Kezdete</value>
+  </data>
+  <data name="Total price" xml:space="preserve">
+    <value>Teljes ár</value>
   </data>
 </root>

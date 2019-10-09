@@ -1,0 +1,41 @@
+﻿@model IndexViewModel
+
+@{
+    ViewData["Title"] =@localizer["MyReservation"];
+}
+
+    <h1>@localizer["MyReservation"]</h1>
+
+<table class="table">
+    <tr>
+        <th>@localizer["Reservation Start"]</th>
+        <th>@localizer["Reservation End"]</th>
+        <th>Hotel</th>
+        <th>@localizer["Number of Guests"]</th>
+        <th>@localizer["Total price"]</th>
+        <th>@localizer["Name of Guests"]</th>
+    </tr>
+    @foreach (var reservation in @Model.Reservations)
+    {
+        @foreach (var hotel in Model.HotelList)
+        {<tr>
+         <td>@reservation.ReservationStart</td>
+         <td>@reservation.ReservationEnd</td>
+    @if (reservation.HotelId == hotel.HotelId)
+    {
+        <td>@hotel.HotelName</td>
+    }
+        <td>@reservation.NumberOfGuest</td>
+        <td>@reservation.TotalPrice ft</td>
+    @if (reservation.ReservationStart > DateTime.Now.AddDays(+1))
+    {
+        <td>
+            <form asp-controller="Reservation" asp-action="CancelReservation" asp-route-ReservationId="@reservation.ReservationId" method="post">
+                <button type="submit" class="btn btn-primary">@localizer["Cancel"]</button>
+            </form>
+        </td>
+    }
+    </tr>
+        }
+    }
+</table>

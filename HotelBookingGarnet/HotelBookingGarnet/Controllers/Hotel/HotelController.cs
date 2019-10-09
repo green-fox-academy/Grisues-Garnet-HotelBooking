@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
@@ -19,25 +20,23 @@ namespace HotelBookingGarnet.Controllers.Hotel
     {
         private readonly IHotelService hotelService;
         private readonly UserManager<User> userManager;
-        private readonly IPropertyTypeService propertyTypeService;
         private readonly IImageService imageService;
         private readonly IRoomService roomService;
         private readonly IBedService bedService;
         private readonly IRoomBedService roomBedService;
         private readonly IHotelPropertyTypeService hotelPropertyTypeService;
+        private readonly IMapper mapper;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IPropertyTypeService propertyTypeService,
-            IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, 
-            IHotelPropertyTypeService hotelPropertyTypeService)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IHotelPropertyTypeService hotelPropertyTypeService, IMapper mapper)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
-            this.propertyTypeService = propertyTypeService;
             this.imageService = imageService;
             this.roomService = roomService;
             this.bedService = bedService;
             this.roomBedService = roomBedService;
             this.hotelPropertyTypeService = hotelPropertyTypeService;
+            this.mapper = mapper;
         }
 
         [AllowAnonymous]
@@ -60,18 +59,10 @@ namespace HotelBookingGarnet.Controllers.Hotel
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
-            var hotelViewModel = new HotelViewModel();
+            var hotelViewModel = mapper.Map<Models.Hotel, HotelViewModel>(hotel);
             hotelViewModel.User = currentUser;
             ViewData["hotelId"] = hotel.HotelId;
-            hotelViewModel.Address = hotel.Address;
-            hotelViewModel.City = hotel.City;
-            hotelViewModel.Country = hotel.Country;
-            hotelViewModel.Description = hotel.Description;
-            hotelViewModel.Region = hotel.Region;
-            hotelViewModel.HotelName = hotel.HotelName;
             hotelViewModel.PropertyType = property.PropertyType.Type;
-            
-            hotelViewModel.StarRating = hotel.StarRating;
             return View(hotelViewModel);
         }
         
@@ -189,6 +180,15 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddDays(1) });
 
             return LocalRedirect(returnUrl);
+        }
+       
+        [Authorize(Roles = "Hotel Manager")]
+        [HttpGet("/myhotels")]
+        public async Task<IActionResult> MyHotels()
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            var myHotels = await hotelService.ListMyHotels(currentUser.Id);
+            return View(myHotels);
         }
     }
 }

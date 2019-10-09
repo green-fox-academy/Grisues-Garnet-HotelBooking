@@ -104,6 +104,11 @@
                                 <a asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@Model.Hotel.HotelId" asp-route-roomId="@room.RoomId">@localizer["+ add bed"]</a>
                             }
                         </td>
+                        <td>
+                            <form asp-controller="Reservation" asp-action="AddReservation" asp-route-roomId="@room.RoomId" method="get">
+                                <button type="submit" class="btn btn-warning">Reserve Room</button>
+                            </form>
+                        </td>
                     </tr>
                 }
             </table>
