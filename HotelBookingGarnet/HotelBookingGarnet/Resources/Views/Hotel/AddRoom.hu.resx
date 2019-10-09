@@ -120,8 +120,8 @@
   <data name="Add room to your hotel" xml:space="preserve">
     <value>Szoba hozzáadása a hoteledhez</value>
   </data>
-  <data name="Add Room:" xml:space="preserve">
-    <value>Szoba hozzáadása:</value>
+  <data name="Add Room" xml:space="preserve">
+    <value>Szoba hozzáadása</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Vissza</value>

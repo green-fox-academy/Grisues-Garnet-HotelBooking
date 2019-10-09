@@ -101,7 +101,7 @@ namespace HotelBookingGarnet.Services
                 }
                 else
                 {
-                newHotel.ErrorMessages.Add("Please add only image formats!");
+                newHotel.ErrorMessages.Add("Please add only jpg or png formats!");
                 return newHotel.ErrorMessages;
                 }
             }

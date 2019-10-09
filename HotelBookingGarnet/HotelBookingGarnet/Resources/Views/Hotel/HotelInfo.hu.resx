@@ -162,10 +162,28 @@
   <data name="Room name" xml:space="preserve">
     <value>Szoba neve</value>
   </data>
+  <data name="single bed" xml:space="preserve">
+    <value>egyszemélyes ágy</value>
+  </data>
+  <data name="sofa bed" xml:space="preserve">
+    <value>pótágy</value>
+  </data>
   <data name="Star Rating" xml:space="preserve">
     <value>Értékelés</value>
   </data>
+  <data name="twin bed" xml:space="preserve">
+    <value>kétszemélyes ágy</value>
+  </data>
+  <data name="Type of bed" xml:space="preserve">
+    <value>Ágy típusa</value>
+  </data>
   <data name="Unknown" xml:space="preserve">
     <value>Hiányzó adat</value>
+  </data>
+  <data name="full bed" xml:space="preserve">
+    <value>francia ágy</value>
+  </data>
+  <data name="s" xml:space="preserve">
+    <value />
   </data>
 </root>

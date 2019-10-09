@@ -117,55 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Address" xml:space="preserve">
-    <value>Cím</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Vissza</value>
-  </data>
-  <data name="City" xml:space="preserve">
-    <value>Város</value>
-  </data>
-  <data name="Country" xml:space="preserve">
-    <value>Ország</value>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Leírás</value>
-  </data>
-  <data name="Five star" xml:space="preserve">
-    <value>Öt csillagos</value>
-  </data>
-  <data name="Four star" xml:space="preserve">
-    <value>Négy csillagos</value>
-  </data>
-  <data name="Hotel name" xml:space="preserve">
-    <value>Hotel neve</value>
-  </data>
-  <data name="None" xml:space="preserve">
-    <value>Besorolás nélküli</value>
-  </data>
-  <data name="One star" xml:space="preserve">
-    <value>Egy csillagos</value>
-  </data>
-  <data name="Please add only jpg or png formats!" xml:space="preserve">
-    <value>A kép csak jpg vagy png formátum lehet!</value>
-  </data>
-  <data name="Property type" xml:space="preserve">
-    <value>Típus</value>
-  </data>
-  <data name="Region" xml:space="preserve">
-    <value>Régió</value>
-  </data>
-  <data name="Stars" xml:space="preserve">
-    <value>Besorolás</value>
-  </data>
-  <data name="The image max 4 MB" xml:space="preserve">
-    <value>A kép maximum 4 MB lehet</value>
-  </data>
-  <data name="Three star" xml:space="preserve">
-    <value>Három csillagos</value>
-  </data>
-  <data name="Two star" xml:space="preserve">
-    <value>Két csillagos</value>
+  <data name="The RoomName field is required." xml:space="preserve">
+    <value>A Szoba neve mező kitöltése kötelező.</value>
   </data>
 </root>

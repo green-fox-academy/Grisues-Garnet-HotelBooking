@@ -90,7 +90,7 @@
                                     <span>@bed.Bed.NumberOfBeds</span>
                                     @if (@bed.Bed.NumberOfBeds > 1)
                                     {
-                                        <span>@(bed.Bed.BedType+"s")</span>
+                                        <span>@localizer[@bed.Bed.BedType]<span>@localizer["s"]</span></span>
                                     }
                                     else
                                     {
