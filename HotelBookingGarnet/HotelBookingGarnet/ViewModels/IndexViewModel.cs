@@ -15,6 +15,6 @@ namespace HotelBookingGarnet.ViewModels
         public List<ImageDetails> FolderList { get; set; }
         public string ActionName { get; set; }
         public List<RoomBed> RoomBeds { get; set; }
-
+        public List<Reservation> Reservations { get; set; }
     }
 }

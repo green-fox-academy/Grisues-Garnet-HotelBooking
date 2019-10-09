@@ -178,7 +178,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
         public async Task<IActionResult> MyHotels()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            var myHotels = hotelService.ListMyHotels(currentUser.Id);
+            var myHotels = await hotelService.ListMyHotels(currentUser.Id);
             return View(myHotels);
         }
     }

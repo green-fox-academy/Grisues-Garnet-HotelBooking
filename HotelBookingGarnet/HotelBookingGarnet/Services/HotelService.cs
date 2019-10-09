@@ -120,11 +120,11 @@ namespace HotelBookingGarnet.Services
             await applicationContext.SaveChangesAsync();
         }
 
-        public List<Hotel> ListMyHotels(string userId)
+        public async Task<List<Hotel>> ListMyHotels(string userId)
         {
-            var myHotels = applicationContext.Hotels.Include(h => h.Rooms)
+            var myHotels = await applicationContext.Hotels.Include(h => h.Rooms)
                 .Include(h => h.HotelPropertyTypes)
-                .Where(h => h.UserId == userId).AsQueryable().OrderBy(h => h.HotelName).ToList();
+                .Where(h => h.UserId == userId).AsQueryable().OrderBy(h => h.HotelName).ToListAsync();
             return myHotels;
         }
     }

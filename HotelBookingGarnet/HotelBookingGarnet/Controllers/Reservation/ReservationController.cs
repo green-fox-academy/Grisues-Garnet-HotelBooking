@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
+using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,10 +12,14 @@ namespace HotelBookingGarnet.Controllers.Reservation
     public class ReservationController : Controller
     {
         private readonly UserManager<User> userManager;
+        private readonly IReservationService reservationService;
+        private readonly IHotelService hotelService;
 
-        public ReservationController(UserManager<User> userManager)
+        public ReservationController(UserManager<User> userManager, IReservationService reservationService, IHotelService hotelService)
         {
             this.userManager = userManager;
+            this.reservationService = reservationService;
+            this.hotelService = hotelService;
         }
 
         [HttpGet("/newReservation/{roomId}")]
@@ -34,8 +39,15 @@ namespace HotelBookingGarnet.Controllers.Reservation
             }
             return View(newReservation);
         }
-        
+        [Authorize(Roles = "Hotel Manager, Admin")]
+        [HttpGet("/hotelReservation/{hotelId}")]
+        public async Task<IActionResult> HotelReservation(long hotelId)
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            var hotelReservations = await reservationService.FindReservationByHotelIdAsync(hotelId);
+            var hotel = await hotelService.FindHotelByIdAsync(hotelId);
+            
+            return View(new IndexViewModel{Reservations = hotelReservations, Hotel = hotel, User = currentUser});
+        }
     }
-    
-    
 }
