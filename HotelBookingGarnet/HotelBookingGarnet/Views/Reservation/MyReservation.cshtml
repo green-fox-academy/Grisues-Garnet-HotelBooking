@@ -1,4 +1,4 @@
-﻿@model List<Reservation>
+﻿@model IndexViewModel
 
 @{
     ViewData["Title"] = "MyReservation";
@@ -11,14 +11,23 @@
     <tr>
         <th>Reservation Start</th>
         <th>Hotel</th>
-        <th>More info</th>
+        <th>Number of Guests</th>
+        <th>Total price</th>
+        <th>Name of Guests</th>
     </tr>
-    @foreach (var reservation in @Model)
+    @foreach (var reservation in @Model.Reservation)
     {
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+        @foreach (var hotel in Model.HotelList)
+        {<tr>
+              <td>Valamikor réges régen...</td>
+             @if (reservation.HotelId == hotel.HotelId)
+             {
+              <td>@hotel.HotelName</td>
+         }
+              <td>@reservation.NumberOfGuest</td>
+              <td>@reservation.TotalPrice ft</td>
+              <td>@reservation.NameOfGuests</td>
         </tr>
+        }
     }
 </table>

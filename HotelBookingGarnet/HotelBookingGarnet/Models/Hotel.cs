@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace HotelBookingGarnet.Models
@@ -21,5 +22,9 @@ namespace HotelBookingGarnet.Models
 
         public List<Reservation> HotelReservations { get; set; }
 
+        public static implicit operator Hotel(List<Hotel> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
