@@ -1,15 +1,13 @@
-﻿using HotelBookingGarnet.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using HotelBookingGarnet.Models;
 
 namespace HotelBookingGarnet.Services
 {
-   public interface IReservationService
+    public interface IReservationService
     {
+        Task<List<Reservation>> FindReservationByHotelIdAsync(long hotelId);
         Task<List<Reservation>> FindReservationByIdAsync(string userId);
-
-        void DeleteReservationById(long reservationId);
+        Task DeleteReservationById(long reservationId);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+using System.Collections.Generic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,16 +10,25 @@ namespace HotelBookingGarnet.Services
 {
     public class ReservationService : IReservationService
     {
-        protected readonly ApplicationContext applicationContext;
+        private readonly ApplicationContext applicationContext;
 
         public ReservationService(ApplicationContext applicationContext)
         {
             this.applicationContext = applicationContext;
         }
 
-        public void DeleteReservationById(long reservationId)
+        public async Task<List<Reservation>> FindReservationByHotelIdAsync(long hotelId)
         {
-            var reservation = applicationContext.Reservations.FirstOrDefault(r => r.ReservationId == reservationId);
+            var hotelReservations = await applicationContext.Reservations.Include(r => r.RoomId)
+                .Where(r => r.HotelId == hotelId).ToListAsync();
+
+            return hotelReservations;
+        }
+
+        public async Task DeleteReservationById(long reservationId)
+        {
+            var reservation =
+                await applicationContext.Reservations.FirstOrDefaultAsync(r => r.ReservationId == reservationId);
             applicationContext.Reservations.Remove(reservation);
             applicationContext.SaveChanges();
         }
@@ -26,8 +36,8 @@ namespace HotelBookingGarnet.Services
         public async Task<List<Reservation>> FindReservationByIdAsync(string userId)
         {
             var reservations = await applicationContext.Reservations.Where(a => a.UserId == userId).ToListAsync();
-            return reservations;
 
+            return reservations;
         }
     }
 }
