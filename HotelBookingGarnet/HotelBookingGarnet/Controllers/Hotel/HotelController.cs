@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using HotelBookingGarnet.Controllers.Home;
 using Microsoft.WindowsAzure.Storage;
+using AutoMapper;
 
 namespace HotelBookingGarnet.Controllers.Hotel
 {
