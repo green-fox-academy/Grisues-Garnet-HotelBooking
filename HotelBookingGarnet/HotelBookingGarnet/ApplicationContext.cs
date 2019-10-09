@@ -15,7 +15,7 @@ namespace HotelBookingGarnet
         public DbSet<Room> Rooms { get; set; }
         public DbSet<HotelPropertyType> HotelPropertyType { get; set; }
         public DbSet<RoomBed> RoomBed { get; set; }
-        public DbSet<Reservation> Reservation { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
 
         public ApplicationContext(DbContextOptions options) : base(options)
         {
