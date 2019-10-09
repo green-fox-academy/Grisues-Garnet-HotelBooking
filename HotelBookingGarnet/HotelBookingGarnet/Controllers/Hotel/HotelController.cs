@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using HotelBookingGarnet.Controllers.Home;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.WindowsAzure.Storage;
 
 namespace HotelBookingGarnet.Controllers.Hotel
@@ -23,9 +24,12 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IBedService bedService;
         private readonly IRoomBedService roomBedService;
         private readonly IHotelPropertyTypeService hotelPropertyTypeService;
+        private readonly IDateTimeService dateTimeService;
         private readonly IMapper mapper;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IHotelPropertyTypeService hotelPropertyTypeService, IMapper mapper)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService, 
+            IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IDateTimeService dateTimeService, 
+            IHotelPropertyTypeService hotelPropertyTypeService, IMapper mapper)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
@@ -34,6 +38,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             this.bedService = bedService;
             this.roomBedService = roomBedService;
             this.hotelPropertyTypeService = hotelPropertyTypeService;
+            this.dateTimeService = dateTimeService;
             this.mapper = mapper;
         }
 
@@ -61,6 +66,8 @@ namespace HotelBookingGarnet.Controllers.Hotel
             hotelViewModel.User = currentUser;
             ViewData["hotelId"] = hotel.HotelId;
             hotelViewModel.PropertyType = property.PropertyType.Type;
+            hotelViewModel.StarRating = hotel.StarRating;
+            ViewBag.TimeZones = dateTimeService.FindTimeZones();
             return View(hotelViewModel);
         }
         
@@ -91,6 +98,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
         [HttpGet("/addhotel")]
         public IActionResult AddHotel()
         {
+            ViewBag.TimeZones = dateTimeService.FindTimeZones();
             return View(new HotelViewModel());
         }
 
@@ -155,7 +163,6 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 await bedService.AddBedAsync(newBed, roomId);
                 return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new {hotelId});
             }
-            
             return View(newBed);
         }
        

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Utils;
 using HotelBookingGarnet.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ReflectionIT.Mvc.Paging;
 
 namespace HotelBookingGarnet.Services
