@@ -1,13 +1,13 @@
 ﻿@model HotelBookingGarnet.ViewModels.RegisterViewModel
 
 @{
-    ViewData["Title"] = "User Registration";
+    ViewData["Title"] =@localizer["User Registration"];
 }
 
 <h2>@ViewData["Title"]</h2>
 <div class="row">
     <div class="col-md-12">
-        <h6>All fields are required!</h6>
+        <h6>@localizer["All fields are required!"]</h6>
         <hr/>
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -36,10 +36,10 @@
                     <div>
                         <label asp-for="IsManager"></label>
                     </div>
-                    &nbsp<input asp-for="IsManager" type="checkbox" name="IsManager" value=true />&nbspYes, I am
+                    &nbsp<input asp-for="IsManager" type="checkbox" name="IsManager" value=true />&nbsp @localizer["Yes, I am"]
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">@localizer["Register"]</button>
         </form>
     </div>
 </div>

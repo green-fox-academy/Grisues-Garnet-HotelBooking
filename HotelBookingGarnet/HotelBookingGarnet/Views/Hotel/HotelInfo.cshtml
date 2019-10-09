@@ -101,7 +101,7 @@
                             }
                             @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
                             {
-                        <a asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@Model.Hotel.HotelId" asp-route-roomId="@room.RoomId">@localizer["+ add bed"]</a>
+                                <a asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@Model.Hotel.HotelId" asp-route-roomId="@room.RoomId">@localizer["+ add bed"]</a>
                             }
                         </td>
                     </tr>
