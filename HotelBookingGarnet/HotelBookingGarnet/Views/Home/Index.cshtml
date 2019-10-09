@@ -1,3 +1,32 @@
-﻿@model HotelBookingGarnet.ViewModels.IndexViewModel
+﻿
+@using ReflectionIT.Mvc.Paging;
+@addTagHelper *,ReflectionIT.Mvc.Paging
+@model TestModel
 
-<h1 class="h1 text-center" style="padding:5px">@Model.User.UserName</h1>
+
+
+<div>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price/Night</th>
+        </tr>
+        @foreach (var hotel in Model.Hotels)
+        {
+            <tr>
+                <td> @Html.DisplayFor(modelItem => hotel.HotelName) @hotel.StarRating</td>
+                <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
+                <td> @Html.DisplayFor(modelItem => hotel.Price)</td>
+                <td>
+                    <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="post">
+                        <button type="submit" class="btn btn-primary">More Info</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<nav aria-label="Hotels" class="nav">
+    <vc:pager paging-list="@Model.Hotels" />
+</nav>
