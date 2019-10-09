@@ -318,17 +318,17 @@ namespace HotelBookingGarnet.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "5bc68f5a-5279-4447-aa2d-932a847a3507", "2c9538e2-5197-4235-9f34-a833fdc7ea5b", "Admin", "ADMIN" });
+                values: new object[] { "1546d80a-70db-4662-b56e-34cf328634cf", "b8e4dd62-1f46-4277-b494-7974a9ccd5e0", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "36e2623a-8273-4e01-9e3c-634e2fd133ef", "eddf1d30-51c3-4e76-ba63-2a39b7ace8b1", "Guest", "GUEST" });
+                values: new object[] { "bc8f87f5-5358-4e6d-819d-fac92f802c6e", "e651b0b3-bfb3-4dec-8def-edab5252446a", "Guest", "GUEST" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "75ca1f66-f86c-4f22-affa-976f4a218861", "6efbdb41-1b1d-41e8-914f-7dfbeeb6473e", "Hotel Manager", "HOTEL MANAGER" });
+                values: new object[] { "7e8bb9ff-6a96-4615-9f47-b08aff9fa041", "db8860fd-f73b-4045-a296-669a5bad72a1", "Hotel Manager", "HOTEL MANAGER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -26,6 +26,7 @@
 
       <Folder Include="Controllers\Reservation" />
       <Folder Include="Controllers\User" />
+      <Folder Include="Views\User" />
       <Folder Include="Views\Hotel" />
       <Folder Include="Views\Reservation" />
     </ItemGroup>

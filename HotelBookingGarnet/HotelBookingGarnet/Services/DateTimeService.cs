@@ -5,14 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace HotelBookingGarnet.Services
 {
     public class DateTimeService : IDateTimeService
-    {
-        private readonly ApplicationContext applicationContext;
-        
-        public DateTimeService(ApplicationContext applicationContext)
-        {
-            this.applicationContext = applicationContext;
-        }
-
+    { 
         public List<SelectListItem> FindTimeZones() 
         { 
             var timeZones = TimeZoneInfo.GetSystemTimeZones(); 

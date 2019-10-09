@@ -19,5 +19,6 @@ namespace HotelBookingGarnet.Services
         Task<Hotel> FindHotelByName(string hotelName);
         Task<PagingList<Hotel>> FilterHotelsAsync(QueryParam queryParam);
         Task SetIndexImageAsync(long hotelId);
+        List<Hotel> ListMyHotels(string userId);
     }
 }

@@ -28,7 +28,8 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IDateTimeService dateTimeService;
         private readonly IMapper mapper;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IPropertyTypeService propertyTypeService, IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IHotelPropertyTypeService hotelPropertyTypeService, IDateTimeService dateTimeService, IMapper mapper)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, 
+            IPropertyTypeService propertyTypeService, IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IHotelPropertyTypeService hotelPropertyTypeService, IDateTimeService dateTimeService, IMapper mapper)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
@@ -172,6 +173,14 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new {hotelId});
             }
             return View(newBed);
+        }
+        [Authorize(Roles = "Hotel Manager")]
+        [HttpGet("/myhotels")]
+        public async Task<IActionResult> MyHotels()
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            var myHotels = hotelService.ListMyHotels(currentUser.Id);
+            return View(myHotels);
         }
     }
 }
