@@ -49,7 +49,8 @@
             <span asp-validation-for="@Model.PropertyType" class="text-danger"></span>
         </div>
         <div class="form-group">
-             @Html.DropDownList("TimeZone", ViewBag.TimeZones as List<SelectListItem>) 
+            <label asp-for="@ViewBag">Select your time zone:</label>
+            @Html.DropDownList("TimeZone", ViewBag.TimeZones as List<SelectListItem>)
         </div>
         <div class="form-group">
             @if (Model.ErrorMessages != null)

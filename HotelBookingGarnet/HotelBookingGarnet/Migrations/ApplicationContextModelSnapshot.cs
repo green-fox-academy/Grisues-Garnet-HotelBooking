@@ -99,8 +99,6 @@ namespace HotelBookingGarnet.Migrations
 
                     b.Property<long>("HotelId");
 
-                    b.Property<string>("NameOfGuests");
-
                     b.Property<int>("NumberOfGuest");
 
                     b.Property<string>("PhoneNumber");
@@ -121,7 +119,7 @@ namespace HotelBookingGarnet.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reservation");
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("HotelBookingGarnet.Models.Room", b =>
@@ -236,22 +234,22 @@ namespace HotelBookingGarnet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1546d80a-70db-4662-b56e-34cf328634cf",
-                            ConcurrencyStamp = "b8e4dd62-1f46-4277-b494-7974a9ccd5e0",
+                            Id = "54fbb9d4-6874-4de5-8e27-41115e45b6ab",
+                            ConcurrencyStamp = "5003046f-6bbd-4f3d-84c1-c09c704f1385",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "bc8f87f5-5358-4e6d-819d-fac92f802c6e",
-                            ConcurrencyStamp = "e651b0b3-bfb3-4dec-8def-edab5252446a",
+                            Id = "b4b2c9e5-93f3-41bb-8cd5-d6b30601afd9",
+                            ConcurrencyStamp = "0c9170ef-a5a6-44a6-93e3-edc3e4ab082b",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "7e8bb9ff-6a96-4615-9f47-b08aff9fa041",
-                            ConcurrencyStamp = "db8860fd-f73b-4045-a296-669a5bad72a1",
+                            Id = "ace237d0-23c5-4692-8a85-6169af52db2b",
+                            ConcurrencyStamp = "4dae36af-9b47-41fc-bbe8-b3efb9367cf0",
                             Name = "Hotel Manager",
                             NormalizedName = "HOTEL MANAGER"
                         });
