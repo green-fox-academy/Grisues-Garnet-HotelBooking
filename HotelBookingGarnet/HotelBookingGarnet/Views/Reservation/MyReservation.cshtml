@@ -17,10 +17,10 @@
     </tr>
     @foreach (var reservation in @Model.Reservations)
     {
-        @foreach (var hotel in Model.HotelList)
-        {<tr>
-         <td>@reservation.ReservationStart</td>
-         <td>@reservation.ReservationEnd</td>
+    @foreach (var hotel in Model.HotelList)
+   {<tr>
+        <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
+        <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
     @if (reservation.HotelId == hotel.HotelId)
     {
         <td>@hotel.HotelName</td>
@@ -43,7 +43,10 @@
             </form>
         </td>
     }
-    </tr>
+</tr>
         }
     }
 </table>
+<form asp-controller="Reservation" asp-action="CleanReservation" asp-route-UserId="@Model.User.Id" method="post">
+    <button type="submit" class="btn btn-primary">Clean up</button>
+</form>
