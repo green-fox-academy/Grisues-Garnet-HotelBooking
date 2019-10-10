@@ -41,7 +41,7 @@ namespace HotelBookingGarnet.Services
             applicationContext.SaveChanges();
         }
 
-        public async Task<List<Reservation>> FindReservationByUserIdAsync(string userId)
+        public async Task<List<Reservation>> FindReservationByReservationIdAsync(string userId)
         {
             var reservations = await applicationContext.Reservations.Include(r => r.GuestsList)
                 .Where(a => a.UserId == userId).OrderBy(a => a.ReservationStart).ToListAsync();
@@ -81,7 +81,7 @@ namespace HotelBookingGarnet.Services
             return room.Price * daysOfReservation;
         }
 
-        public async Task<Reservation> FindReservationByUserIdAsync(long reservationId)
+        public async Task<Reservation> FindReservationByReservationIdAsync(long reservationId)
         {
             var foundReservation = await applicationContext.Reservations.Include(p => p.GuestsList)
                 .FirstOrDefaultAsync(a => a.ReservationId == reservationId);
