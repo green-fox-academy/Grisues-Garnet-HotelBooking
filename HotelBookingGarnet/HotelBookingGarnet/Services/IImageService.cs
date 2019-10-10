@@ -16,5 +16,5 @@ namespace HotelBookingGarnet.Services
         Task<List<ImageDetails>> ListAsync(long id);
         Task<List<ImageDetails>> ListAllFoldersAsync();
         List<string> Validate(IFormFileCollection files, HotelViewModel newHotel);
-     }
+    }
 }

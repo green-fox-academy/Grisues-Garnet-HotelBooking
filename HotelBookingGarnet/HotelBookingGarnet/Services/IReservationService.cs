@@ -1,6 +1,9 @@
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
+using HotelBookingGarnet.ViewModels;
+
 
 namespace HotelBookingGarnet.Services
 {
@@ -9,5 +12,7 @@ namespace HotelBookingGarnet.Services
         Task<List<Reservation>> FindReservationsByHotelIdAsync(long hotelId);
         Task<List<Reservation>> FindReservationsByIdAsync(string userId);
         Task DeleteReservationById(long reservationId);
+        Task<long> AddReservationAsync(ReservationViewModel newReservation, string userId, long roomId, long hotelId);
+        Task<Reservation> FindReservationByIdAsync(long reservationId);
     }
 }

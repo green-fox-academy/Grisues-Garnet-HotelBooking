@@ -1,13 +1,31 @@
 ﻿@model ReservationViewModel
 
+
 <h1>Add a new Reservation</h1>
 
-<form asp-controller="Reservation" asp-action="@ViewData["Action"]" method="post">
+<form asp-controller="Reservation" asp-action="AddReservation" asp-route-roomId=@ViewData["roomId"] asp-route-hotelId=@ViewData["hotelId"] method="post">
     <div class="form-group">
-        
-        
+        <label asp-for="ReservationStart">Start date:</label>
+        <input type="date" input asp-for="ReservationStart" value="YYYY-MM-DD" min="2019-01-01" max="2020-12-31">
+        <span asp-validation-for="ReservationStart" class="text-danger"></span>
+        <label asp-for="ReservationEnd">Start date:</label>
+        <input type="date" input asp-for="ReservationEnd" value="YYYY-MM-DD" min="2019-01-01" max="2020-12-31">
+        <span asp-validation-for="ReservationEnd" class="text-danger"></span>
     </div>
-    
-    
-    
+    <div class="form-group">
+        <label asp-for="NumberOfGuest">Number of guests:</label>
+        <input type="text" asp-for="NumberOfGuest" class="form-control"/>
+        <span asp-validation-for="NumberOfGuest" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="GuestsNameInString">Name of the guests (please type all guests name, separated with comas):</label>
+        <input type="text" placeholder="John Doe, Jane Doe, ..." asp-for="GuestsNameInString" class="form-control"/>
+        <span asp-validation-for="GuestsNameInString" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber">Contact phone number (not required)</label>
+        <input type="tel" asp-for="PhoneNumber" class="form-control"/>
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Make Reservation</button>
 </form>

@@ -23,17 +23,17 @@
                         <td>@room.RoomName</td>
                     }
                 }
-                <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
-                <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
-                <td>@reservation.NumberOfGuest</td>
-                <td>
-                    @foreach (var guestName in reservation.NameOfGuests)
-                    {
-                        <div>
-                            <span>@guestName</span>
-                        </div>
-                    }
-                </td>
+                    <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
+                    <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
+                    <td>@reservation.NumberOfGuest</td>
+                    <td>
+                        @foreach (var guest in reservation.GuestsList)
+                        {
+                            <div>
+                                <span>@guest.GuestName</span>
+                            </div>
+                        }
+                    </td>
                 <td>@reservation.TotalPrice Ft</td>
             </tr>
         }

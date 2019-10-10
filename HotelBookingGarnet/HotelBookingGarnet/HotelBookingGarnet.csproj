@@ -22,10 +22,12 @@
 
     <ItemGroup>
 
-      <Folder Include="Controllers\Home" />
-      <Folder Include="Controllers\User" />
-      <Folder Include="Views\User" />
-      <Folder Include="Views\Hotel" />
+        <Folder Include="Controllers\Home" />
+        <Folder Include="Controllers\Reservation" />
+        <Folder Include="Views\Hotel" />
+        <Folder Include="Views\Reservation" />
+        <Folder Include="Views\User" />
+        
     </ItemGroup>
 
 </Project>
