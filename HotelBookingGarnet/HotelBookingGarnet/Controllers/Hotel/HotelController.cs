@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using HotelBookingGarnet.Controllers.Home;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.WindowsAzure.Storage;
 
 namespace HotelBookingGarnet.Controllers.Hotel
@@ -18,29 +19,27 @@ namespace HotelBookingGarnet.Controllers.Hotel
     {
         private readonly IHotelService hotelService;
         private readonly UserManager<User> userManager;
-        private readonly IPropertyTypeService propertyTypeService;
         private readonly IImageService imageService;
         private readonly IRoomService roomService;
         private readonly IBedService bedService;
         private readonly IRoomBedService roomBedService;
         private readonly IHotelPropertyTypeService hotelPropertyTypeService;
+        private readonly IDateTimeService dateTimeService;
         private readonly IMapper mapper;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager,
-            IPropertyTypeService propertyTypeService,
-            IImageService imageService, IRoomService roomService, IBedService bedService,
-            IRoomBedService roomBedService,
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService,
+            IRoomService roomService, IBedService bedService, IRoomBedService roomBedService,
+            IDateTimeService dateTimeService,
             IHotelPropertyTypeService hotelPropertyTypeService, IMapper mapper)
-
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
-            this.propertyTypeService = propertyTypeService;
             this.imageService = imageService;
             this.roomService = roomService;
             this.bedService = bedService;
             this.roomBedService = roomBedService;
             this.hotelPropertyTypeService = hotelPropertyTypeService;
+            this.dateTimeService = dateTimeService;
             this.mapper = mapper;
         }
 
@@ -69,6 +68,8 @@ namespace HotelBookingGarnet.Controllers.Hotel
             hotelViewModel.User = currentUser;
             ViewData["hotelId"] = hotel.HotelId;
             hotelViewModel.PropertyType = property.PropertyType.Type;
+            hotelViewModel.StarRating = hotel.StarRating;
+            ViewBag.TimeZones = dateTimeService.FindTimeZones();
             return View(hotelViewModel);
         }
 
@@ -102,6 +103,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
         [HttpGet("/addhotel")]
         public IActionResult AddHotel()
         {
+            ViewBag.TimeZones = dateTimeService.FindTimeZones();
             return View(new HotelViewModel());
         }
 
@@ -179,7 +181,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
         public async Task<IActionResult> MyHotels()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            var myHotels = hotelService.ListMyHotels(currentUser.Id);
+            var myHotels = await hotelService.ListMyHotels(currentUser.Id);
             return View(myHotels);
         }
     }

@@ -35,7 +35,9 @@
                 </form>
             </td>
             <td>
-                <button type="button" class="btn btn-warning btn-sm">See upcoming reservations</button>
+                <form asp-controller="Reservation" asp-action="HotelReservation" asp-route-HotelId="@hotel.HotelId" method="get">
+                    <button type="submit" class="btn btn-warning btn-sm">See upcoming reservations</button>
+                </form>
             </td>
         </tr>
     }

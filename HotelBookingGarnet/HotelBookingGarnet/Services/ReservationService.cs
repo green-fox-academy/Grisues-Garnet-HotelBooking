@@ -1,15 +1,19 @@
-﻿using System.Threading.Tasks;
-using AutoMapper;
-using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
+using AutoMapper;
+using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using HotelBookingGarnet.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelBookingGarnet.Services
 {
     public class ReservationService : IReservationService
     {
-        private readonly IMapper mapper;
         private readonly ApplicationContext applicationContext;
+        private readonly IMapper mapper;
         private readonly IGuestService guestService;
         private readonly IRoomService roomService;
 
@@ -20,6 +24,30 @@ namespace HotelBookingGarnet.Services
             this.applicationContext = applicationContext;
             this.guestService = guestService;
             this.roomService = roomService;
+        }
+
+        public async Task<List<Reservation>> FindReservationByHotelIdAsync(long hotelId)
+        {
+            var hotelReservations = await applicationContext.Reservations.Include(r => r.GuestsList)
+                .Where(r => r.HotelId == hotelId).ToListAsync();
+
+            return hotelReservations;
+        }
+
+        public async Task DeleteReservationById(long reservationId)
+        {
+            var reservation =
+                await applicationContext.Reservations.FirstOrDefaultAsync(r => r.ReservationId == reservationId);
+            applicationContext.Reservations.Remove(reservation);
+            applicationContext.SaveChanges();
+        }
+
+        public async Task<List<Reservation>> FindReservationByIdAsync(string userId)
+        {
+            var reservations = await applicationContext.Reservations.Include(r => r.GuestsList)
+                .Where(a => a.UserId == userId).ToListAsync();
+
+            return reservations;
         }
 
         public async Task<long> AddReservationAsync(ReservationViewModel newReservation, string userId, long roomId,

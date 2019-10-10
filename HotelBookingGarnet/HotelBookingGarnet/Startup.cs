@@ -48,6 +48,7 @@ namespace HotelBookingGarnet
             services.AddTransient<IRoomService, RoomService>();
             services.AddTransient<IBedService, BedService>();
             services.AddTransient<IRoomBedService, RoomBedService>();
+            services.AddTransient<IDateTimeService, DateTimeService>();
             services.AddTransient<IHotelPropertyTypeService, HotelPropertyTypeService>();
             services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IGuestService, GuestService>();
@@ -65,7 +66,6 @@ namespace HotelBookingGarnet
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseStaticFiles();

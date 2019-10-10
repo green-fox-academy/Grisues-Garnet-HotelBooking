@@ -42,6 +42,8 @@ namespace HotelBookingGarnet.Migrations
 
                     b.HasKey("GuestId");
 
+                    b.HasIndex("ReservationId");
+
                     b.ToTable("Guests");
                 });
 
@@ -67,6 +69,8 @@ namespace HotelBookingGarnet.Migrations
                     b.Property<string>("Region");
 
                     b.Property<int>("StarRating");
+
+                    b.Property<string>("TimeZone");
 
                     b.Property<string>("Uri");
 
@@ -246,22 +250,22 @@ namespace HotelBookingGarnet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0804cec7-0896-485f-b359-4750d4c41ef7",
-                            ConcurrencyStamp = "0d983515-6b2d-4f1e-a649-9360df2d351c",
+                            Id = "5151a3cc-5642-48a9-9839-c1a8d55cd975",
+                            ConcurrencyStamp = "ce1ecb13-c3c7-4afb-89f4-02a076df1005",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "cf9948a4-ba03-4f6b-b04f-da34a563a2ef",
-                            ConcurrencyStamp = "ed911ff0-0a01-4af1-a602-4cc368b26443",
+                            Id = "77a9f777-e682-40d1-a69d-eafd92470c48",
+                            ConcurrencyStamp = "1ebd447a-61c0-4fa4-9ffd-712290d7335e",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "c5c80209-28f8-483c-9fee-7afde880102b",
-                            ConcurrencyStamp = "bed1971c-8ebc-4905-a536-6fd31240e7d9",
+                            Id = "673e2f77-6beb-41cb-883b-6eb1e4e78b9a",
+                            ConcurrencyStamp = "d766fff4-699e-41d5-ae76-e154ec5c4a5d",
                             Name = "Hotel Manager",
                             NormalizedName = "HOTEL MANAGER"
                         });
@@ -349,6 +353,14 @@ namespace HotelBookingGarnet.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("HotelBookingGarnet.Models.Guest", b =>
+                {
+                    b.HasOne("HotelBookingGarnet.Models.Reservation")
+                        .WithMany("GuestsList")
+                        .HasForeignKey("ReservationId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HotelBookingGarnet.Models.Hotel", b =>

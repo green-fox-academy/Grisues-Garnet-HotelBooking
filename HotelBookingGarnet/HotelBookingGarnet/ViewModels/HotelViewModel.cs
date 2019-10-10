@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using HotelBookingGarnet.Models;
 using Microsoft.AspNetCore.Http;
+using TimeZoneInfo = System.TimeZoneInfo;
 
 namespace HotelBookingGarnet.ViewModels
 {
@@ -18,5 +20,6 @@ namespace HotelBookingGarnet.ViewModels
         public User User { get; set; }
         public IFormFileCollection Files { get; set; }
         public List<string> ErrorMessages { get; set; } = new List<string>();
+        public string TimeZone { get; set; }
     }
 }
