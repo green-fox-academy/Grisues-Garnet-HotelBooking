@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
+using AutoMapper;
 
 namespace HotelBookingGarnet.Controllers.Hotel
 {
@@ -204,7 +205,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
         public async Task<IActionResult> MyHotels()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            var myHotels = await hotelService.ListMyHotels(currentUser.Id);
+            var myHotels = await hotelService.ListMyHotelsAsync(currentUser.Id);
             return View(myHotels);
         }
     }

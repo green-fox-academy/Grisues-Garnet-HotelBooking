@@ -28,21 +28,22 @@ namespace HotelBookingGarnet.Controllers
             this.guestService = guestService;
         }
 
-        [Authorize(Roles = "Guest")]
+        [Authorize(Roles = "Guest, Hotel Manager")]
         [HttpGet("/myreservation")]
         public async Task<IActionResult> MyReservation()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            var reservations = await reservationService.FindReservationByIdAsync(currentUser.Id);
+            var reservations = await reservationService.FindReservationByReservationIdAsync(currentUser.Id);
             var hotel = hotelService.GetHotels();
-            return View(new IndexViewModel {Reservations = reservations, HotelList = hotel});
+
+            return View(new IndexViewModel { Reservations = reservations, HotelList = hotel, User = currentUser });
         }
 
         [HttpPost("/cancelreservation/{reservationId}")]
         public async Task<IActionResult> CancelReservation(long reservationId)
         {
-            await reservationService.DeleteReservationById(reservationId);
-            return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
+            await reservationService.DeleteReservationByIdAsync(reservationId);
+            return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation" );
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]
@@ -50,7 +51,7 @@ namespace HotelBookingGarnet.Controllers
         public async Task<IActionResult> HotelReservation(long hotelId)
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            var hotelReservations = await reservationService.FindReservationByHotelIdAsync(hotelId);
+            var hotelReservations = await reservationService.FindReservationsByHotelIdAsync(hotelId);
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
 
             return View(new IndexViewModel {Reservations = hotelReservations, Hotel = hotel, User = currentUser});
@@ -76,8 +77,17 @@ namespace HotelBookingGarnet.Controllers
         [HttpGet("/confirmation/{reservationId}")]
         public async Task<IActionResult> ConfirmationPage(long reservationId)
         {
-            var reservation = await reservationService.FindReservationByIdAsync(reservationId);
+            var reservation = await reservationService.FindReservationByReservationIdAsync(reservationId);
             return View(reservation);
+        }
+
+        [Authorize(Roles = "Guest")]
+        [HttpPost("/cleanreservation")]
+        public async Task<IActionResult> CleanReservation(string userId)
+        {
+           await reservationService.DeleteExpiredReservationByIdAsync(userId);
+
+            return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
         }
     }
 }
