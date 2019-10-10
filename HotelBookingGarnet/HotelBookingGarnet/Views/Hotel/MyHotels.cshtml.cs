@@ -6,7 +6,6 @@ namespace HotelBookingGarnet.Views.Hotel
     {
         public void OnGet()
         {
-            
         }
     }
 }

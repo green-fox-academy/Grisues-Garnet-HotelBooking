@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using HotelBookingGarnet.Controllers.Home;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
@@ -25,9 +26,13 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IBedService bedService;
         private readonly IRoomBedService roomBedService;
         private readonly IHotelPropertyTypeService hotelPropertyTypeService;
+        private readonly IDateTimeService dateTimeService;
         private readonly IMapper mapper;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IHotelPropertyTypeService hotelPropertyTypeService, IMapper mapper)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService,
+            IRoomService roomService, IBedService bedService, IRoomBedService roomBedService,
+            IDateTimeService dateTimeService,
+            IHotelPropertyTypeService hotelPropertyTypeService, IMapper mapper)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
@@ -36,20 +41,22 @@ namespace HotelBookingGarnet.Controllers.Hotel
             this.bedService = bedService;
             this.roomBedService = roomBedService;
             this.hotelPropertyTypeService = hotelPropertyTypeService;
+            this.dateTimeService = dateTimeService;
             this.mapper = mapper;
         }
 
         [AllowAnonymous]
         [HttpGet("/info/{hotelId}")]
         public async Task<IActionResult> HotelInfo(long hotelId)
-        { 
-            var currentUser = await userManager.GetUserAsync(HttpContext.User); 
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
             var blobsUri = await imageService.ListAsync(hotelId);
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
             var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
             var roomBeds = roomBedService.GetRoomBeds();
             ViewData["propertyType"] = property.PropertyType.Type;
-            return View(new IndexViewModel { User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri });
+            return View(new IndexViewModel
+                {User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri});
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]
@@ -63,9 +70,11 @@ namespace HotelBookingGarnet.Controllers.Hotel
             hotelViewModel.User = currentUser;
             ViewData["hotelId"] = hotel.HotelId;
             hotelViewModel.PropertyType = property.PropertyType.Type;
+            hotelViewModel.StarRating = hotel.StarRating;
+            ViewBag.TimeZones = dateTimeService.FindTimeZones();
             return View(hotelViewModel);
         }
-        
+
         [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpPost("/edit/{hotelId}")]
         public async Task<IActionResult> EditHotel(HotelViewModel editHotel, long hotelId)
@@ -80,12 +89,15 @@ namespace HotelBookingGarnet.Controllers.Hotel
                     {
                         return View(editHotel);
                     }
+
                     await imageService.UploadAsync(editHotel.Files, hotelId);
                     await hotelService.SetIndexImageAsync(hotelId);
                 }
+
                 await hotelPropertyTypeService.EditPropertyTypeAsync(hotelId, editHotel.PropertyType);
-                return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new {hotelId});
+                return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new {hotelId});
             }
+
             return View(editHotel);
         }
 
@@ -93,6 +105,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
         [HttpGet("/addhotel")]
         public IActionResult AddHotel()
         {
+            ViewBag.TimeZones = dateTimeService.FindTimeZones();
             return View(new HotelViewModel());
         }
 
@@ -102,7 +115,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
         {
             if (ModelState.IsValid)
             {
-                var currentUser = await userManager.GetUserAsync(HttpContext.User); 
+                var currentUser = await userManager.GetUserAsync(HttpContext.User);
                 var hotelId = await hotelService.AddHotelAsync(newHotel, currentUser.Id);
                 if (newHotel.Files != null)
                 {
@@ -111,14 +124,17 @@ namespace HotelBookingGarnet.Controllers.Hotel
                     {
                         return View(newHotel);
                     }
+
                     await imageService.UploadAsync(newHotel.Files, hotelId);
                     await hotelService.SetIndexImageAsync(hotelId);
                 }
-                return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new { hotelId });
+
+                return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new {hotelId});
             }
+
             return View(newHotel);
         }
-        
+
         [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpGet("/addroom/{hotelId}")]
         public IActionResult AddRoom(long hotelId)
@@ -126,7 +142,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             ViewData["hotelId"] = hotelId;
             return View(new RoomViewModel());
         }
-        
+
         [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpPost("/addroom/{hotelId}")]
         public async Task<IActionResult> AddRoom(RoomViewModel newRoom, long hotelId)
@@ -134,11 +150,12 @@ namespace HotelBookingGarnet.Controllers.Hotel
             if (ModelState.IsValid)
             {
                 await roomService.AddRoomAsync(newRoom, hotelId);
-                return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new {hotelId});
+                return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new {hotelId});
             }
+
             return View(newRoom);
         }
-        
+
         [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpGet("/addbed/{hotelId}/{roomId}")]
         public IActionResult AddBed(long hotelId, long roomId)
@@ -155,9 +172,9 @@ namespace HotelBookingGarnet.Controllers.Hotel
             if (ModelState.IsValid)
             {
                 await bedService.AddBedAsync(newBed, roomId);
-                return RedirectToAction(nameof(HotelController.HotelInfo),"Hotel", new {hotelId});
+                return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new {hotelId});
             }
-            
+
             return View(newBed);
         }
 

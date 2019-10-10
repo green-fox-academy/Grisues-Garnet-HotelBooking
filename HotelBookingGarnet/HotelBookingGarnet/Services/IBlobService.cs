@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace HotelBookingGarnet.Services
 {
-   public interface IBlobService
+    public interface IBlobService
     {
         Task<CloudBlobContainer> GetBlobContainer();
     }

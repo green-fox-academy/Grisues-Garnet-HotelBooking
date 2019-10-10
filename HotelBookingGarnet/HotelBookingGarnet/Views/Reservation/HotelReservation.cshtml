@@ -25,6 +25,14 @@
                     <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
                     <td>@reservation.ReservationEnd</td>
                     <td>@reservation.NumberOfGuest</td>
+                    <td>
+                        @foreach (var guest in reservation.GuestsList)
+                        {
+                            <div>
+                                <span>@guest.GuestName</span>
+                            </div>
+                        }
+                    </td>
                     <td>@reservation.TotalPrice Ft</td>
                 </tr>
             }

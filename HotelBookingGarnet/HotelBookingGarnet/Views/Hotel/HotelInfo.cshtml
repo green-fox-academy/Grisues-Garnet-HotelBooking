@@ -43,27 +43,28 @@
                 }
                 else
                 {
-                    @Model.Hotel.Price <span>Ft</span>
+                    @Model.Hotel.Price
+                    <span>Ft</span>
                 }
             </p>
         </div>
         <div class="imageBlock">
             @foreach (var blob in @Model.FolderList)
             {
-            <img src="@blob.Path" class="thumb"/>
+                <img src="@blob.Path" class="thumb"/>
             }
         </div>
-        @if (Model.User != null &&  (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
+        @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
         {
             <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.Hotel.HotelId" method="get">
                 <button type="submit" class="btn btn-primary">@localizer["Edit"]</button>
             </form>
-            
+
             <form asp-controller="Hotel" asp-action="AddRoom" asp-route-HotelId="@Model.Hotel.HotelId" method="get">
                 <button type="submit" class="btn btn-success">@localizer["Add room"]</button>
             </form>
         }
-        
+
     <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">@localizer["Cancel"]</a>
         
         @if (Model.Hotel.Rooms.Count != 0)
@@ -107,9 +108,12 @@
                             }
                         </td>
                         <td>
-                            <form asp-controller="Reservation" asp-action="AddReservation" asp-route-roomId="@room.RoomId" method="get">
-                                <button type="submit" class="btn btn-warning">@localizer["Reserve Room"]</button>
-                            </form>
+                            @if (User.IsInRole("Guest") || User.IsInRole("Hotel Manager"))
+                            {
+                                <form asp-controller="Reservation" asp-action="AddReservation" asp-route-roomId="@room.RoomId" asp-route-hotelId="@Model.Hotel.HotelId" method="get">
+                                    <button type="submit" class="btn btn-warning">@localizer["Reserve Room"]</button>
+                                </form>
+                            }
                         </td>
                     </tr>
                 }

@@ -44,15 +44,17 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="card-body">
-                                    <h5 class="card-title">@Html.DisplayFor(modelItem => hotel.HotelName)
-                                    @for (int i = 1; i <= hotel.StarRating; i++)
-                                    {
-                                        <img src="~/images/starrating.png" />
-                                    }</h5>
+                                    <h5 class="card-title">
+                                        @Html.DisplayFor(modelItem => hotel.HotelName)
+                                        @for (int i = 1; i <= hotel.StarRating; i++)
+                                        {
+                                            <img src="~/images/starrating.png" />
+                                        }
+                                    </h5>
                                     @if (hotel.Description.Length > 100)
                                     {
 
-                                        <p class="card-text">@hotel.Description.Substring(0,hotel.Description.IndexOf(' ',100))<span>...</span></p>
+                                        <p class="card-text">@hotel.Description.Substring(0, hotel.Description.IndexOf(' ', 100))<span>...</span></p>
                                     }
                                     else
                                     {
@@ -75,19 +77,24 @@
                                     </form>
                                 </div>
                             </div>
-                            </div>
+                        </div>
                     </div>
                 }
+
+            }
+            @if (Model.HotelList.Count > 3)
+            {
+                <div class="pagination-row">
+                    @for (int i = 1; i <= Model.PagingList.PageCount; i++)
+                    {
+                        <a role="button" class="btn btn-primary"
+                           asp-action="@Model.ActionName"
+                           asp-route-city="@Model.QueryParam.City"
+                           asp-route-guest="@Model.QueryParam.Guest"
+                           asp-route-page="@i">@i</a>
+                    }
+                </div>
             }
         </div>
     </div>
-    <div class="pagination-row">
-        @for (int i = 1; i <= Model.PagingList.PageCount; i++)
-        {
-            <a role="button" class="btn btn-primary"
-               asp-action="@Model.ActionName"
-               asp-route-city="@Model.QueryParam.City"
-               asp-route-guest="@Model.QueryParam.Guest"
-               asp-route-page="@i">@i</a>
-        }
-    </div>
+    

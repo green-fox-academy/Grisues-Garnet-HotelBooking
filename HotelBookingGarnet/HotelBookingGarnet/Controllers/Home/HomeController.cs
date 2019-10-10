@@ -5,7 +5,6 @@ using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 
-
 namespace HotelBookingGarnet.Controllers.Home
 {
     public class HomeController : Controller
@@ -24,13 +23,15 @@ namespace HotelBookingGarnet.Controllers.Home
         [HttpGet("/")]
         public async Task<IActionResult> Index(QueryParam queryParam)
         {
+            var hotelList = hotelService.GetHotels();
             var hotels = await hotelService.FilterHotelsAsync(queryParam);
             return View(new IndexViewModel
             {
+                HotelList = hotelList,
                 PagingList = hotels,
                 QueryParam = queryParam,
                 ActionName = nameof(Index),
-            }); 
+            });
         }
 
         [HttpPost("/logout")]

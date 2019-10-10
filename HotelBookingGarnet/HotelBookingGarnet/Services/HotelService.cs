@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using HotelBookingGarnet.ViewModels;
 using ReflectionIT.Mvc.Paging;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using TimeZoneInfo = System.TimeZoneInfo;
 
 namespace HotelBookingGarnet.Services
 {
@@ -50,21 +52,17 @@ namespace HotelBookingGarnet.Services
         public async Task<long> AddHotelAsync(HotelViewModel newHotel, string userId)
         {
             var propertyType = await propertyTypeService.AddPropertyTypeAsync(newHotel.PropertyType);
-
             var hotel = mapper.Map<HotelViewModel, Hotel>(newHotel);
             hotel.UserId = userId;
             hotel.HotelPropertyTypes = new List<HotelPropertyType>();
             await applicationContext.Hotels.AddAsync(hotel);
             await applicationContext.SaveChangesAsync();
-
             var hotelPropertyType = new HotelPropertyType();
             hotelPropertyType.Hotel = hotel;
             hotelPropertyType.HotelId = hotel.HotelId;
             hotelPropertyType.PropertyType = propertyType;
             hotelPropertyType.PropertyTypeId = propertyType.PropertyTypeId;
-
             hotel.HotelPropertyTypes.Add(hotelPropertyType);
-
             await applicationContext.SaveChangesAsync();
             return hotel.HotelId;
         }
@@ -108,7 +106,7 @@ namespace HotelBookingGarnet.Services
                 .Where(h => h.City.Contains(queryParam.City) || String.IsNullOrEmpty(queryParam.City))
                 .Where(h => h.IsItAvailable || queryParam.Guest == 0)
                 .OrderBy(h => h.HotelName).ToListAsync();
-            return PagingList.Create(hotels, 5, queryParam.Page);
+            return PagingList.Create(hotels, 3, queryParam.Page);
         }
 
         public async Task SetIndexImageAsync(long hotelId)

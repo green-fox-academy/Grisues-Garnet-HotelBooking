@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using HotelBookingGarnet.Models;
 using Microsoft.AspNetCore.Http;
+using TimeZoneInfo = System.TimeZoneInfo;
 
 namespace HotelBookingGarnet.ViewModels
 {
@@ -12,6 +14,7 @@ namespace HotelBookingGarnet.ViewModels
         [Required(ErrorMessage = "The Country field is required.")]
         public string Country { get; set; }
         [Required(ErrorMessage = "The Region field is required.")]
+
         public string Region { get; set; }
         [Required(ErrorMessage = "The City field is required.")]
         public string City { get; set; }
@@ -26,5 +29,6 @@ namespace HotelBookingGarnet.ViewModels
         public User User { get; set; }
         public IFormFileCollection Files { get; set; }
         public List<string> ErrorMessages { get; set; } = new List<string>();
+        public string TimeZone { get; set; }
     }
 }

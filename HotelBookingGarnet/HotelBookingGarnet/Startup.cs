@@ -43,6 +43,7 @@ namespace HotelBookingGarnet
             }
 
             services.BuildServiceProvider().GetService<ApplicationContext>().Database.Migrate();
+
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IHotelService, HotelService>();
             services.AddTransient<IPropertyTypeService, PropertyTypeService>();
@@ -51,8 +52,10 @@ namespace HotelBookingGarnet
             services.AddTransient<IRoomService, RoomService>();
             services.AddTransient<IBedService, BedService>();
             services.AddTransient<IRoomBedService, RoomBedService>();
+            services.AddTransient<IDateTimeService, DateTimeService>();
             services.AddTransient<IHotelPropertyTypeService, HotelPropertyTypeService>();
             services.AddTransient<IReservationService, ReservationService>();
+            services.AddTransient<IGuestService, GuestService>();
             services.Configure<IdentityOptions>(options => { options.Password.RequireNonAlphanumeric = false; });
             services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
             services.AddMvc()
@@ -82,10 +85,8 @@ namespace HotelBookingGarnet
             {
                 app.UseDeveloperExceptionPage();
             }
-
             var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(options.Value);
-
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseStaticFiles();
