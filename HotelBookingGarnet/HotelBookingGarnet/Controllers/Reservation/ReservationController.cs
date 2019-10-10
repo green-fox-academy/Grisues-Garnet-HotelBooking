@@ -28,7 +28,7 @@ namespace HotelBookingGarnet.Controllers
             this.guestService = guestService;
         }
 
-        [Authorize(Roles = "Guest")]
+        [Authorize(Roles = "Guest, Hotel Manager")]
         [HttpGet("/myreservation")]
         public async Task<IActionResult> MyReservation()
         {
@@ -51,7 +51,7 @@ namespace HotelBookingGarnet.Controllers
         public async Task<IActionResult> HotelReservation(long hotelId)
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            var hotelReservations = await reservationService.FindReservationByHotelIdAsync(hotelId);
+            var hotelReservations = await reservationService.FindReservationsByHotelIdAsync(hotelId);
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
 
             return View(new IndexViewModel {Reservations = hotelReservations, Hotel = hotel, User = currentUser});

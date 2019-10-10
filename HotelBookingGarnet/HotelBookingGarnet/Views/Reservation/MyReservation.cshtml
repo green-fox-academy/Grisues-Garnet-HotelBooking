@@ -17,24 +17,24 @@
     </tr>
     @foreach (var reservation in @Model.Reservations)
     {
-        @foreach (var hotel in Model.HotelList)
-        {<tr>
-             <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
-    <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
+    @foreach (var hotel in Model.HotelList)
+   {<tr>
+        <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
+        <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
     @if (reservation.HotelId == hotel.HotelId)
     {
         <td>@hotel.HotelName</td>
     }
-    <td>@reservation.NumberOfGuest</td>
-    <td>@reservation.TotalPrice ft</td>
-    <td>
-        @foreach (var guest in reservation.GuestsList)
-        {
-            <div>
-                <span>@guest.GuestName</span>
-            </div>
-        }
-    </td>
+        <td>@reservation.NumberOfGuest</td>
+        <td>@reservation.TotalPrice ft</td>
+        <td>
+            @foreach (var guest in reservation.GuestsList)
+            {
+                <div>
+                    <span>@guest.GuestName</span>
+                </div>
+            }
+        </td>
     @if (reservation.ReservationStart > DateTime.Now.AddDays(+1))
     {
         <td>

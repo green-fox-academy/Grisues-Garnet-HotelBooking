@@ -26,11 +26,10 @@ namespace HotelBookingGarnet.Services
             this.roomService = roomService;
         }
 
-        public async Task<List<Reservation>> FindReservationByHotelIdAsync(long hotelId)
+        public async Task<List<Reservation>> FindReservationsByHotelIdAsync(long hotelId)
         {
             var hotelReservations = await applicationContext.Reservations.Include(r => r.GuestsList)
-                .Where(r => r.HotelId == hotelId).ToListAsync();
-
+                .Where(r => r.HotelId == hotelId).OrderBy(a => a.ReservationStart).ToListAsync();
             return hotelReservations;
         }
 
@@ -40,7 +39,6 @@ namespace HotelBookingGarnet.Services
                 await applicationContext.Reservations.FirstOrDefaultAsync(r => r.ReservationId == reservationId);
             applicationContext.Reservations.Remove(reservation);
             applicationContext.SaveChanges();
-            
         }
 
         public async Task<List<Reservation>> FindReservationByUserIdAsync(string userId)
