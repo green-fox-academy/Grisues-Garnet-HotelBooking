@@ -30,8 +30,10 @@ namespace HotelBookingGarnet.Services
             blobContainer = blobClient.GetContainerReference(blobContainerName);
             if (await blobContainer.CreateIfNotExistsAsync())
             {
-                await blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
+                await blobContainer.SetPermissionsAsync(new BlobContainerPermissions
+                    {PublicAccess = BlobContainerPublicAccessType.Blob});
             }
+
             return blobContainer;
         }
 
@@ -40,7 +42,7 @@ namespace HotelBookingGarnet.Services
             if (blobClient != null)
             {
                 return blobClient;
-            }    
+            }
 
             blobClient = account.CreateCloudBlobClient();
             return blobClient;

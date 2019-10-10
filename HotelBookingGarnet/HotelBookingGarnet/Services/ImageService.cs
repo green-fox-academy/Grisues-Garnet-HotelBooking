@@ -15,7 +15,7 @@ namespace HotelBookingGarnet.Services
     {
         private readonly IBlobService blobService;
         private int fourMegaByte = 4 * 1024 * 1024;
-        private readonly string[] validExtensions = { "jpg", "png" };
+        private readonly string[] validExtensions = {"jpg", "png"};
 
         public ImageService(IBlobService blobService)
         {
@@ -28,11 +28,12 @@ namespace HotelBookingGarnet.Services
             BlobContinuationToken blobContinuationToken = null;
             do
             {
-               var blobContainer = await blobService.GetBlobContainer();
-               var response = await blobContainer.ListBlobsSegmentedAsync(null, blobContinuationToken);
+                var blobContainer = await blobService.GetBlobContainer();
+                var response = await blobContainer.ListBlobsSegmentedAsync(null, blobContinuationToken);
                 blobContinuationToken = response.ContinuationToken;
-               await GetBlobDirectoryAsync(imageList, hotelId);
+                await GetBlobDirectoryAsync(imageList, hotelId);
             } while (blobContinuationToken != null);
+
             return imageList;
         }
 
@@ -50,7 +51,7 @@ namespace HotelBookingGarnet.Services
 
         private void GetImagesFromBlobs(IListBlobItem item, List<ImageDetails> imageList, long hotelId)
         {
-            CloudBlobDirectory directory = (CloudBlobDirectory)item;
+            CloudBlobDirectory directory = (CloudBlobDirectory) item;
             IEnumerable<IListBlobItem> blobs = directory.ListBlobs(true);
             foreach (var blob in blobs)
             {
@@ -59,8 +60,8 @@ namespace HotelBookingGarnet.Services
                 {
                     imageList.Add(new ImageDetails
                     {
-                        Name = blob.Uri.Segments[blob.Uri.Segments.Length-1],
-                        Path = blob.Uri.ToString()  
+                        Name = blob.Uri.Segments[blob.Uri.Segments.Length - 1],
+                        Path = blob.Uri.ToString()
                     });
                 }
             }
@@ -101,10 +102,11 @@ namespace HotelBookingGarnet.Services
                 }
                 else
                 {
-                newHotel.ErrorMessages.Add("Please add only image formats!");
-                return newHotel.ErrorMessages;
+                    newHotel.ErrorMessages.Add("Please add only image formats!");
+                    return newHotel.ErrorMessages;
                 }
             }
+
             return newHotel.ErrorMessages;
         }
 
@@ -125,7 +127,7 @@ namespace HotelBookingGarnet.Services
         {
             var fileNameSegments = file.FileName.Split(".");
             var extensions = new List<string>(validExtensions);
-            return extensions.Contains(fileNameSegments[fileNameSegments.Length-1]);
+            return extensions.Contains(fileNameSegments[fileNameSegments.Length - 1]);
         }
 
         public async Task<List<ImageDetails>> ListAllFoldersAsync()
@@ -139,6 +141,7 @@ namespace HotelBookingGarnet.Services
                 blobContinuationToken = response.ContinuationToken;
                 await GetAllBlobDirectoryAsync(imageList);
             } while (blobContinuationToken != null);
+
             return imageList;
         }
 
@@ -156,7 +159,7 @@ namespace HotelBookingGarnet.Services
 
         private void GetAllImagesFromBlobs(IListBlobItem item, List<ImageDetails> imageList)
         {
-            CloudBlobDirectory directory = (CloudBlobDirectory)item;
+            CloudBlobDirectory directory = (CloudBlobDirectory) item;
             IEnumerable<IListBlobItem> blobs = directory.ListBlobs();
             var blob = blobs.First();
             imageList.Add(new ImageDetails

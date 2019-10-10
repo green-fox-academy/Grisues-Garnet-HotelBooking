@@ -8,13 +8,12 @@ namespace HotelBookingGarnet.ViewModels
     {
         [Required]
         public DateTime ReservationStart { get; set; }
-        [Required]
+        [Required] 
         public DateTime ReservationEnd { get; set; }
-        [Required]
+        [Required] 
         public int NumberOfGuest { get; set; }
         public string PhoneNumber { get; set; }
-        [Required]
-        public string NameOfGuests { get; set; }
-        
+        [Required] 
+        public string GuestsNameInString { get; set; }
     }
 }

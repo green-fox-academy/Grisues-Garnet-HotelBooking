@@ -7,7 +7,7 @@
 
 <form asp-controller="Home" asp-action="Index" method="get">
     <div class="form-group">
-        <label asp-for="@Model.QueryParam.City" >City</label>
+        <label asp-for="@Model.QueryParam.City">City</label>
         <input asp-for="@Model.QueryParam.City" class="form-control" name="City"/>
     </div>
     <div class="form-group">
@@ -29,33 +29,38 @@
             </tr>
             @foreach (var hotel in Model.PagingList)
             {
-        <tr>
-            @if (hotel.Uri == null)
-            {
-                <td><img src="/images/defaultpic.png" class="thumb" /></td>
-            }
-            else
-            {
-                <td><img src="@hotel.Uri" class="thumb" /></td>
-            }
-            <td> @Html.DisplayFor(modelItem => hotel.HotelName) @hotel.StarRating</td>
-            <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
-            <td>
-                @if (hotel.Price == 0)
-                {
-                    <i>Unknown</i>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => hotel.Price) <span>Ft</span>
-                }
-            </td>
-            <td>
-                <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
-                    <button type="submit" class="btn btn-primary">More Info</button>
-                </form>
-            </td>
-        </tr>
+                <tr>
+                    @if (hotel.Uri == null)
+                    {
+                        <td>
+                            <img src="/images/defaultpic.png" class="thumb"/>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <img src="@hotel.Uri" class="thumb"/>
+                        </td>
+                    }
+                    <td> @Html.DisplayFor(modelItem => hotel.HotelName) @hotel.StarRating</td>
+                    <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
+                    <td>
+                        @if (hotel.Price == 0)
+                        {
+                            <i>Unknown</i>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => hotel.Price)
+                            <span>Ft</span>
+                        }
+                    </td>
+                    <td>
+                        <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
+                            <button type="submit" class="btn btn-primary">More Info</button>
+                        </form>
+                    </td>
+                </tr>
             }
         </table>
     </div>
@@ -67,6 +72,7 @@
            asp-action="@Model.ActionName"
            asp-route-city="@Model.QueryParam.City"
            asp-route-guest="@Model.QueryParam.Guest"
-           asp-route-page="@i">@i</a>
+           asp-route-page="@i">
+            @i</a>
     }
 </div>
