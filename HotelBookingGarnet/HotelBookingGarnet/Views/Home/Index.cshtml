@@ -2,71 +2,92 @@
 @model IndexViewModel
 
 @{
-    ViewBag.Title =@localizer["Home"];
+    ViewBag.Title = @localizer["Home"];
 }
 
-<form asp-controller="Home" asp-action="Index" method="get">
-    <div class="form-group">
-        <label asp-for="@Model.QueryParam.City" >@localizer["City"]</label>
-        <input asp-for="@Model.QueryParam.City" class="form-control" name="City"/>
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.QueryParam.Guest">@localizer["Number of guests"]</label>
-        <input asp-for="@Model.QueryParam.Guest" class="form-control" name="Guest" min="0"/>
-    </div>
-    <button type="submit" class="btn btn-primary">@localizer["Search"]</button>
-</form>
+    <div class="row">
+        <div class="col-md-2">
+            <div >
+            <form asp-controller="Home" asp-action="Index" method="get" class="mysearch">
+                <div class="form-group">
+                    <label asp-for="@Model.QueryParam.City">@localizer["City"]</label>
+                    <input asp-for="@Model.QueryParam.City" class="form-control" name="City" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.QueryParam.Guest">@localizer["Number of guests"]</label>
+                    <input asp-for="@Model.QueryParam.Guest" class="form-control" name="Guest" min="0" />
+                </div>
+                <button type="submit" class="btn btn-primary">@localizer["Search"]</button>
+            </form>
+            </div>
+        </div>
 
-@if (Model != null)
-{
-    <div>
-        <table class="table">
-            <tr>
-                <th></th>
-                <th>@localizer["Name"]</th>
-                <th>@localizer["Description"]</th>
-                <th>@localizer["Price/Night"]</th>
-            </tr>
-            @foreach (var hotel in Model.PagingList)
+        <div class="col-md-10">
+            @if (Model != null)
             {
-        <tr>
-            @if (hotel.Uri == null)
-            {
-                <td><img src="/images/defaultpic.png" class="thumb" /></td>
-            }
-            else
-            {
-                <td><img src="@hotel.Uri" class="thumb" /></td>
-            }
-            <td> @Html.DisplayFor(modelItem => hotel.HotelName) @hotel.StarRating</td>
-            <td> @Html.DisplayFor(modelItem => hotel.Description)</td>
-            <td>
-                @if (hotel.Price == 0)
+                @foreach (var hotel in Model.PagingList)
                 {
-                    <i>@localizer["Unknown"]</i>
+                    <div class="card mb-10">
+                        <div class="row no-gutters">
+                            <div class="col-md-3">
+                                <div>
+                                    @if (hotel.Uri == null)
+                                    {
+
+                                        <img src="/images/defaultpic.png" class="thumb" />
+                                    }
+                                    else
+                                    {
+                                        <img src="@hotel.Uri" class="thumb" />
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">@Html.DisplayFor(modelItem => hotel.HotelName)
+                                    @for (int i = 1; i <= hotel.StarRating; i++)
+                                    {
+                                        <img src="~/images/starrating.png" />
+                                    }</h5>
+                                    @if (hotel.Description.Length > 100)
+                                    {
+
+                                        <p class="card-text">@hotel.Description.Substring(0,hotel.Description.IndexOf(' ',100))<span>...</span></p>
+                                    }
+                                    else
+                                    {
+                                        <p class="card-text">@hotel.Description</p>
+                                    }
+                                    @if (hotel.Price == 0)
+                                    {
+                                        <p class="card-text"><small class="text-muted"><i>@localizer["Unknown"]</i></small></p>
+                                    }
+                                    else
+                                    {
+                                        <p class="card-text">@Html.DisplayFor(modelItem => hotel.Price) <span>Ft</span></p>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card-body">
+                                    <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
+                                        <button type="submit" class="btn btn-primary">@localizer["More Info"]</button>
+                                    </form>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
                 }
-                else
-                {
-                    @Html.DisplayFor(modelItem => hotel.Price) <span>Ft</span>
-                }
-            </td>
-            <td>
-                <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
-                    <button type="submit" class="btn btn-primary">@localizer["More Info"]</button>
-                </form>
-            </td>
-        </tr>
             }
-        </table>
+        </div>
     </div>
-}
-<div class="pagination-row">
-    @for (int i = 1; i <= Model.PagingList.PageCount; i++)
-    {
-        <a role="button" class="btn btn-primary"
-           asp-action="@Model.ActionName"
-           asp-route-city="@Model.QueryParam.City"
-           asp-route-guest="@Model.QueryParam.Guest"
-           asp-route-page="@i">@i</a>
-    }
-</div>
+    <div class="pagination-row">
+        @for (int i = 1; i <= Model.PagingList.PageCount; i++)
+        {
+            <a role="button" class="btn btn-primary"
+               asp-action="@Model.ActionName"
+               asp-route-city="@Model.QueryParam.City"
+               asp-route-guest="@Model.QueryParam.Guest"
+               asp-route-page="@i">@i</a>
+        }
+    </div>

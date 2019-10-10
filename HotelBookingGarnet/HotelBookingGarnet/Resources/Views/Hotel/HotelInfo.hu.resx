@@ -144,7 +144,7 @@
   <data name="Edit" xml:space="preserve">
     <value>Módosítás</value>
   </data>
-  <data name="Number of guest" xml:space="preserve">
+  <data name="Number of guests" xml:space="preserve">
     <value>Vendégek száma</value>
   </data>
   <data name="Number of rooms" xml:space="preserve">
@@ -185,5 +185,8 @@
   </data>
   <data name="s" xml:space="preserve">
     <value />
+  </data>
+  <data name="Reserve Room" xml:space="preserve">
+    <value>Szoba Foglalása</value>
   </data>
 </root>

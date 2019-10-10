@@ -2,7 +2,13 @@
 @model IndexViewModel
 
 <div class="card">
-    <h1 class="card-header"> @Model.Hotel.HotelName</h1>
+    <h1 class="card-header">
+        @Model.Hotel.HotelName
+        @for (int i = 1; i <= @Model.Hotel.StarRating; i++)
+        {
+            <img src="~/images/starrating.png" />
+        }
+    </h1>
     <div class="card-body">
         <div>
             <h5 class="card-title">@localizer["Country"]: </h5>
@@ -23,10 +29,6 @@
         <div>
             <h5 class="card-title">@localizer["Description"]</h5>
             <p class="card-text">@Model.Hotel.Description</p>
-        </div>
-        <div>
-            <h5 class="card-title">@localizer["Star Rating"]</h5>
-            <p class="card-text">@Model.Hotel.StarRating</p>
         </div>
         <div>
             <h5 class="card-title">@localizer["Property type"]</h5>
@@ -106,7 +108,7 @@
                         </td>
                         <td>
                             <form asp-controller="Reservation" asp-action="AddReservation" asp-route-roomId="@room.RoomId" method="get">
-                                <button type="submit" class="btn btn-warning">Reserve Room</button>
+                                <button type="submit" class="btn btn-warning">@localizer["Reserve Room"]</button>
                             </form>
                         </td>
                     </tr>
