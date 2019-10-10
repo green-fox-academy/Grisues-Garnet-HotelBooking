@@ -19,7 +19,7 @@ namespace HotelBookingGarnet.Services
 
         public async Task<List<Reservation>> FindReservationByHotelIdAsync(long hotelId)
         {
-            var hotelReservations = await applicationContext.Reservations.Include(r => r.RoomId)
+            var hotelReservations = await applicationContext.Reservations
                 .Where(r => r.HotelId == hotelId).ToListAsync();
 
             return hotelReservations;
@@ -31,6 +31,7 @@ namespace HotelBookingGarnet.Services
                 await applicationContext.Reservations.FirstOrDefaultAsync(r => r.ReservationId == reservationId);
             applicationContext.Reservations.Remove(reservation);
             applicationContext.SaveChanges();
+            
         }
 
         public async Task<List<Reservation>> FindReservationByIdAsync(string userId)
@@ -38,6 +39,22 @@ namespace HotelBookingGarnet.Services
             var reservations = await applicationContext.Reservations.Where(a => a.UserId == userId).ToListAsync();
 
             return reservations;
+        }
+
+        public Task DeleteReservationByIdAsync(long reservationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteExpiredReservationByIdAsync(string userId)
+        {
+            var expiredReservation = await applicationContext.Reservations.Where(r=> DateTime.Now.AddDays(-30) >= r.ReservationEnd && r.UserId == userId).ToListAsync();
+            foreach (var reservation in expiredReservation)
+            {
+                applicationContext.Reservations.Remove(reservation);
+            }
+            
+            applicationContext.SaveChanges();
         }
     }
 }

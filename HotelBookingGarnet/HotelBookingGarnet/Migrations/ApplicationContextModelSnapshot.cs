@@ -54,6 +54,8 @@ namespace HotelBookingGarnet.Migrations
 
                     b.Property<int>("StarRating");
 
+                    b.Property<string>("TimeZone");
+
                     b.Property<string>("Uri");
 
                     b.Property<string>("UserId");
@@ -232,22 +234,22 @@ namespace HotelBookingGarnet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e1444724-e217-4198-bfb3-533da6975c8a",
-                            ConcurrencyStamp = "548fc354-0e54-496d-a762-163084be7d74",
+                            Id = "15d5c002-1d13-4890-9bda-aab1c7648339",
+                            ConcurrencyStamp = "5daecb95-fccf-4538-a37c-d18ddf5049bb",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2410cf44-ffc2-4618-9f2e-e9bb6b8baa45",
-                            ConcurrencyStamp = "3eaa50a0-0cc5-4d8e-b2a8-027e74464a6c",
+                            Id = "dd831389-1071-47f0-a948-96f349881dae",
+                            ConcurrencyStamp = "47ad52c7-76a6-4c82-9461-0ba67e69b384",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "73be5aec-6c5e-436e-8061-ce39ba7d16b7",
-                            ConcurrencyStamp = "03109ce2-badd-4ebd-99ab-a3d0c41d7a73",
+                            Id = "b573a82a-c2ae-4c13-9998-bb5ee63ea091",
+                            ConcurrencyStamp = "ceaeb027-fc7d-4a08-982d-459dc1a2f2c0",
                             Name = "Hotel Manager",
                             NormalizedName = "HOTEL MANAGER"
                         });

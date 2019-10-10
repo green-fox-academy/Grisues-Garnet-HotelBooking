@@ -8,6 +8,7 @@ namespace HotelBookingGarnet.Services
     {
         Task<List<Reservation>> FindReservationByHotelIdAsync(long hotelId);
         Task<List<Reservation>> FindReservationByIdAsync(string userId);
-        Task DeleteReservationById(long reservationId);
+        Task DeleteReservationByIdAsync(long reservationId);
+        Task DeleteExpiredReservationByIdAsync(string userId);
     }
 }

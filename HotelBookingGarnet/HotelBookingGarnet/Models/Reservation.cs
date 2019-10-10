@@ -10,6 +10,7 @@ namespace HotelBookingGarnet.Models
         public int NumberOfGuest { get; set; }
         public string PhoneNumber { get; set; }
         //public List<Guest> NameOfGuests { get; set; }
+
         public long RoomId { get; set; }
         public DateTime ReservationStart { get; set; }
         public DateTime ReservationEnd { get; set; }

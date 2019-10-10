@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,13 +31,13 @@ namespace HotelBookingGarnet.Controllers
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             var reservations = await reservationService.FindReservationByIdAsync(currentUser.Id);
             var hotel = hotelService.GetHotels();
-            return View(new IndexViewModel { Reservations = reservations, HotelList = hotel });
+            return View(new IndexViewModel { Reservations = reservations, HotelList = hotel, User = currentUser });
 
         }
         [HttpPost("/cancelreservation/{reservationId}")]
         public async Task<IActionResult> CancelReservation(long reservationId)
         {
-            await reservationService.DeleteReservationById(reservationId);
+            await reservationService.DeleteReservationByIdAsync(reservationId);
             return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation" );
         }
 
@@ -50,6 +50,15 @@ namespace HotelBookingGarnet.Controllers
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
             
             return View(new IndexViewModel{Reservations = hotelReservations, Hotel = hotel, User = currentUser});
+        }
+
+        [Authorize(Roles = "Guest")]
+        [HttpPost("/cleanreservation")]
+        public async Task<IActionResult> CleanReservation(string userId)
+        {
+           await reservationService.DeleteExpiredReservationByIdAsync(userId);
+
+            return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
         }
     }
 }
