@@ -33,7 +33,7 @@ namespace HotelBookingGarnet.Controllers
         public async Task<IActionResult> MyReservation()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            var reservations = await reservationService.FindReservationsByIdAsync(currentUser.Id);
+            var reservations = await reservationService.FindReservationsByUserIdAsync(currentUser.Id);
             var hotel = hotelService.GetHotels();
             return View(new IndexViewModel {Reservations = reservations, HotelList = hotel});
         }

@@ -27,7 +27,14 @@
     }
         <td>@reservation.NumberOfGuest</td>
         <td>@reservation.TotalPrice ft</td>
-        @* <td>@reservation.NameOfGuests</td> *@
+        <td>
+            @foreach (var guest in reservation.GuestsList)
+            {
+                <div>
+                    <span>@guest.GuestName</span>
+                </div>
+            }
+        </td>
     @if (reservation.ReservationStart > DateTime.Now.AddDays(+1))
     {
         <td>
