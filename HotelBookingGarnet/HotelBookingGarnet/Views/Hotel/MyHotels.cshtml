@@ -16,11 +16,15 @@
         <tr>
             @if (hotel.Uri == null)
             {
-                <td><img src="/images/defaultpic.png" class="thumb"/></td>
+                <td>
+                    <img src="/images/defaultpic.png" class="thumb"/>
+                </td>
             }
             else
             {
-                <td><img src="@hotel.Uri" class="thumb"/></td>
+                <td>
+                    <img src="@hotel.Uri" class="thumb"/>
+                </td>
             }
             <td>@hotel.HotelName</td>
             <td>@hotel.City</td>
@@ -30,7 +34,9 @@
                     <button type="submit" class="btn btn-primary">More Info</button>
                 </form>
             </td>
-            <td><button type="button" class="btn btn-warning btn-sm">See upcoming reservations</button></td>
+            <td>
+                <button type="button" class="btn btn-warning btn-sm">See upcoming reservations</button>
+            </td>
         </tr>
     }
 </table>

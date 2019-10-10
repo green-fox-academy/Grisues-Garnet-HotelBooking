@@ -39,7 +39,7 @@ namespace HotelBookingGarnet
             }
 
             services.BuildServiceProvider().GetService<ApplicationContext>().Database.Migrate();
-            services.AddTransient<IReservationService, ReservationService>();
+
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IHotelService, HotelService>();
             services.AddTransient<IPropertyTypeService, PropertyTypeService>();
@@ -49,6 +49,8 @@ namespace HotelBookingGarnet
             services.AddTransient<IBedService, BedService>();
             services.AddTransient<IRoomBedService, RoomBedService>();
             services.AddTransient<IHotelPropertyTypeService, HotelPropertyTypeService>();
+            services.AddTransient<IReservationService, ReservationService>();
+            services.AddTransient<IGuestService, GuestService>();
             services.Configure<IdentityOptions>(options => { options.Password.RequireNonAlphanumeric = false; });
             services.SetUpAutoMapper();
             services.AddMvc();

@@ -27,6 +27,7 @@ namespace HotelBookingGarnet.Services
                     userManager.AddToRoleAsync(user, "Admin").Wait();
                 }
             }
+
             if (userManager.FindByEmailAsync("g@gmail.com").Result == null)
             {
                 User user = new User
@@ -42,6 +43,7 @@ namespace HotelBookingGarnet.Services
                     userManager.AddToRoleAsync(user, "Guest").Wait();
                 }
             }
+
             if (userManager.FindByEmailAsync("m@gmail.com").Result == null)
             {
                 User user = new User
@@ -57,6 +59,6 @@ namespace HotelBookingGarnet.Services
                     userManager.AddToRoleAsync(user, "Hotel Manager").Wait();
                 }
             }
-        }   
+        }
     }
 }
