@@ -1,13 +1,13 @@
 ﻿@model List<Hotel>
 
-<h1>My Hotels</h1>
+    <h1>@localizer["My Hotels"]</h1>
 
 <table class="table">
     <tr>
         <th></th>
-        <th>Hotel name</th>
-        <th>Description</th>
-        <th>Price/Night</th>
+        <th>@localizer["Hotel name"]</th>
+        <th>@localizer["Description"]</th>
+        <th>@localizer["Price/Night"]</th>
         <th></th>
         <th></th>
     </tr>
@@ -31,12 +31,12 @@
             <td>@hotel.Price</td>
             <td>
                 <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
-                    <button type="submit" class="btn btn-primary">More Info</button>
+                    <button type="submit" class="btn btn-primary">@localizer["More Info"]</button>
                 </form>
             </td>
             <td>
                 <form asp-controller="Reservation" asp-action="HotelReservation" asp-route-HotelId="@hotel.HotelId" method="get">
-                    <button type="submit" class="btn btn-warning btn-sm">See upcoming reservations</button>
+                    <button type="submit" class="btn btn-warning btn-sm">@localizer["See upcoming reservations"]</button>
                 </form>
             </td>
         </tr>

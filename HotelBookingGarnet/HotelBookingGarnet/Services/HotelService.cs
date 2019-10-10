@@ -106,7 +106,7 @@ namespace HotelBookingGarnet.Services
                 .Where(h => h.City.Contains(queryParam.City) || String.IsNullOrEmpty(queryParam.City))
                 .Where(h => h.IsItAvailable || queryParam.Guest == 0)
                 .OrderBy(h => h.HotelName).ToListAsync();
-            return PagingList.Create(hotels, 5, queryParam.Page);
+            return PagingList.Create(hotels, 3, queryParam.Page);
         }
 
         public async Task SetIndexImageAsync(long hotelId)

@@ -1,19 +1,19 @@
 ﻿@model IndexViewModel
 
 @{
-    ViewData["Title"] = "MyReservation";
+    ViewData["Title"] =@localizer["MyReservation"];
 }
 
-<h1>My Reservation</h1>
+    <h1>@localizer["MyReservation"]</h1>
 
 <table class="table">
     <tr>
-        <th>Reservation Start</th>
-        <th>Reservation End</th>
+        <th>@localizer["Reservation Start"]</th>
+        <th>@localizer["Reservation End"]</th>
         <th>Hotel</th>
-        <th>Number of Guests</th>
-        <th>Total price</th>
-        <th>Name of Guests</th>
+        <th>@localizer["Number of Guests"]</th>
+        <th>@localizer["Total price"]</th>
+        <th>@localizer["Name of Guests"]</th>
     </tr>
     @foreach (var reservation in @Model.Reservations)
     {
@@ -39,7 +39,7 @@
     {
         <td>
             <form asp-controller="Reservation" asp-action="CancelReservation" asp-route-ReservationId="@reservation.ReservationId" method="post">
-                <button type="submit" class="btn btn-primary">Cancel</button>
+                <button type="submit" class="btn btn-primary">@localizer["Cancel"]</button>
             </form>
         </td>
     }

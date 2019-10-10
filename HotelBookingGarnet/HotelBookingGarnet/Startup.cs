@@ -3,13 +3,17 @@ using HotelBookingGarnet.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ReflectionIT.Mvc.Paging;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using HotelBookingGarnet.Services.Helpers.AutoMapper;
-
 
 namespace HotelBookingGarnet
 {
@@ -53,9 +57,24 @@ namespace HotelBookingGarnet
             services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IGuestService, GuestService>();
             services.Configure<IdentityOptions>(options => { options.Password.RequireNonAlphanumeric = false; });
+            services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
+            services.AddMvc()
+                .AddViewLocalization(options => { options.ResourcesPath = "Resources"; })
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
             services.SetUpAutoMapper();
             services.AddMvc();
             services.AddPaging();
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new List<CultureInfo> {
+                    new CultureInfo("en-GB"),
+                    new CultureInfo("hu-HU")
+                };
+                options.DefaultRequestCulture = new RequestCulture("en-GB");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserManager<User> userManager)
@@ -66,6 +85,8 @@ namespace HotelBookingGarnet
             {
                 app.UseDeveloperExceptionPage();
             }
+            var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(options.Value);
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseStaticFiles();

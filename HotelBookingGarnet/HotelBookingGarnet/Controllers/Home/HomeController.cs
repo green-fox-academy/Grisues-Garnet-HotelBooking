@@ -23,9 +23,11 @@ namespace HotelBookingGarnet.Controllers.Home
         [HttpGet("/")]
         public async Task<IActionResult> Index(QueryParam queryParam)
         {
+            var hotelList = hotelService.GetHotels();
             var hotels = await hotelService.FilterHotelsAsync(queryParam);
             return View(new IndexViewModel
             {
+                HotelList = hotelList,
                 PagingList = hotels,
                 QueryParam = queryParam,
                 ActionName = nameof(Index),

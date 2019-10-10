@@ -2,42 +2,44 @@
 @model IndexViewModel
 
 <div class="card">
-    <h1 class="card-header"> @Model.Hotel.HotelName</h1>
+    <h1 class="card-header">
+        @Model.Hotel.HotelName
+        @for (int i = 1; i <= @Model.Hotel.StarRating; i++)
+        {
+            <img src="~/images/starrating.png" />
+        }
+    </h1>
     <div class="card-body">
         <div>
-            <h5 class="card-title">Country: </h5>
+            <h5 class="card-title">@localizer["Country"]: </h5>
             <p class="card-text">@Model.Hotel.Country</p>
         </div>
         <div>
-            <h5 class="card-title">Region: </h5>
+            <h5 class="card-title">@localizer["Region"]</h5>
             <p class="card-text">@Model.Hotel.Region</p>
         </div>
         <div>
-            <h5 class="card-title">City: </h5>
+            <h5 class="card-title">@localizer["City"]</h5>
             <p class="card-text">@Model.Hotel.City</p>
         </div>
         <div>
-            <h5 class="card-title">Address: </h5>
+            <h5 class="card-title">@localizer["Address"]</h5>
             <p class="card-text">@Model.Hotel.Address</p>
         </div>
         <div>
-            <h5 class="card-title">Description: </h5>
+            <h5 class="card-title">@localizer["Description"]</h5>
             <p class="card-text">@Model.Hotel.Description</p>
         </div>
         <div>
-            <h5 class="card-title">Star Rating: </h5>
-            <p class="card-text">@Model.Hotel.StarRating</p>
-        </div>
-        <div>
-            <h5 class="card-title">Property type:</h5>
+            <h5 class="card-title">@localizer["Property type"]</h5>
             <p class="card-text"> @ViewData["propertyType"]</p>
         </div>
         <div>
-            <h5 class="card-title">Price:</h5>
+            <h5 class="card-title">@localizer["Price"]</h5>
             <p class="card-text">
                 @if (Model.Hotel.Price == 0)
                 {
-                    <i>Unknown</i>
+                <i>@localizer["Unknown"]</i>
                 }
                 else
                 {
@@ -55,25 +57,25 @@
         @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
         {
             <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.Hotel.HotelId" method="get">
-                <button type="submit" class="btn btn-primary">Edit</button>
+                <button type="submit" class="btn btn-primary">@localizer["Edit"]</button>
             </form>
 
             <form asp-controller="Hotel" asp-action="AddRoom" asp-route-HotelId="@Model.Hotel.HotelId" method="get">
-                <button type="submit" class="btn btn-success">Add room</button>
+                <button type="submit" class="btn btn-success">@localizer["Add room"]</button>
             </form>
         }
 
-        <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">Cancel</a>
-
+        <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">@localizer["Cancel"]</a>
+        
         @if (Model.Hotel.Rooms.Count != 0)
         {
             <table class="table">
                 <tr>
-                    <th>Room name</th>
-                    <th>Price</th>
-                    <th>Number of guests</th>
-                    <th>Number of rooms</th>
-                    <th>Beds</th>
+                    <th>@localizer["Room name"]</th>
+                    <th>@localizer["Price"]</th>
+                    <th>@localizer["Number of guests"]</th>
+                    <th>@localizer["Number of rooms"]</th>
+                    <th>@localizer["Beds"]</th>
                 </tr>
                 @foreach (var room in Model.Hotel.Rooms)
                 {
@@ -88,28 +90,28 @@
                                 @if (room.RoomId == bed.RoomId)
                                 {
                                     <div>
-                                        <span>@bed.Bed.NumberOfBeds</span>
-                                        @if (@bed.Bed.NumberOfBeds > 1)
-                                        {
-                                            <span>@(bed.Bed.BedType + "s")</span>
-                                        }
-                                        else
-                                        {
-                                            <span>@bed.Bed.BedType</span>
-                                        }
+                                    <span>@bed.Bed.NumberOfBeds</span>
+                                    @if (@bed.Bed.NumberOfBeds > 1)
+                                    {
+                                        <span>@localizer[@bed.Bed.BedType]<span>@localizer["s"]</span></span>
+                                    }
+                                    else
+                                    {
+                                    <span>@localizer[@bed.Bed.BedType]</span>
+                                    }
                                     </div>
                                 }
                             }
                             @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
                             {
-                                <a asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@Model.Hotel.HotelId" asp-route-roomId="@room.RoomId">+ add bed</a>
+                                <a asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@Model.Hotel.HotelId" asp-route-roomId="@room.RoomId">@localizer["+ add bed"]</a>
                             }
                         </td>
                         <td>
                             @if (User.IsInRole("Guest") || User.IsInRole("Hotel Manager"))
                             {
                                 <form asp-controller="Reservation" asp-action="AddReservation" asp-route-roomId="@room.RoomId" asp-route-hotelId="@Model.Hotel.HotelId" method="get">
-                                    <button type="submit" class="btn btn-warning">Reserve Room</button>
+                                    <button type="submit" class="btn btn-warning">@localizer["Reserve Room"]</button>
                                 </form>
                             }
                         </td>

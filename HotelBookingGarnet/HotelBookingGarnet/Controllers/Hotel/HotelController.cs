@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using HotelBookingGarnet.Controllers.Home;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.WindowsAzure.Storage;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
 using AutoMapper;
 
 namespace HotelBookingGarnet.Controllers.Hotel
@@ -177,6 +179,27 @@ namespace HotelBookingGarnet.Controllers.Hotel
             return View(newBed);
         }
 
+        [Authorize]
+        [HttpGet("/settings")]
+        public async Task<IActionResult> Settings()
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+
+            return View(currentUser);
+        }
+
+        [Authorize]
+        [HttpPost("/settings")]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddDays(1) });
+
+            return LocalRedirect(returnUrl);
+        }
+       
         [Authorize(Roles = "Hotel Manager")]
         [HttpGet("/myhotels")]
         public async Task<IActionResult> MyHotels()
