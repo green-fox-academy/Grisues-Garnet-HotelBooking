@@ -34,9 +34,11 @@ namespace HotelBookingGarnet.Controllers.Login
                 {
                     return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
+
                 model.ErrorMessages = errors;
                 return View(model);
             }
+
             return View(model);
         }
     }

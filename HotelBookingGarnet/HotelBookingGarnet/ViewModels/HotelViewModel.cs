@@ -11,15 +11,15 @@ namespace HotelBookingGarnet.ViewModels
     {
         [Required]
         public string HotelName { get; set; }
-        [Required]
+        [Required] 
         public string Country { get; set; }
-        [Required]
+        [Required] 
         public string Region { get; set; }
         [Required]
         public string City { get; set; }
-        [Required]
+        [Required] 
         public string Address { get; set; }
-        [Required]
+        [Required] 
         public string Description { get; set; }
         [Required]
         public int StarRating { get; set; }

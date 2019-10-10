@@ -11,7 +11,8 @@ namespace HotelBookingGarnet.Services
         private readonly IPropertyTypeService propertyTypeService;
         private readonly IHotelService hotelService;
 
-        public HotelPropertyTypeService(ApplicationContext applicationContext, IPropertyTypeService propertyTypeService, IHotelService hotelService)
+        public HotelPropertyTypeService(ApplicationContext applicationContext, IPropertyTypeService propertyTypeService,
+            IHotelService hotelService)
         {
             this.applicationContext = applicationContext;
             this.propertyTypeService = propertyTypeService;
@@ -54,7 +55,7 @@ namespace HotelBookingGarnet.Services
                 {
                     applicationContext.Remove(hotelPropertyType);
                     await applicationContext.SaveChangesAsync();
-                    
+
                     var newHotelPropertyType = new HotelPropertyType();
                     newHotelPropertyType.PropertyType = propertyType;
                     newHotelPropertyType.PropertyTypeId = propertyType.PropertyTypeId;

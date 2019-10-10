@@ -26,7 +26,7 @@ namespace HotelBookingGarnet.Services
             var room = mapper.Map<RoomViewModel, Room>(newRoom);
             room.HotelId = hotelId;
             room.NumberOfAvailablePlaces = newRoom.NumberOfGuests * newRoom.NumberOfRooms;
-            
+
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
             if (hotel.Price > room.Price || hotel.Price == 0)
             {

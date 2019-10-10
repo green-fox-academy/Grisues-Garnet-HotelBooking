@@ -5,7 +5,6 @@ using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 
-
 namespace HotelBookingGarnet.Controllers.Home
 {
     public class HomeController : Controller
@@ -30,7 +29,7 @@ namespace HotelBookingGarnet.Controllers.Home
                 PagingList = hotels,
                 QueryParam = queryParam,
                 ActionName = nameof(Index),
-            }); 
+            });
         }
 
         [HttpPost("/logout")]

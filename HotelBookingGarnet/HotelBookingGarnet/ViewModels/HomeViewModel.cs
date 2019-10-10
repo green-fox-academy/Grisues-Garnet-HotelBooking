@@ -11,5 +11,5 @@ namespace HotelBookingGarnet.ViewModels
     {
         public PagingList<Hotel> PagingList { get; set; }
         public List<ImageDetails> FolderList { get; set; }
-    } 
+    }
 }

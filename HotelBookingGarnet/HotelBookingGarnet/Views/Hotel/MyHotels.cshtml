@@ -16,11 +16,15 @@
         <tr>
             @if (hotel.Uri == null)
             {
-                <td><img src="/images/defaultpic.png" class="thumb"/></td>
+                <td>
+                    <img src="/images/defaultpic.png" class="thumb"/>
+                </td>
             }
             else
             {
-                <td><img src="@hotel.Uri" class="thumb"/></td>
+                <td>
+                    <img src="@hotel.Uri" class="thumb"/>
+                </td>
             }
             <td>@hotel.HotelName</td>
             <td>@hotel.City</td>
@@ -32,7 +36,7 @@
             </td>
             <td>
                 <form asp-controller="Reservation" asp-action="HotelReservation" asp-route-HotelId="@hotel.HotelId" method="get">
-                    <button type="button" class="btn btn-warning btn-sm">See upcoming reservations</button>
+                    <button type="submit" class="btn btn-warning btn-sm">See upcoming reservations</button>
                 </form>
             </td>
         </tr>
