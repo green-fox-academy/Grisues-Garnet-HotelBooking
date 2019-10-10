@@ -15,27 +15,27 @@
         </tr>
         @foreach (var reservation in Model.Reservations)
         {
-            @foreach (var room in Model.Hotel.Rooms)
-            {
-                <tr>
+            <tr>
+                @foreach (var room in Model.Hotel.Rooms)
+                {
                     @if (reservation.RoomId == room.RoomId)
                     {
                         <td>@room.RoomName</td>
                     }
-                    <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
-                    <td>@reservation.ReservationEnd</td>
-                    <td>@reservation.NumberOfGuest</td>
-                    <td>
-                        @foreach (var guestName in reservation.NameOfGuests)
-                        {
-                            <div>
-                                <span>@guestName</span>
-                            </div>
-                        }
-                    </td>
-                    <td>@reservation.TotalPrice Ft</td>
-                </tr>
-            }
+                }
+                <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
+                <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
+                <td>@reservation.NumberOfGuest</td>
+                <td>
+                    @foreach (var guestName in reservation.NameOfGuests)
+                    {
+                        <div>
+                            <span>@guestName</span>
+                        </div>
+                    }
+                </td>
+                <td>@reservation.TotalPrice Ft</td>
+            </tr>
         }
     </table>
 }

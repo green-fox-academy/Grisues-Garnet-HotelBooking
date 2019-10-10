@@ -124,7 +124,7 @@ namespace HotelBookingGarnet.Services
         {
             var myHotels = await applicationContext.Hotels.Include(h => h.Rooms)
                 .Include(h => h.HotelPropertyTypes)
-                .Where(h => h.UserId == userId).AsQueryable().OrderBy(h => h.HotelName).ToListAsync();
+                .Where(h => h.UserId == userId).OrderBy(h => h.HotelName).ToListAsync();
             return myHotels;
         }
     }

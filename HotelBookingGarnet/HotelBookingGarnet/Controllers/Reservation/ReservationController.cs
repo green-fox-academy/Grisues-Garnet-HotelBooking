@@ -29,7 +29,7 @@ namespace HotelBookingGarnet.Controllers
         public async Task<IActionResult> MyReservation()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            var reservations = await reservationService.FindReservationByIdAsync(currentUser.Id);
+            var reservations = await reservationService.FindReservationsByIdAsync(currentUser.Id);
             var hotel = hotelService.GetHotels();
             return View(new IndexViewModel { Reservations = reservations, HotelList = hotel });
 
@@ -46,7 +46,7 @@ namespace HotelBookingGarnet.Controllers
         public async Task<IActionResult> HotelReservation(long hotelId)
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            var hotelReservations = await reservationService.FindReservationByHotelIdAsync(hotelId);
+            var hotelReservations = await reservationService.FindReservationsByHotelIdAsync(hotelId);
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
             
             return View(new IndexViewModel{Reservations = hotelReservations, Hotel = hotel, User = currentUser});
