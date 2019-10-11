@@ -17,24 +17,29 @@
     </tr>
     @foreach (var reservation in @Model.Reservations)
     {
-    @foreach (var hotel in Model.HotelList)
-   {<tr>
-        <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
-        <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
-    @if (reservation.HotelId == hotel.HotelId)
-    {
-        <td>@hotel.HotelName</td>
-    }
-        <td>@reservation.NumberOfGuest</td>
-        <td>@reservation.TotalPrice ft</td>
-        <td>
-            @foreach (var guest in reservation.GuestsList)
+<tr>
+    <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
+    <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
+
+    <td>
+        @foreach (var hotel in Model.HotelList)
+        {@if (reservation.HotelId == hotel.HotelId)
             {
-                <div>
-                    <span>@guest.GuestName</span>
-                </div>
+                <a asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@hotel.HotelId">@hotel.HotelName</a>
             }
-        </td>
+    }
+    </td>
+
+    <td>@reservation.NumberOfGuest</td>
+    <td>@reservation.TotalPrice ft</td>
+    <td>
+        @foreach (var guest in reservation.GuestsList)
+        {
+            <div>
+                <span>@guest.GuestName</span>
+            </div>
+        }
+    </td>
     @if (reservation.ReservationStart > DateTime.Now.AddDays(+1))
     {
         <td>
@@ -44,7 +49,7 @@
         </td>
     }
 </tr>
-        }
+       
     }
 </table>
 <form asp-controller="Reservation" asp-action="CleanReservation" asp-route-UserId="@Model.User.Id" method="post">
