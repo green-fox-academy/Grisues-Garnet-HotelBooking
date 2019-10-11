@@ -47,7 +47,7 @@
                                         @Html.DisplayFor(modelItem => hotel.HotelName)
                                         @for (int i = 1; i <= hotel.StarRating; i++)
                                         {
-                                            <img src="~/images/starrating.png" />
+                                            <img class="my-star" src="~/images/starrating.png" />
                                         }
                                     </h5>
                                     @if (hotel.Description.Length > 100)
