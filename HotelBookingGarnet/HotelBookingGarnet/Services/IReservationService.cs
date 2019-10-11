@@ -11,10 +11,12 @@ namespace HotelBookingGarnet.Services
     {
 
         Task<List<Reservation>> FindReservationsByHotelIdAsync(long hotelId);
+        Task<List<Reservation>> FindReservationsByRoomIdAsync(long roomId);
         Task<List<Reservation>> FindReservationByReservationIdAsync(string userId);
         Task DeleteReservationByIdAsync(long reservationId);
         Task DeleteExpiredReservationByIdAsync(string userId);
         Task<long> AddReservationAsync(ReservationViewModel newReservation, string userId, long roomId, long hotelId);
         Task<Reservation> FindReservationByReservationIdAsync(long reservationId);
+        Task <List<string>> ReservationValidationAsync(ReservationViewModel newReservation, long roomId);
     }
 }

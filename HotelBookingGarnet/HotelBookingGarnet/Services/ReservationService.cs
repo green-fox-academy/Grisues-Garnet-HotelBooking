@@ -33,6 +33,13 @@ namespace HotelBookingGarnet.Services
             return hotelReservations;
         }
 
+        public async Task<List<Reservation>> FindReservationsByRoomIdAsync(long roomId)
+        {
+            var hotelReservations = await applicationContext.Reservations.Include(r => r.GuestsList)
+                .Where(r => r.RoomId == roomId).OrderBy(a => a.ReservationStart).ToListAsync();
+            return hotelReservations;
+        }
+
         public async Task DeleteReservationByIdAsync(long reservationId)
         {
             var reservation =
@@ -51,7 +58,8 @@ namespace HotelBookingGarnet.Services
 
         public async Task DeleteExpiredReservationByIdAsync(string userId)
         {
-            var expiredReservation = await applicationContext.Reservations.Where(r => DateTime.Now.AddDays(-30) >= r.ReservationEnd && r.UserId == userId).ToListAsync();
+            var expiredReservation = await applicationContext.Reservations
+                .Where(r => DateTime.Now.AddDays(-30) >= r.ReservationEnd && r.UserId == userId).ToListAsync();
             foreach (var reservation in expiredReservation)
             {
                 applicationContext.Reservations.Remove(reservation);
@@ -79,6 +87,44 @@ namespace HotelBookingGarnet.Services
             var room = await roomService.FindRoomByIdAsync(roomId);
             var daysOfReservation = (int) (reservation.ReservationEnd - reservation.ReservationStart).TotalDays + 1;
             return room.Price * daysOfReservation;
+        }
+
+        public async Task<List<string>> ReservationValidationAsync(ReservationViewModel newReservation, long roomId)
+        {
+            var startDate = newReservation.ReservationStart;
+            var endDate = newReservation.ReservationEnd;
+
+            if (startDate > endDate || startDate < DateTime.Today)
+            {
+                newReservation.ErrorMessages.Add("Invalid reservation time interval!");
+                return newReservation.ErrorMessages;
+            }
+
+            foreach (var reservation in FindReservationsByRoomIdAsync(roomId).Result)
+            {
+                var occupationStart = reservation.ReservationEnd;
+                var occupationEnd = reservation.ReservationEnd;
+
+                if (occupationStart < startDate && startDate < occupationEnd ||
+                    occupationStart < endDate && endDate < occupationEnd ||
+                    startDate < occupationStart && occupationEnd < endDate)
+                {
+                    var styledStartDate = occupationStart.ToString("yyyy/MM/dd");
+                    var styledEndDate = occupationEnd.ToString("yyyy/MM/dd");
+                    newReservation.ErrorMessages.Add(
+                        $"Room is already booked in this interval!  {styledStartDate} - {styledEndDate}");
+                    return newReservation.ErrorMessages;
+                }
+            }
+
+            var guestNameListSize = newReservation.GuestsNameInString.Split(", ").Length;
+            if (newReservation.NumberOfGuest != guestNameListSize)
+            {
+                newReservation.ErrorMessages.Add("The specified guests does not match with the given guest number!");
+                return newReservation.ErrorMessages;
+            }
+
+            return newReservation.ErrorMessages;
         }
 
         public async Task<Reservation> FindReservationByReservationIdAsync(long reservationId)

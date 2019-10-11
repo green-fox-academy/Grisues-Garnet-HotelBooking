@@ -36,14 +36,14 @@ namespace HotelBookingGarnet.Controllers
             var reservations = await reservationService.FindReservationByReservationIdAsync(currentUser.Id);
             var hotel = hotelService.GetHotels();
 
-            return View(new IndexViewModel { Reservations = reservations, HotelList = hotel, User = currentUser });
+            return View(new IndexViewModel {Reservations = reservations, HotelList = hotel, User = currentUser});
         }
 
         [HttpPost("/cancelreservation/{reservationId}")]
         public async Task<IActionResult> CancelReservation(long reservationId)
         {
             await reservationService.DeleteReservationByIdAsync(reservationId);
-            return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation" );
+            return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]
@@ -68,10 +68,22 @@ namespace HotelBookingGarnet.Controllers
         [HttpPost("/newReservation/{roomId}/{hotelId}")]
         public async Task<IActionResult> AddReservation(ReservationViewModel newReservation, long roomId, long hotelId)
         {
-            var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            var reservationId =
-                await reservationService.AddReservationAsync(newReservation, currentUser.Id, roomId, hotelId);
-            return RedirectToAction(nameof(ConfirmationPage), "Reservation", new {reservationId});
+            if (ModelState.IsValid)
+            {
+                var errors = await reservationService.ReservationValidationAsync(newReservation, roomId);
+                if (errors.Count == 0)
+                {
+                    var currentUser = await userManager.GetUserAsync(HttpContext.User);
+                    var reservationId =
+                        await reservationService.AddReservationAsync(newReservation, currentUser.Id, roomId, hotelId);
+                    return RedirectToAction(nameof(ConfirmationPage), "Reservation", new {reservationId});
+                }
+
+                newReservation.ErrorMessages = errors;
+                return View(newReservation);
+            }
+
+            return View(newReservation);
         }
 
         [HttpGet("/confirmation/{reservationId}")]
@@ -85,7 +97,7 @@ namespace HotelBookingGarnet.Controllers
         [HttpPost("/cleanreservation")]
         public async Task<IActionResult> CleanReservation(string userId)
         {
-           await reservationService.DeleteExpiredReservationByIdAsync(userId);
+            await reservationService.DeleteExpiredReservationByIdAsync(userId);
 
             return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
         }
