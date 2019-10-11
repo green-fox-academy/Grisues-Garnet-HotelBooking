@@ -1,34 +1,39 @@
 @model HotelViewModel
 
+    
     <form asp-controller="Hotel" asp-action="@ViewData["Action"]" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label asp-for="@Model.HotelName">@localizer["Hotel name"]</label>
-            <input type="text" asp-for="@Model.HotelName" class="form-control">
-            <span asp-validation-for="@Model.HotelName" class="text-danger"></span>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="@Model.HotelName">@localizer["Hotel name"]</label>
+                <input type="text" asp-for="@Model.HotelName" class="form-control">
+                <span asp-validation-for="@Model.HotelName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Country">@localizer["Country"]</label>
+                <input type="text" asp-for="@Model.Country" class="form-control">
+                <span asp-validation-for="@Model.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Region">@localizer["Region"]</label>
+                <input type="text" asp-for="@Model.Region" class="form-control">
+                <span asp-validation-for="@Model.Region" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.City">@localizer["City"]</label>
+                <input type="text" asp-for="@Model.City" class="form-control">
+                <span asp-validation-for="@Model.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Address">@localizer["Address"]</label>
+                <input type="text" asp-for="@Model.Address" class="form-control">
+                <span asp-validation-for="@Model.Address" class="text-danger"></span>
+            </div>
         </div>
-        <div class="form-group">
-            <label asp-for="@Model.Country">@localizer["Country"]</label>
-            <input type="text" asp-for="@Model.Country" class="form-control">
-            <span asp-validation-for="@Model.Country" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="@Model.Region">@localizer["Region"]</label>
-            <input type="text" asp-for="@Model.Region" class="form-control">
-            <span asp-validation-for="@Model.Region" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="@Model.City">@localizer["City"]</label>
-            <input type="text" asp-for="@Model.City" class="form-control">
-            <span asp-validation-for="@Model.City" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="@Model.Address">@localizer["Address"]</label>
-            <input type="text" asp-for="@Model.Address" class="form-control">
-            <span asp-validation-for="@Model.Address" class="text-danger"></span>
-        </div>
+        <div class="col-md-6">
         <div class="form-group">
             <label asp-for="@Model.Description">@localizer["Description"]</label>
-            <input type="text" asp-for="@Model.Description" class="form-control">
+            <textarea asp-for="@Model.Description" class="form-control" rows="3"></textarea>
             <span asp-validation-for="@Model.Description" class="text-danger"></span>
         </div>
         <div class="form-group">
@@ -48,9 +53,11 @@
             <input type="text" asp-for="@Model.PropertyType" class="form-control">
             <span asp-validation-for="@Model.PropertyType" class="text-danger"></span>
         </div>
-        <div class="form-group">
-            <label asp-for="@ViewBag">Select your time zone:</label>
-            @Html.DropDownList("TimeZone", ViewBag.TimeZones as List<SelectListItem>)
+            <div class="form-group">
+                <label asp-for="@ViewBag">Select your time zone:</label>
+                @Html.DropDownList("TimeZone", ViewBag.TimeZones as List<SelectListItem>)
+            </div>
+            </div>
         </div>
         <div class="form-group">
             @if (Model.ErrorMessages != null)
@@ -61,7 +68,7 @@
                 }
             }
             <div>
-                <input type="file" asp-for="@Model.Files" multiple />
+                <input type="file" asp-for="@Model.Files" multiple/>
             </div>
             <div>
                 <span asp-validation-for="@Model.Files" class="text-danger"></span>
@@ -74,6 +81,6 @@
         }
         else
         {
-            <a class="btn btn-danger" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">@localizer["Cancel"]</a> 
+            <a class="btn btn-danger" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">@localizer["Cancel"]</a>
         }
     </form>

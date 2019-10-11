@@ -6,27 +6,27 @@
 }
 
     <div class="row">
-        <div class="col-md-2">
-            <div >
-            <form asp-controller="Home" asp-action="Index" method="get" class="mysearch">
-                <div class="form-group">
-                    <label asp-for="@Model.QueryParam.City">@localizer["City"]</label>
-                    <input asp-for="@Model.QueryParam.City" class="form-control" name="City" />
-                </div>
-                <div class="form-group">
-                    <label asp-for="@Model.QueryParam.Guest">@localizer["Number of guests"]</label>
-                    <input asp-for="@Model.QueryParam.Guest" class="form-control" name="Guest" min="0" />
-                </div>
-                <button type="submit" class="btn btn-primary">@localizer["Search"]</button>
-            </form>
+        <div class="col-md-2 my-search">
+            <div>
+                <form asp-controller="Home" asp-action="Index" method="get">
+                    <div class="form-group">
+                        <label asp-for="@Model.QueryParam.City">@localizer["City"]</label>
+                        <input asp-for="@Model.QueryParam.City" class="form-control" name="City" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.QueryParam.Guest">@localizer["Number of guests"]</label>
+                        <input asp-for="@Model.QueryParam.Guest" class="form-control" name="Guest" min="0" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">@localizer["Search"]</button>
+                </form>
             </div>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-10 my-border">
             @if (Model != null)
             {
                 @foreach (var hotel in Model.PagingList)
                 {
-                    <div class="card mb-10">
+                    <div class="card mb-10 hotel-card">
                         <div class="row no-gutters">
                             <div class="col-md-3">
                                 <div>
