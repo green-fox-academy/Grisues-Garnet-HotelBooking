@@ -17,6 +17,6 @@ namespace HotelBookingGarnet.Services
         Task DeleteExpiredReservationByIdAsync(string userId);
         Task<long> AddReservationAsync(ReservationViewModel newReservation, string userId, long roomId, long hotelId);
         Task<Reservation> FindReservationByReservationIdAsync(long reservationId);
-        Task <List<string>> ReservationValidationAsync(ReservationViewModel newReservation, long roomId);
+        List<string> ReservationValidation(ReservationViewModel newReservation, long roomId);
     }
 }

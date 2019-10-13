@@ -70,7 +70,7 @@ namespace HotelBookingGarnet.Controllers
         {
             if (ModelState.IsValid)
             {
-                var errors = await reservationService.ReservationValidationAsync(newReservation, roomId);
+                var errors = reservationService.ReservationValidation(newReservation, roomId);
                 if (errors.Count == 0)
                 {
                     var currentUser = await userManager.GetUserAsync(HttpContext.User);
