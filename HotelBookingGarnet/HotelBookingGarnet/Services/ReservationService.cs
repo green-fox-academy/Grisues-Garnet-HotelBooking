@@ -127,7 +127,7 @@ namespace HotelBookingGarnet.Services
 
             foreach (var reservation in FindReservationsByRoomIdAsync(roomId).Result)
             {
-                var occupationStart = reservation.ReservationEnd;
+                var occupationStart = reservation.ReservationStart;
                 var occupationEnd = reservation.ReservationEnd;
 
                 if (occupationStart <= startDate && startDate <= occupationEnd ||
