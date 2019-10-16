@@ -13,10 +13,11 @@ namespace HotelBookingGarnet.Services
     public interface IHotelService
     {
         List<Hotel> GetHotels();
+        Task<List<Hotel>> GetHotelsAsync();
         Task EditHotelAsync(long hotelId, HotelViewModel editHotel);
         Task<Hotel> FindHotelByIdAsync(long hotelId);
         Task<long> AddHotelAsync(HotelViewModel newHotel, string userId);   
-        Task<Hotel> FindHotelByName(string hotelName);
+        Task<Hotel> FindHotelByNameAsync(string hotelName);
         Task<PagingList<Hotel>> FilterHotelsAsync(QueryParam queryParam);
         Task SetIndexImageAsync(long hotelId);
         Task<List<Hotel>> ListMyHotelsAsync(string userId);

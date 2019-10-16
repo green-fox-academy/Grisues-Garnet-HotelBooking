@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using HotelBookingGarnet.Services;
-using HotelBookingGarnet.Utils;
-using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using HotelBookingGarnet.ViewModels;
 
 namespace HotelBookingGarnet.Controllers.API
 {
@@ -13,18 +10,32 @@ namespace HotelBookingGarnet.Controllers.API
     {
         
         private readonly IHotelService hotelService;
+        private readonly IApiHotelService apiHotelService;
 
-        public ApiController(IHotelService hotelService)
+        public ApiController(IHotelService hotelService, IApiHotelService apiHotelService)
         {
             this.hotelService = hotelService;
+            this.apiHotelService = apiHotelService;
         }
-        
-//        [HttpGet("/api/hotels?city={city}")]
-//        public IActionResult Get([FromQuery(Name = "city")] string city)
-//        {
-//
-//
-//            return null;
-//        }
+
+        [HttpGet("/api/hotels")]
+        public async Task<ActionResult<ApiViewModel>> ListHotels([FromQuery] string city)
+        {
+            var hotelList = await hotelService.GetHotelsAsync();
+            var model = new ApiViewModel
+            {
+                HotelList = hotelList,
+                PageCount = 4,
+                CurrentPage = 1
+            };
+            
+            if (city == null)
+            {
+                return model;
+            }
+            
+            model.HotelList = await apiHotelService.FindHotelByCityAsync(city);
+            return model;
+        }
     }
 }
