@@ -8,7 +8,16 @@ namespace HotelBookingGarnet.Services.Helpers.AutoMapper.Profiles
     {
         public ReservationFromReservationViewModel()
         {
-            CreateMap<ReservationViewModel, Reservation>();
+            CreateMap<ReservationViewModel, Reservation>()
+                .ForMember(
+                    dest => dest.ReservationStart,
+                    opt => opt.MapFrom(src => src.FromDate))
+                .ForMember(
+                    dest => dest.ReservationEnd,
+                    opt => opt.MapFrom(src => src.ToDate))
+                .ForMember(
+                    dest => dest.NumberOfGuest,
+                    opt => opt.MapFrom(src => src.NumberGuests));
         }
     }
 }

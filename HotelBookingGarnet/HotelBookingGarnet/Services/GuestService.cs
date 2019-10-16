@@ -34,7 +34,7 @@ namespace HotelBookingGarnet.Services
 
         public IEnumerable<string> SplitGuestNameString(ReservationViewModel newReservation)
         {
-            var guestNameString = newReservation.GuestsNameInString.Split(", ");
+            var guestNameString = newReservation.GuestNames.Split(", ");
             return guestNameString;
         }
     }

@@ -118,16 +118,16 @@ namespace HotelBookingGarnet.Services
 
         private static string GuestNumberValidation(ReservationViewModel newReservation)
         {
-            var guestNameListSize = newReservation.GuestsNameInString.Split(", ").Length;
-            return newReservation.NumberOfGuest != guestNameListSize
+            var guestNameListSize = newReservation.GuestNames.Split(", ").Length;
+            return newReservation.NumberGuests != guestNameListSize
                 ? "The specified guests does not match with the given guest number!"
                 : null;
         }
 
         private string OccupationValidation(ReservationViewModel newReservation, long roomId)
         {
-            var startDate = newReservation.ReservationStart;
-            var endDate = newReservation.ReservationEnd;
+            var startDate = newReservation.FromDate;
+            var endDate = newReservation.ToDate;
 
             foreach (var reservation in FindReservationsByRoomIdAsync(roomId).Result)
             {
@@ -149,8 +149,8 @@ namespace HotelBookingGarnet.Services
 
         private static string DateValidation(ReservationViewModel newReservation)
         {
-            var startDate = newReservation.ReservationStart;
-            var endDate = newReservation.ReservationEnd;
+            var startDate = newReservation.FromDate;
+            var endDate = newReservation.ToDate;
 
             if (startDate > endDate)
             {

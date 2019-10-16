@@ -16,6 +16,8 @@ namespace HotelBookingGarnet.Services.Helpers.AutoMapper
                 cfg.AddProfile(new RoomFromRoomViewModel());
                 cfg.AddProfile(new ReservationFromReservationViewModel());
                 cfg.AddProfile(new UserFromRegistrationViewModel());
+                cfg.AddProfile(new ReservationFromApiReservationViewModel());
+                cfg.AddProfile(new ResViewModelFromApiResViewModel());
             });
 
             var mapper = config.CreateMapper();

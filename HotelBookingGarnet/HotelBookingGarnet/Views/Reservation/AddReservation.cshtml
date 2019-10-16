@@ -12,29 +12,29 @@
 <form asp-controller="Reservation" asp-action="AddReservation" asp-route-roomId=@ViewData["roomId"] asp-route-hotelId=@ViewData["hotelId"] method="post">
     <div class="form-group">
         <p>
-            <span asp-validation-for="ReservationStart" class="text-danger"></span>
+            <span asp-validation-for="FromDate" class="text-danger"></span>
         </p>
-        <label asp-for="ReservationStart">Start date:</label>
-        <input type="date" input asp-for="ReservationStart" value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31">
+        <label asp-for="FromDate">Start date:</label>
+        <input type="date" input asp-for="FromDate" value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31">
         <p>
-            <span asp-validation-for="ReservationEnd" class="text-danger"></span>
+            <span asp-validation-for="ToDate" class="text-danger"></span>
         </p>
-        <label asp-for="ReservationEnd">End date:</label>
-        <input type="date" input asp-for="ReservationEnd" value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31">
+        <label asp-for="ToDate">End date:</label>
+        <input type="date" input asp-for="ToDate" value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31">
     </div>
     <div class="form-group">
         <p>
-            <span asp-validation-for="NumberOfGuest" class="text-danger"></span>
+            <span asp-validation-for="NumberGuests" class="text-danger"></span>
         </p>
-        <label asp-for="NumberOfGuest">Number of guests:</label>
-        <input type="number" min="1" max="100" asp-for="NumberOfGuest" class="form-control"/>
+        <label asp-for="NumberGuests">Number of guests:</label>
+        <input type="number" min="1" max="100" asp-for="NumberGuests" class="form-control"/>
     </div>
     <div class="form-group">
         <p>
-            <span asp-validation-for="GuestsNameInString" class="text-danger"></span>
+            <span asp-validation-for="GuestNames" class="text-danger"></span>
         </p>
-        <label asp-for="GuestsNameInString">Name of the guests (please type all guests name, separated with comas):</label>
-        <input type="text" placeholder="John Doe, Jane Doe, ..." asp-for="GuestsNameInString" class="form-control"/>
+        <label asp-for="GuestNames">Name of the guests (please type all guests name, separated with comas):</label>
+        <input type="text" placeholder="John Doe, Jane Doe, ..." asp-for="GuestNames" class="form-control"/>
     </div>
     <div class="form-group">
         <label asp-for="PhoneNumber">Contact phone number (not required)</label>
