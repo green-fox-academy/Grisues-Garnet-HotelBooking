@@ -2,8 +2,11 @@ using System.Threading.Tasks;
 using HotelBookingGarnet.Controllers.Home;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Session;
 
 namespace HotelBookingGarnet.Controllers.Login
 {
@@ -18,8 +21,10 @@ namespace HotelBookingGarnet.Controllers.Login
         }
 
         [HttpGet("/login")]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            await userService.Logout();
             return View(new LoginViewModel());
         }
 

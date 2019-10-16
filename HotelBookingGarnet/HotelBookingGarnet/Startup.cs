@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using HotelBookingGarnet.Services.Helpers.AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace HotelBookingGarnet
 {
@@ -30,6 +31,11 @@ namespace HotelBookingGarnet
         {
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
