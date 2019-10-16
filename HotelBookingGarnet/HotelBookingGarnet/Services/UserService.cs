@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using HotelBookingGarnet.Controllers.Home;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
@@ -14,13 +15,15 @@ namespace HotelBookingGarnet.Services
         private readonly ApplicationContext applicationContext;
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
+        private readonly IMapper mapper;
 
         public UserService(ApplicationContext applicationContext, UserManager<User> UserManager,
-            SignInManager<User> SignInManager)
+            SignInManager<User> SignInManager, IMapper mapper)
         {
             this.applicationContext = applicationContext;
             userManager = UserManager;
             signInManager = SignInManager;
+            this.mapper = mapper;
         }
 
         public async Task<User> FindByEmailAsync(string email)
@@ -32,15 +35,19 @@ namespace HotelBookingGarnet.Services
 
         public async Task<IdentityResult> RegisterAsync(RegisterViewModel model)
         {
-            var user = new User {UserName = model.Username, Email = model.Email};
+            var user = mapper.Map<RegisterViewModel, User>(model);
+            return await CreateAndAddUserAsync(model, user);
+        }
+        private async Task<IdentityResult> CreateAndAddUserAsync(RegisterViewModel model, User user)
+        {
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
                 return result;
             }
+
             await AddUserToRoleAsync(user, model);
             return result;
-
         }
 
         public async Task<List<string>> LoginAsync(LoginViewModel model)

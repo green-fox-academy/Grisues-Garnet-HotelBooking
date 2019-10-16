@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace HotelBookingGarnet.ViewModels
 {
@@ -31,5 +33,6 @@ namespace HotelBookingGarnet.ViewModels
 
         [Display(Name = "Are you a hotel manager?")]
         public bool IsManager { get; set; }
+        
     }
 }

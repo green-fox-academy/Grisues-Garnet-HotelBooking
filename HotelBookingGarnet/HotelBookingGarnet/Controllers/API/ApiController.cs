@@ -19,12 +19,12 @@ namespace HotelBookingGarnet.Controllers.API
             this.hotelService = hotelService;
         }
         
-        [HttpGet("/api/hotels?city={city}")]
-        public IActionResult Get([FromQuery(Name = "city")] string city)
-        {
-
-
-            return null;
-        }
+//        [HttpGet("/api/hotels?city={city}")]
+//        public IActionResult Get([FromQuery(Name = "city")] string city)
+//        {
+//
+//
+//            return null;
+//        }
     }
 }
