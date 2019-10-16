@@ -34,13 +34,13 @@ namespace HotelBookingGarnet.Services
         {
             var user = new User {UserName = model.Username, Email = model.Email};
             var result = await userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                await AddUserToRoleAsync(user, model);
                 return result;
             }
-
+            await AddUserToRoleAsync(user, model);
             return result;
+
         }
 
         public async Task<List<string>> LoginAsync(LoginViewModel model)
@@ -54,11 +54,11 @@ namespace HotelBookingGarnet.Services
 
             var result = await signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false,
                 lockoutOnFailure: false);
-            model.ErrorMessages = checkLoginErrors(result, model.ErrorMessages);
+            model.ErrorMessages = CheckLoginErrors(result, model.ErrorMessages);
             return model.ErrorMessages;
         }
 
-        private List<string> checkLoginErrors(SignInResult result, List<string> errors)
+        private static List<string> CheckLoginErrors(SignInResult result, List<string> errors)
         {
             if (!result.Succeeded)
             {

@@ -102,7 +102,6 @@ namespace HotelBookingGarnet.Services
             var occupationValid = OccupationValidation(newReservation, roomId);
             var guestValid = GuestNumberValidation(newReservation);
             AddErrorMassage(newReservation, dateValid, occupationValid, guestValid);
-
             return newReservation.ErrorMessages;
         }
 
