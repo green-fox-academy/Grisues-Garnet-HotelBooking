@@ -15,11 +15,13 @@ namespace HotelBookingGarnet
         public DbSet<Room> Rooms { get; set; }
         public DbSet<HotelPropertyType> HotelPropertyType { get; set; }
         public DbSet<RoomBed> RoomBed { get; set; }
-        
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Guest> Guests { get; set; }
+
         public ApplicationContext(DbContextOptions options) : base(options)
         {
         }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HotelPropertyType>()
@@ -33,7 +35,7 @@ namespace HotelBookingGarnet
                 .WithMany(a => a.HotelPropertyTypes)
                 .HasForeignKey(a => a.PropertyTypeId);
             base.OnModelCreating(modelBuilder);
-            
+
             modelBuilder.Entity<RoomBed>()
                 .HasKey(a => new {a.RoomId, a.BedId});
             modelBuilder.Entity<RoomBed>()
@@ -45,13 +47,13 @@ namespace HotelBookingGarnet
                 .WithMany(a => a.RoomBeds)
                 .HasForeignKey(a => a.BedId);
             base.OnModelCreating(modelBuilder);
-            
+
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<IdentityRole>().HasData(
-                new IdentityRole { Name = "Admin", NormalizedName = "Admin".ToUpper()},
-                new IdentityRole { Name = "Guest", NormalizedName = "Guest".ToUpper()},
-                new IdentityRole { Name = "Hotel Manager", NormalizedName = "Hotel Manager".ToUpper()}
+                new IdentityRole {Name = "Admin", NormalizedName = "Admin".ToUpper()},
+                new IdentityRole {Name = "Guest", NormalizedName = "Guest".ToUpper()},
+                new IdentityRole {Name = "Hotel Manager", NormalizedName = "Hotel Manager".ToUpper()}
             );
         }
     }
-} 
+}

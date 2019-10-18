@@ -4,20 +4,20 @@ namespace HotelBookingGarnet.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required (ErrorMessage = "The Email field is required.")]
         [EmailAddress]
         [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
             MinimumLength = 6)]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The Username field is required.")]
         [StringLength(12, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
             MinimumLength = 3)]
         [Display(Name = "Username")]
         public string Username { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The Password field is required.")]
         [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
             MinimumLength = 6)]
         [DataType(DataType.Password)]

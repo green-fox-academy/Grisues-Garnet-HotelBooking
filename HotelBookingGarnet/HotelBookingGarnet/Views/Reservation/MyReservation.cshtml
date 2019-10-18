@@ -1,0 +1,54 @@
+﻿@model IndexViewModel
+
+@{
+    ViewData["Title"] =@localizer["MyReservation"];
+}
+
+    <h1>@localizer["MyReservation"]</h1>
+
+<table class="table">
+    <tr>
+        <th>@localizer["Reservation Start"]</th>
+        <th>@localizer["Reservation End"]</th>
+        <th>Hotel</th>
+        <th>@localizer["Number of Guests"]</th>
+        <th>@localizer["Total price"]</th>
+        <th>@localizer["Name of Guests"]</th>
+    </tr>
+    @foreach (var reservation in @Model.Reservations)
+    {
+<tr>
+    <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
+    <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
+    <td>
+        @foreach (var hotel in Model.HotelList)
+        {@if (reservation.HotelId == hotel.HotelId)
+            {
+                <a asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@hotel.HotelId">@hotel.HotelName</a>
+            }
+    }
+    </td>
+    <td>@reservation.NumberOfGuest</td>
+    <td>@reservation.TotalPrice ft</td>
+    <td>
+        @foreach (var guest in reservation.GuestsList)
+        {
+            <div>
+                <span>@guest.GuestName</span>
+            </div>
+        }
+    </td>
+    @if (reservation.ReservationStart > DateTime.Now.AddDays(+1))
+    {
+        <td>
+            <form asp-controller="Reservation" asp-action="CancelReservation" asp-route-ReservationId="@reservation.ReservationId" method="post">
+                <button type="submit" class="btn btn-primary">@localizer["Cancel"]</button>
+            </form>
+        </td>
+    }
+</tr>   
+    }
+</table>
+<form asp-controller="Reservation" asp-action="CleanReservation" asp-route-UserId="@Model.User.Id" method="post">
+    <button type="submit" class="btn btn-primary">Clean up</button>
+</form>

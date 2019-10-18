@@ -5,13 +5,13 @@ namespace HotelBookingGarnet.ViewModels
 {
     public class RoomViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "The RoomName field is required.")]
         public string RoomName { get; set; }
-        [Required]
+        [Required] 
         public int Price { get; set; }
-        [Required]
+        [Required] 
         public int NumberOfGuests { get; set; }
-        [Required]
+        [Required] 
         public int NumberOfRooms { get; set; }
     }
 }

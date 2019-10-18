@@ -1,0 +1,26 @@
+﻿@model Reservation
+
+<div class="card">
+    <h1 class="card-header"> Reservation #@Model.ReservationId</h1>
+    <div class="card-body">
+        <div>
+            <h5 class="card-title">Start date: </h5>
+            <p class="card-text">@Model.ReservationStart.ToString("yyyy/MM/dd")</p>
+        </div>
+        <div>
+            <h5 class="card-title">End date: </h5>
+            <p class="card-text">@Model.ReservationEnd.ToString("yyyy/MM/dd")</p>
+        </div>
+        <div>
+            <h5 class="card-title">Total price (HUF): </h5>
+            <p class="card-text">@Model.TotalPrice</p>
+        </div>
+    </div>
+    <form asp-controller="Reservation" asp-action="MyReservation" method="get">
+        <button type="submit" class="btn btn-success">Confirm Reservation</button>
+    </form>
+
+    <form asp-controller="Reservation" asp-action="CancelReservation" asp-route-ReservationId="@Model.ReservationId" method="post">
+        <button type="submit" class="btn btn-danger">Cancel</button>
+    </form>
+</div>
