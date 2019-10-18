@@ -59,6 +59,22 @@ namespace HotelBookingGarnet.Services
                     userManager.AddToRoleAsync(user, "Hotel Manager").Wait();
                 }
             }
+
+            if (userManager.FindByEmailAsync("api@gmail.com").Result == null)
+            {
+                User user = new User
+                {
+                    UserName = "api",
+                    Email = "api@gmail.com",
+                };
+
+                IdentityResult check = userManager.CreateAsync(user, "Apiuser1").Result;
+
+                if (check.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "Hotel Manager").Wait();
+                }
+            }
         }
     }
 }

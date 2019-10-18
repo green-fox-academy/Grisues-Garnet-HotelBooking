@@ -69,21 +69,18 @@ namespace HotelBookingGarnet.Controllers.API
                 {
                     var apiUser = new User
                     {
-                        UserName = "api",
-                        Id = "99",
-                        AccessFailedCount = 0,
+                        Id = "5139a295-3981-4320-98c2-bb58b3e53032",
+                        AccessFailedCount = 0
                     };
                     var reservationId =
                         await reservationService.AddReservationAsync(modelForReservation, apiUser.Id, roomId, model.HotelId);
                     return new OkObjectResult($"Successful reservation! Your reservation ID is {reservationId}!");
                 }
-                
                 modelForReservation.ErrorMessages = errors;
                 BadRequest(errors);
             }
 
-            return null;
-//            return ErrorContext(HttpStatusCode.BadRequest, ModelState);
+            return Content("Invalid reservation!");
         }
     }
 }
