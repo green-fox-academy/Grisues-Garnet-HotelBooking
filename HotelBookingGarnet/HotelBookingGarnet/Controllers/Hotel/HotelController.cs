@@ -184,8 +184,8 @@ namespace HotelBookingGarnet.Controllers.Hotel
         public async Task<IActionResult> Settings()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
-
-            return View(currentUser);
+            
+            return View(new SettingsViewModel{User = currentUser});
         }
 
         [Authorize]
