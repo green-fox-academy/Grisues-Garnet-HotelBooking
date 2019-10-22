@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HotelBookingGarnet.Controllers.Hotel;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
@@ -70,7 +71,7 @@ namespace HotelBookingGarnet.Controllers
         {
             if (ModelState.IsValid)
             {
-                var errors = reservationService.ReservationValidation(newReservation, roomId);
+                var errors = await reservationService.ReservationValidationAsync(newReservation, roomId);
                 if (errors.Count == 0)
                 {
                     var currentUser = await userManager.GetUserAsync(HttpContext.User);
@@ -100,6 +101,6 @@ namespace HotelBookingGarnet.Controllers
             await reservationService.DeleteExpiredReservationByIdAsync(userId);
 
             return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
-        }
+        } 
     }
 }

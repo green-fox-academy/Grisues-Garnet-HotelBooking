@@ -39,7 +39,7 @@
             <p class="card-text">
                 @if (Model.Hotel.Price == 0)
                 {
-                <i>@localizer["Unknown"]</i>
+                    <i>@localizer["Unknown"]</i>
                 }
                 else
                 {
@@ -51,7 +51,7 @@
         <div class="imageBlock">
             @foreach (var blob in @Model.FolderList)
             {
-                <img src="@blob.Path" class="thumb"/>
+                <img src="@blob.Path" class="thumb" />
             }
         </div>
         @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
@@ -64,12 +64,27 @@
                 <button type="submit" class="btn btn-success">@localizer["Add room"]</button>
             </form>
         }
-
         <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">@localizer["Cancel"]</a>
-        
+        <h4>@localizer["Check Availability"]</h4>
+        <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId=@ViewData["hotelId"] method="post">
+            <div class="form-group">
+
+                <label asp-for="@Model.QueryParam.start">@localizer["Start date"]:</label>
+                <input asp-for="@Model.QueryParam.start" type="date" input value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31" name="start">
+
+                <label asp-for="@Model.QueryParam.end">@localizer["End date"]:</label>
+                <input asp-for="@Model.QueryParam.end" type="date" input value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31" name="end">
+                <button asp-action="HotelInfo">@localizer["Search"]</button>
+            </div>
+        </form>
+        @if (Model.Error != null)
+        {
+            <h6 class="text-danger">@localizer[@Model.Error]</h6>
+        }
         @if (Model.Hotel.Rooms.Count != 0)
         {
             <table class="table">
+                <h4>@localizer["Available Rooms"]</h4>
                 <tr>
                     <th>@localizer["Room name"]</th>
                     <th>@localizer["Price"]</th>
@@ -77,6 +92,50 @@
                     <th>@localizer["Number of rooms"]</th>
                     <th>@localizer["Beds"]</th>
                 </tr>
+                @if (Model.Rooms != null)
+                {@foreach (var room in Model.Rooms)
+                    {
+                        <tr>
+                            <td>@room.RoomName</td>
+                            <td>@room.Price</td>
+                            <td>@room.NumberOfGuests</td>
+                            <td>@room.NumberOfRooms</td>
+                            <td>
+                                @foreach (var bed in Model.RoomBeds)
+                                {
+                                    @if (room.RoomId == bed.RoomId)
+                                    {
+                                        <div>
+                                            <span>@bed.Bed.NumberOfBeds</span>
+                                            @if (@bed.Bed.NumberOfBeds > 1)
+                                            {
+                                                <span>@localizer[@bed.Bed.BedType]<span>@localizer["s"]</span></span>
+                                            }
+                                            else
+                                            {
+                                                <span>@localizer[@bed.Bed.BedType]</span>
+                                            }
+                                        </div>
+                                    }
+                                }
+                                @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
+                                {
+                                    <a asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@Model.Hotel.HotelId" asp-route-roomId="@room.RoomId">@localizer["+ add bed"]</a>
+                                }
+                            </td>
+                            <td>
+                                @if (User.IsInRole("Guest") || User.IsInRole("Hotel Manager"))
+                                {
+                                    <form asp-controller="Reservation" asp-action="AddReservation" asp-route-roomId="@room.RoomId" asp-route-hotelId="@Model.Hotel.HotelId" method="get">
+                                        <button type="submit" class="btn btn-warning">@localizer["Reserve Room"]</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+            }
+            else
+            {
                 @foreach (var room in Model.Hotel.Rooms)
                 {
                     <tr>
@@ -90,15 +149,15 @@
                                 @if (room.RoomId == bed.RoomId)
                                 {
                                     <div>
-                                    <span>@bed.Bed.NumberOfBeds</span>
-                                    @if (@bed.Bed.NumberOfBeds > 1)
-                                    {
-                                        <span>@localizer[@bed.Bed.BedType]<span>@localizer["s"]</span></span>
-                                    }
-                                    else
-                                    {
-                                    <span>@localizer[@bed.Bed.BedType]</span>
-                                    }
+                                        <span>@bed.Bed.NumberOfBeds</span>
+                                        @if (@bed.Bed.NumberOfBeds > 1)
+                                        {
+                                            <span>@localizer[@bed.Bed.BedType]<span>@localizer["s"]</span></span>
+                                        }
+                                        else
+                                        {
+                                            <span>@localizer[@bed.Bed.BedType]</span>
+                                        }
                                     </div>
                                 }
                             }
@@ -117,6 +176,7 @@
                         </td>
                     </tr>
                 }
+            }
             </table>
         }
     </div>

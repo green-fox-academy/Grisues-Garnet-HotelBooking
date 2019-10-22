@@ -29,11 +29,9 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IHotelPropertyTypeService hotelPropertyTypeService;
         private readonly IDateTimeService dateTimeService;
         private readonly IMapper mapper;
+        private readonly IReservationService reservationService;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService,
-            IRoomService roomService, IBedService bedService, IRoomBedService roomBedService,
-            IDateTimeService dateTimeService,
-            IHotelPropertyTypeService hotelPropertyTypeService, IMapper mapper)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IHotelPropertyTypeService hotelPropertyTypeService, IDateTimeService dateTimeService, IMapper mapper, IReservationService reservationService)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
@@ -44,6 +42,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             this.hotelPropertyTypeService = hotelPropertyTypeService;
             this.dateTimeService = dateTimeService;
             this.mapper = mapper;
+            this.reservationService = reservationService;
         }
 
         [AllowAnonymous]
@@ -58,6 +57,36 @@ namespace HotelBookingGarnet.Controllers.Hotel
             ViewData["propertyType"] = property.PropertyType.Type;
             return View(new IndexViewModel
                 {User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri});
+        }
+
+        [AllowAnonymous]
+        [HttpPost("/info/{hotelId}")]
+        public async Task<IActionResult> HotelInfo(long hotelId, DateTime start, DateTime end)
+        {
+            if (start > end || start < DateTime.Now)
+            {
+                var error = "Invalid search criteria!";
+                var currentUser = await userManager.GetUserAsync(HttpContext.User);
+                var blobsUri = await imageService.ListAsync(hotelId);
+                var hotel = await hotelService.FindHotelByIdAsync(hotelId);
+                var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
+                var roomBeds = roomBedService.GetRoomBeds();
+                ViewData["propertyType"] = property.PropertyType.Type;
+                return View(new IndexViewModel
+                { User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri, Error = error });
+            }
+            else
+            {
+                var rooms = await reservationService.FindAvailableRoomByHotelIdAndDateAsync(hotelId, start, end);
+                var currentUser = await userManager.GetUserAsync(HttpContext.User);
+                var blobsUri = await imageService.ListAsync(hotelId);
+                var hotel = await hotelService.FindHotelByIdAsync(hotelId);
+                var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
+                var roomBeds = roomBedService.GetRoomBeds();
+                ViewData["propertyType"] = property.PropertyType.Type;
+                return View(new IndexViewModel
+                { User = currentUser, Hotel = hotel, Rooms = rooms, RoomBeds = roomBeds, FolderList = blobsUri});
+            }  
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]
