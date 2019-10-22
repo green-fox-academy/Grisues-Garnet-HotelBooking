@@ -23,7 +23,6 @@ nav {
 /*    background-color: rgb(245, 128, 32);*/
     min-height: 100vh;
     border: 1px solid darkslategrey;
-    
 }
 
 .my-border {
@@ -55,13 +54,13 @@ h1 {
     height:200px;
 }
 
-.btn {
-    margin-bottom: 10px;
-}
-
 .my-star {
     vertical-align: top;
     width: 15px;
     height: 15px;
+}
+
+.my-btn{
+    display: inline;
 }
 

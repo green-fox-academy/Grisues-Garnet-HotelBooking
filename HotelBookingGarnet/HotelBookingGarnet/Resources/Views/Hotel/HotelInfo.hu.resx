@@ -189,4 +189,32 @@
   <data name="Reserve Room" xml:space="preserve">
     <value>Szoba Foglalása</value>
   </data>
+  <data name="There is no rating yet." xml:space="preserve">
+    <value>Nincs még értékelve.</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Értékelés</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Szöveges értékelés</value>
+  </data>
+  <data name="You are already reviewed this hotel." xml:space="preserve">
+    <value>Már értékelte ezt a hotelt.</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Küldés</value>
+  </data>
+
+  <data name="Average rating" xml:space="preserve">
+    <value>Átlagos értékelés</value>
+  </data>
+  <data name="Number of rated users" xml:space="preserve">
+    <value>Értékelők száma</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Küldés</value>
+  </data>
+  <data name="none" xml:space="preserve">
+    <value>nem értékelt</value>
+  </data>
 </root>
