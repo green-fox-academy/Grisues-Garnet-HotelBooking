@@ -64,24 +64,19 @@
                 <button type="submit" class="btn btn-success">@localizer["Add room"]</button>
             </form>
         }
-
         <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">@localizer["Cancel"]</a>
-        <h1>Date of the reservation</h1>
+        <h4>@localizer["Check Availability"]</h4>
         <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId=@ViewData["hotelId"] method="post">
             <div class="form-group">
 
-                <label asp-for="@Model.QueryParam.start">Start date:</label>
+                <label asp-for="@Model.QueryParam.start">@localizer["Start date"]:</label>
                 <input asp-for="@Model.QueryParam.start" type="date" input value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31" name="start">
 
-                <label asp-for="@Model.QueryParam.end">End date:</label>
+                <label asp-for="@Model.QueryParam.end">@localizer["End date"]:</label>
                 <input asp-for="@Model.QueryParam.end" type="date" input value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31" name="end">
-                <button asp-action="AvailableRooms"> Submit</button>
+                <button asp-action="HotelInfo">@localizer["Search"]</button>
             </div>
         </form>
-        @if (Model.ErrorMsg != null)
-        {
-         <h6 class="text-danger">@Model.ErrorMsg</h6>
-        }
         @if (Model.Hotel.Rooms.Count != 0)
         {
             <table class="table">
@@ -96,7 +91,7 @@
                 {@foreach (var room in Model.Rooms)
                     {
                         <tr>
-                            <td>@room.RoomName)</td>
+                            <td>@room.RoomName</td>
                             <td>@room.Price</td>
                             <td>@room.NumberOfGuests</td>
                             <td>@room.NumberOfRooms</td>

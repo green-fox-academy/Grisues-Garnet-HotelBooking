@@ -61,35 +61,17 @@ namespace HotelBookingGarnet.Controllers.Hotel
 
         [AllowAnonymous]
         [HttpPost("/info/{hotelId}")]
-        public async Task<IActionResult> HotelInfo (long hotelId, DateTime start, DateTime end)
+        public async Task<IActionResult> HotelInfo(long hotelId, DateTime start, DateTime end)
         {
-            if (start == null || end == null)
-            {
-                var currentUser = await userManager.GetUserAsync(HttpContext.User);
-                var blobsUri = await imageService.ListAsync(hotelId);
-                var hotel = await hotelService.FindHotelByIdAsync(hotelId);
-                var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
-                var roomBeds = roomBedService.GetRoomBeds();
-                ViewData["propertyType"] = property.PropertyType.Type;
-                var error = "Please give the dates correctly";
-
-                return View(new IndexViewModel
-                { User = currentUser, Hotel = hotel,ErrorMsg = error, RoomBeds = roomBeds, FolderList = blobsUri });
-
-            }
-            else
-            {
-                var rooms = await reservationService.FindAvailableRoomByHotelIdAndDateAsync(hotelId, start, end);
-                var currentUser = await userManager.GetUserAsync(HttpContext.User);
-                var blobsUri = await imageService.ListAsync(hotelId);
-                var hotel = await hotelService.FindHotelByIdAsync(hotelId);
-                var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
-                var roomBeds = roomBedService.GetRoomBeds();
-                ViewData["propertyType"] = property.PropertyType.Type;
-                return View(new IndexViewModel
-                { User = currentUser, Hotel = hotel, Rooms = rooms, RoomBeds = roomBeds, FolderList = blobsUri });
-            }
-            
+            var rooms = await reservationService.FindAvailableRoomByHotelIdAndDateAsync(hotelId, start, end);
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            var blobsUri = await imageService.ListAsync(hotelId);
+            var hotel = await hotelService.FindHotelByIdAsync(hotelId);
+            var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
+            var roomBeds = roomBedService.GetRoomBeds();
+            ViewData["propertyType"] = property.PropertyType.Type;
+            return View(new IndexViewModel
+            { User = currentUser, Hotel = hotel, Rooms = rooms, RoomBeds = roomBeds, FolderList = blobsUri });
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]

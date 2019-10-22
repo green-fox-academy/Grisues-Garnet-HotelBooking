@@ -189,4 +189,16 @@
   <data name="Reserve Room" xml:space="preserve">
     <value>Szoba Foglalása</value>
   </data>
+  <data name="Check Availability" xml:space="preserve">
+    <value>Szabad időpontok</value>
+  </data>
+  <data name="End date" xml:space="preserve">
+    <value>Foglalás vége</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Keresés</value>
+  </data>
+  <data name="Start date" xml:space="preserve">
+    <value>Foglalás kezdete</value>
+  </data>
 </root>

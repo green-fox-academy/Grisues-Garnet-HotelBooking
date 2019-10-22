@@ -177,16 +177,16 @@ namespace HotelBookingGarnet.Services
             }
             else
             {
-                List<long> roomId = listReservationsById(reservations);
-                roomsReservation =fillRoomsReservationDictionaryWithRoomIdsReservation(roomId);
+                List<long> roomId = ListReservationsById(reservations);
+                roomsReservation = FillRoomsReservationDictionaryWithReservationsRoomId(roomId);
                 var rooms = await roomService.FindRoomByHotelIdAsync(hotelId);
-                List<Room> filteredRooms = filterAvailableRooms(rooms, roomsReservation);
+                List<Room> filteredRooms = FilterAvailableRooms(rooms, roomsReservation);
 
-               return filteredRooms;
-            } 
+                return filteredRooms;
+            }
         }
 
-        private List<Room> filterAvailableRooms(List<Room> rooms, Dictionary<long, int> roomsReservation)
+        private List<Room> FilterAvailableRooms(List<Room> rooms, Dictionary<long, int> roomsReservation)
         {
             List<Room> filteredRooms = new List<Room>();
             for (int i = 0; i < rooms.Count; i++)
@@ -199,7 +199,7 @@ namespace HotelBookingGarnet.Services
             return filteredRooms;
         }
 
-        private Dictionary<long, int> fillRoomsReservationDictionaryWithRoomIdsReservation(List<long> roomId)
+        private Dictionary<long, int> FillRoomsReservationDictionaryWithReservationsRoomId(List<long> roomId)
         {
             Dictionary<long, int> roomsReservation = new Dictionary<long, int>();
             for (int i = 0; i < roomId.Count; i++)
@@ -213,10 +213,10 @@ namespace HotelBookingGarnet.Services
                     roomsReservation[roomId.ElementAt(i)]++;
                 }
             }
-           return roomsReservation;
+            return roomsReservation;
         }
 
-        private List<long> listReservationsById(List<Reservation> reservations)
+        private List<long> ListReservationsById(List<Reservation> reservations)
         {
             List<long> tempList = new List<long>();
             for (int i = 0; i < reservations.Count; i++)

@@ -18,8 +18,6 @@ namespace HotelBookingGarnet.Services
         Task<long> AddReservationAsync(ReservationViewModel newReservation, string userId, long roomId, long hotelId);
         Task<Reservation> FindReservationByReservationIdAsync(long reservationId);
         Task <List<string>> ReservationValidationAsync(ReservationViewModel newReservation, long roomId);
-        Task <List<Room>> FindAvailableRoomByHotelIdAndDateAsync(long hotelId,
-                                                                 DateTime reservationStart,
-                                                                 DateTime reservationEnd);
+        Task <List<Room>> FindAvailableRoomByHotelIdAndDateAsync(long hotelId, DateTime reservationStart, DateTime reservationEnd);
     }
 }
