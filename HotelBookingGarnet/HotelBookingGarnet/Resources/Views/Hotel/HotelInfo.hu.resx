@@ -204,17 +204,31 @@
   <data name="Send" xml:space="preserve">
     <value>Küldés</value>
   </data>
-
   <data name="Average rating" xml:space="preserve">
     <value>Átlagos értékelés</value>
   </data>
   <data name="Number of rated users" xml:space="preserve">
     <value>Értékelők száma</value>
   </data>
-  <data name="Send" xml:space="preserve">
-    <value>Küldés</value>
-  </data>
   <data name="none" xml:space="preserve">
     <value>nem értékelt</value>
+  </data>
+  <data name="Check Availability" xml:space="preserve">
+    <value>Tervezett foglalás időpontja</value>
+  </data>
+  <data name="End date" xml:space="preserve">
+    <value>Foglalás vége</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Keresés</value>
+  </data>
+  <data name="Start date" xml:space="preserve">
+    <value>Foglalás kezdete</value>
+  </data>
+  <data name="Available Rooms" xml:space="preserve">
+    <value>Szabad szobák</value>
+  </data>
+  <data name="Invalid search criteria!" xml:space="preserve">
+    <value>Nem megfelelő keresési feltételek!</value>
   </data>
 </root>

@@ -31,8 +31,9 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IDateTimeService dateTimeService;
         private readonly IMapper mapper;
         private readonly IReviewService reviewService;
+        private readonly IReservationService reservationService;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IHotelPropertyTypeService hotelPropertyTypeService, IDateTimeService dateTimeService, IMapper mapper, IReviewService reviewService)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IHotelPropertyTypeService hotelPropertyTypeService, IDateTimeService dateTimeService, IMapper mapper, IReviewService reviewService, IReservationService reservationService)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
@@ -44,6 +45,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             this.dateTimeService = dateTimeService;
             this.mapper = mapper;
             this.reviewService = reviewService;
+            this.reservationService = reservationService;
         }
 
         [AllowAnonymous]
@@ -214,7 +216,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
 
         [Authorize]
         [HttpPost("/info/{hotelId}")]
-        public async Task<IActionResult> HotelInfo(long hotelId, IndexViewModel newReview)
+        public async Task<IActionResult> HotelInfo(long hotelId, IndexViewModel newReview, DateTime start, DateTime end, QueryParam queryParam)
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             if (ModelState.IsValid)
@@ -228,12 +230,14 @@ namespace HotelBookingGarnet.Controllers.Hotel
             var roomBeds = roomBedService.GetRoomBeds();
             ViewData["propertyType"] = property.PropertyType.Type;
             ViewData["averageRating"] = hotelService.AverageRating(hotel.Reviews);
-
+            var rooms = await reservationService.FindAvailableRoomByHotelIdAndDateAsync(hotelId, start, end);
+            var reviewsPaging = hotelService.ReviewsList(hotel.Reviews, queryParam);
             newReview.User = currentUser;
             newReview.Hotel = hotel;
             newReview.RoomBeds = roomBeds;
             newReview.FolderList = blobsUri;
-            
+            newReview.Rooms = rooms;
+            newReview.ReviewsPagingList = reviewsPaging;
             return View(newReview);
         }
     }

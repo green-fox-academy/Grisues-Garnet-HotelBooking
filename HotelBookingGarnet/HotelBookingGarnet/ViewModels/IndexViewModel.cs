@@ -27,5 +27,7 @@ namespace HotelBookingGarnet.ViewModels
         public string Text { get; set; }
         public bool IsReviewed { get; set; }
         public PagingList<Review> ReviewsPagingList { get; set; }
+        public List<Room> Rooms { get; set; }
+        public string Error { get; set; }
     }
 }
