@@ -77,9 +77,14 @@
                 <button asp-action="HotelInfo">@localizer["Search"]</button>
             </div>
         </form>
+        @if (Model.Error != null)
+        {
+            <h6 class="text-danger">@localizer[@Model.Error]</h6>
+        }
         @if (Model.Hotel.Rooms.Count != 0)
         {
             <table class="table">
+                <h4>@localizer["Available Rooms"]</h4>
                 <tr>
                     <th>@localizer["Room name"]</th>
                     <th>@localizer["Price"]</th>
