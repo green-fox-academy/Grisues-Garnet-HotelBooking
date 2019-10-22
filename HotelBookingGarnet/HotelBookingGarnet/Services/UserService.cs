@@ -22,14 +22,7 @@ namespace HotelBookingGarnet.Services
             userManager = UserManager;
             signInManager = SignInManager;
         }
-
-        public async Task<User> FindByEmailAsync(string email)
-        {
-            var user = await applicationContext.Users
-                .Include(a => a.Hotels).FirstOrDefaultAsync(a => a.Email == email);
-            return user;
-        }
-
+        
         public async Task<User> FindUserByHotelIdAsync(long hotelId)
         {
             var hotel = await applicationContext.Hotels

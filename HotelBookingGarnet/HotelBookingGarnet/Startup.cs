@@ -64,7 +64,6 @@ namespace HotelBookingGarnet
                 .AddDataAnnotationsLocalization();
             services.SetUpAutoMapper();
             services.AddMvc();
-            services.AddPaging();
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new List<CultureInfo> {
