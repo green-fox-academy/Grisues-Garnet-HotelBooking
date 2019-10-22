@@ -1,6 +1,8 @@
 ﻿using HotelBookingGarnet.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata.Ecma335;
 using HotelBookingGarnet.Utils;
 using ReflectionIT.Mvc.Paging;
 
@@ -17,6 +19,14 @@ namespace HotelBookingGarnet.ViewModels
         public List<RoomBed> RoomBeds { get; set; }
         public List<Reservation> Reservations { get; set; }
         public List<Hotel> HotelList { get; set; }
+        [Required]
+        [Display (Name = "Rating")]
+        public int Rating { get; set; }
+        [Required(ErrorMessage = "The Text field is required.")]
+        [Display (Name = "Text")]
+        public string Text { get; set; }
+        public bool IsReviewed { get; set; }
+        public PagingList<Review> ReviewsPagingList { get; set; }
         public List<Room> Rooms { get; set; }
         public string Error { get; set; }
     }
