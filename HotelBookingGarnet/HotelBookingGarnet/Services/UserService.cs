@@ -22,7 +22,7 @@ namespace HotelBookingGarnet.Services
             userManager = UserManager;
             signInManager = SignInManager;
         }
-        
+
         public async Task<User> FindUserByHotelIdAsync(long hotelId)
         {
             var hotel = await applicationContext.Hotels
@@ -57,11 +57,11 @@ namespace HotelBookingGarnet.Services
 
             var result = await signInManager.PasswordSignInAsync(user, model.Password, isPersistent: false,
                 lockoutOnFailure: false);
-            model.ErrorMessages = checkLoginErrors(result, model.ErrorMessages);
+            model.ErrorMessages = CheckLoginErrors(result, model.ErrorMessages);
             return model.ErrorMessages;
         }
 
-        private List<string> checkLoginErrors(SignInResult result, List<string> errors)
+        private static List<string> CheckLoginErrors(SignInResult result, List<string> errors)
         {
             if (!result.Succeeded)
             {

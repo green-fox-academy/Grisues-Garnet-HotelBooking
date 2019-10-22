@@ -140,19 +140,24 @@ namespace HotelBookingGarnet.Services
         {
             var dateValid = DateValidation(newReservation);
             var occupationValid = await OccupationValidationAsync(newReservation, roomId);
-            var guestValid = GuestNumberValidation(newReservation, roomId);
+            var guestValid = GuestNumberValidation(newReservation);
+            AddErrorMessages(newReservation, dateValid, occupationValid, guestValid);
 
+            return newReservation.ErrorMessages;
+        }
+
+        private static void AddErrorMessages(ReservationViewModel newReservation, string dateValid,
+            string occupationValid, string guestValid)
+        {
             if (dateValid != null)
                 newReservation.ErrorMessages.Add(dateValid);
             if (occupationValid != null)
                 newReservation.ErrorMessages.Add(occupationValid);
             if (guestValid != null)
                 newReservation.ErrorMessages.Add(guestValid);
-
-            return newReservation.ErrorMessages;
         }
 
-        private static string GuestNumberValidation(ReservationViewModel newReservation, long roomId)
+        private static string GuestNumberValidation(ReservationViewModel newReservation)
         {
             var guestNameListSize = newReservation.GuestsNameInString.Split(", ").Length;
             return newReservation.NumberOfGuest != guestNameListSize
