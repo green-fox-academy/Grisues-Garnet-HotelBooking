@@ -13,5 +13,6 @@ namespace HotelBookingGarnet.Services
         Task<List<string>> LoginAsync(LoginViewModel model);
         Task<IdentityResult> RegisterAsync(RegisterViewModel model);
         Task Logout();
+        Task<User> FindUserByHotelIdAsync(long hotelId);
     }
 }

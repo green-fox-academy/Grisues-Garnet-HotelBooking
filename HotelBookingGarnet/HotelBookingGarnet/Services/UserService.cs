@@ -30,6 +30,16 @@ namespace HotelBookingGarnet.Services
             return user;
         }
 
+        public async Task<User> FindUserByHotelIdAsync(long hotelId)
+        {
+            var hotel = await applicationContext.Hotels
+                .FirstOrDefaultAsync(a => a.HotelId == hotelId);
+
+            var user = await applicationContext.Users
+                .FirstOrDefaultAsync(a => a.Id == hotel.UserId);
+            return user;
+        }
+
         public async Task<IdentityResult> RegisterAsync(RegisterViewModel model)
         {
             var user = new User {UserName = model.Username, Email = model.Email};
