@@ -101,7 +101,6 @@ namespace HotelBookingGarnet.Controllers
             await reservationService.DeleteExpiredReservationByIdAsync(userId);
 
             return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
-        }
-        
+        } 
     }
 }
