@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
+using HotelBookingGarnet.Utils;
 
 namespace HotelBookingGarnet.Controllers.Hotel
 {
@@ -23,11 +24,13 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IHotelPropertyTypeService hotelPropertyTypeService;
         private readonly IDateTimeService dateTimeService;
         private readonly IMapper mapper;
+        private readonly IReviewService reviewService;
+        private readonly IReservationService reservationService;
 
         public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService,
             IRoomService roomService, IBedService bedService, IRoomBedService roomBedService,
-            IDateTimeService dateTimeService,
-            IHotelPropertyTypeService hotelPropertyTypeService, IMapper mapper)
+            IHotelPropertyTypeService hotelPropertyTypeService, IDateTimeService dateTimeService, IMapper mapper,
+            IReviewService reviewService, IReservationService reservationService)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
@@ -38,11 +41,13 @@ namespace HotelBookingGarnet.Controllers.Hotel
             this.hotelPropertyTypeService = hotelPropertyTypeService;
             this.dateTimeService = dateTimeService;
             this.mapper = mapper;
+            this.reviewService = reviewService;
+            this.reservationService = reservationService;
         }
 
         [AllowAnonymous]
         [HttpGet("/info/{hotelId}")]
-        public async Task<IActionResult> HotelInfo(long hotelId)
+        public async Task<IActionResult> HotelInfo(long hotelId, QueryParam queryParam)
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             var blobsUri = await imageService.ListAsync(hotelId);
@@ -50,8 +55,14 @@ namespace HotelBookingGarnet.Controllers.Hotel
             var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
             var roomBeds = roomBedService.GetRoomBeds();
             ViewData["propertyType"] = property.PropertyType.Type;
+            ViewData["averageRating"] = hotelService.AverageRating(hotel.Reviews);
+            var isReviewed = reviewService.Reviewed(hotel.Reviews, currentUser.Id);
+            var reviewsPaging = hotelService.ReviewsList(hotel.Reviews, queryParam);
             return View(new IndexViewModel
-                {User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri});
+            {
+                User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri, IsReviewed = isReviewed,
+                ReviewsPagingList = reviewsPaging, QueryParam = queryParam, ActionName = nameof(HotelInfo)
+            });
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]
@@ -189,11 +200,11 @@ namespace HotelBookingGarnet.Controllers.Hotel
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddDays(1) });
+                new CookieOptions {Expires = DateTimeOffset.UtcNow.AddDays(1)});
 
             return LocalRedirect(returnUrl);
         }
-       
+
         [Authorize(Roles = "Hotel Manager")]
         [HttpGet("/myhotels")]
         public async Task<IActionResult> MyHotels()
@@ -201,6 +212,35 @@ namespace HotelBookingGarnet.Controllers.Hotel
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             var myHotels = await hotelService.ListMyHotelsAsync(currentUser.Id);
             return View(myHotels);
+        }
+
+        [Authorize]
+        [HttpPost("/info/{hotelId}")]
+        public async Task<IActionResult> HotelInfo(long hotelId, IndexViewModel newReview, DateTime start, DateTime end,
+            QueryParam queryParam)
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            if (ModelState.IsValid)
+            {
+                await reviewService.AddReviewAsync(hotelId, newReview, currentUser.Id);
+                return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new {hotelId});
+            }
+
+            var blobsUri = await imageService.ListAsync(hotelId);
+            var hotel = await hotelService.FindHotelByIdAsync(hotelId);
+            var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
+            var roomBeds = roomBedService.GetRoomBeds();
+            ViewData["propertyType"] = property.PropertyType.Type;
+            ViewData["averageRating"] = hotelService.AverageRating(hotel.Reviews);
+            var rooms = await reservationService.FindAvailableRoomByHotelIdAndDateAsync(hotelId, start, end);
+            var reviewsPaging = hotelService.ReviewsList(hotel.Reviews, queryParam);
+            newReview.User = currentUser;
+            newReview.Hotel = hotel;
+            newReview.RoomBeds = roomBeds;
+            newReview.FolderList = blobsUri;
+            newReview.Rooms = rooms;
+            newReview.ReviewsPagingList = reviewsPaging;
+            return View(newReview);
         }
     }
 }

@@ -20,5 +20,7 @@ namespace HotelBookingGarnet.Services
         Task<PagingList<Hotel>> FilterHotelsAsync(QueryParam queryParam);
         Task SetIndexImageAsync(long hotelId);
         Task<List<Hotel>> ListMyHotelsAsync(string userId);
+        double AverageRating(List<Review> reviews);
+        PagingList<Review> ReviewsList(List<Review> reviews, QueryParam queryParam);
     }
 }
