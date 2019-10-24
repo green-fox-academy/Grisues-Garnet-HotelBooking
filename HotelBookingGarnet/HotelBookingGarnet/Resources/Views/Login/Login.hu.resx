@@ -127,9 +127,9 @@
     <value>Új felhasználóként regisztrálnál?</value>
   </data>
   <data name="Use a local account to log in." xml:space="preserve">
-    <value>Jelentkezzen be a fiókjával</value>
+    <value>Jelentkezzen be a fiókjával.</value>
   </data>
-  <data name="User with the given Email does not exist" xml:space="preserve">
-    <value>Az email cím nem létezik</value>
+  <data name="User with the given Email does not exist!" xml:space="preserve">
+    <value>Az email cím nem létezik!</value>
   </data>
 </root>

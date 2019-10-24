@@ -114,7 +114,7 @@ namespace HotelBookingGarnet.Services
                 "\r\n Reservation start: " + reservation.ReservationStart +
                 "\r\n Reservation end: " + reservation.ReservationEnd +
                 "\r\n Number of guests: " + reservation.NumberOfGuest +
-                "\r\n Total price: " + reservation.TotalPrice +
+                "\r\n Total price: " + reservation.TotalPrice + "HUF" +
                 "\r\n Reservations for this hotel: https://garnettravel.azurewebsites.net/hotelReservation/" +
                 hotel.HotelId +
                 "\r\n\n Sincerely, Garnet Travel team" +

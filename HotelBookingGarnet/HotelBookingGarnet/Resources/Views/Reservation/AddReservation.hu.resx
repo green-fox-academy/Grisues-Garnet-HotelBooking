@@ -122,7 +122,38 @@
             PublicKeyToken=b77a5c561934e089
         </value>
     </resheader>
-    <data name="The RoomName field is required." xml:space="preserve">
-    <value>A Szoba neve mező kitöltése kötelező.</value>
+    <data name="Add a new Reservation" xml:space="preserve">
+    <value>Új foglalás</value>
   </data>
+    <data name="The specified guests does not match with the given guest number!" xml:space="preserve">
+    <value>Megadott vendégek száma nem egyezik!</value>
+  </data>
+    <data name="Room is already booked in this interval:" xml:space="preserve">
+    <value>A szoba ebben az időtartamban már le van foglalva:</value>
+  </data>
+    <data name="The end of the booking must not precede the start time!" xml:space="preserve">
+    <value>A foglalás vége nem előzheti meg a kezdési időpontot!</value>
+  </data>
+    <data name="Start date:" xml:space="preserve">
+    <value>Foglalás kezdete:</value>
+  </data>
+    <data name="End date:" xml:space="preserve">
+    <value>Foglalás vége:</value>
+  </data>
+    <data name="Number of guests:" xml:space="preserve">
+    <value>Vendégek száma:</value>
+  </data>
+    <data name="Name of the guests (please type all guests name, separated with comas):" xml:space="preserve">
+    <value>A vendégek neve (kérjük írja be az összes vendég nevét, vesszővel elválasztva):</value>
+  </data>
+    <data name="Contact phone number (not required)" xml:space="preserve">
+    <value>Telefonszám (kitöltése nem kötelező):</value>
+  </data>
+    <data name="Make Reservation" xml:space="preserve">
+    <value>Foglalás elküldése</value>
+  </data>
+    <data name="John Doe, Jane Doe, ..." xml:space="preserve">
+    <value>Pum Pál, Cserepes Virág, ...</value>
+  </data>
+    
 </root>
