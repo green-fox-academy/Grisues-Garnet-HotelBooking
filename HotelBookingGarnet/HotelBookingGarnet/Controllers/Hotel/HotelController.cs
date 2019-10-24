@@ -93,6 +93,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
                     var errors = imageService.Validate(editHotel.Files, editHotel);
                     if (errors.Count != 0)
                     {
+                        ViewBag.TimeZones = dateTimeService.FindTimeZones();
                         return View(editHotel);
                     }
 
