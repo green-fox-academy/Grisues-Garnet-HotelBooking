@@ -41,5 +41,32 @@ namespace HotelBookingGarnet.Controllers.Login
 
             return View(model);
         }
+
+        [HttpGet("/Google-login")]
+        public IActionResult GoogleLogin()
+        {
+            var redirectUrl = "Google-response";
+            var properties = userService.ConfigureExternalAutheticationProp("Google",redirectUrl);
+
+            return new ChallengeResult("Google", properties);
+        }
+
+        [HttpGet("/Google-response")]
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var info = await userService.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            var result = await userService.ExternalLoginSingnInAsync(info.LoginProvider, info.ProviderKey, false);
+
+            if (!result.Succeeded)
+            {
+                await userService.CreateAndLoginGoogleUser(info);
+            }
+            return RedirectToAction(nameof(HomeController.Index),"Home");
+        }
     }
 }

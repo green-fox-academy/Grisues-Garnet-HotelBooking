@@ -63,6 +63,12 @@ namespace HotelBookingGarnet
                 .AddViewLocalization(options => { options.ResourcesPath = "Resources"; })
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization();
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "896619303427-qeleqnubha96r1dfpo4fc21bvkjeo80h.apps.googleusercontent.com";
+                    options.ClientSecret = "aYYDQvMAmQFsptc2vpiHl56t";
+                });
             services.SetUpAutoMapper();
             services.AddMvc();
             services.AddPaging();

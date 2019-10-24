@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
 namespace HotelBookingGarnet.Services
@@ -13,5 +14,9 @@ namespace HotelBookingGarnet.Services
         Task<List<string>> LoginAsync(LoginViewModel model);
         Task<IdentityResult> RegisterAsync(RegisterViewModel model);
         Task Logout();
+        AuthenticationProperties ConfigureExternalAutheticationProp(string provider, string returnUrl);
+        Task<ExternalLoginInfo> GetExternalLoginInfoAsync();
+        Task<SignInResult> ExternalLoginSingnInAsync(string loginProvider, string providerKey, bool isPersistent);
+        Task<List<string>> CreateAndLoginGoogleUser(ExternalLoginInfo info);  
     }
 }
