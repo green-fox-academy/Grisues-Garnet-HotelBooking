@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentEmail.Core;
+using FluentEmail.Mailgun;
 using HotelBookingGarnet.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
 
 namespace HotelBookingGarnet.Services
 {
@@ -16,14 +17,17 @@ namespace HotelBookingGarnet.Services
         private readonly IMapper mapper;
         private readonly IGuestService guestService;
         private readonly IRoomService roomService;
+        private readonly IUserService userService;
         private readonly IHotelService hotelService;
 
-        public ReservationService(ApplicationContext applicationContext, IMapper mapper, IGuestService guestService, IRoomService roomService, IHotelService hotelService)
+        public ReservationService(IMapper mapper, ApplicationContext applicationContext, IGuestService guestService,
+            IRoomService roomService, IUserService userService, IHotelService hotelService)
         {
             this.applicationContext = applicationContext;
             this.mapper = mapper;
             this.guestService = guestService;
             this.roomService = roomService;
+            this.userService = userService;
             this.hotelService = hotelService;
         }
 
@@ -87,13 +91,48 @@ namespace HotelBookingGarnet.Services
             await applicationContext.Reservations.AddAsync(reservation);
             await applicationContext.SaveChangesAsync();
             await guestService.SaveGuestAsync(newReservation, reservation.ReservationId);
+            await SendEmailAsync(hotelId, reservation);
+
             return reservation.ReservationId;
+        }
+
+        private async Task SendEmailAsync(long hotelId, Reservation reservation)
+        {
+            var sender = new MailgunSender(
+                "sandbox0ec3cdedf8584e3fa03c7b70b98fc52f.mailgun.org",
+                "869a1d058062aee81f0348cb5cd5ace5-2dfb0afe-68088ff5"
+            );
+            Email.DefaultSender = sender;
+
+            var user = await userService.FindUserByHotelIdAsync(hotelId);
+            var hotel = await hotelService.FindHotelByIdAsync(hotelId);
+
+            var template =
+                "You received this message because one of your hotel's room has been booked in the Garnet Travel " +
+                "reservation system. \r\n\n Hotel name: " + hotel.HotelName +
+                "\r\n Room number: " + reservation.RoomId +
+                "\r\n Reservation start: " + reservation.ReservationStart +
+                "\r\n Reservation end: " + reservation.ReservationEnd +
+                "\r\n Number of guests: " + reservation.NumberOfGuest +
+                "\r\n Total price: " + reservation.TotalPrice + "HUF" +
+                "\r\n Reservations for this hotel: https://garnettravel.azurewebsites.net/hotelReservation/" +
+                hotel.HotelId +
+                "\r\n\n Sincerely, Garnet Travel team" +
+                "\r\n (This is an auto generated message, please do not reply!)";
+
+            var email = Email
+                .From("mailgun@sandbox0ec3cdedf8584e3fa03c7b70b98fc52f.mailgun.org", "GarnetTravel.Info")
+                .To(user.Email)
+                .Subject($"Reservation notification #{reservation.ReservationId}")
+                .UsingTemplate(template, false, false);
+
+            await email.SendAsync();
         }
 
         private async Task<int> CalculatePriceAsync(long roomId, Reservation reservation)
         {
             var room = await roomService.FindRoomByIdAsync(roomId);
-            var daysOfReservation = (int)(reservation.ReservationEnd - reservation.ReservationStart).TotalDays + 1;
+            var daysOfReservation = (int) (reservation.ReservationEnd - reservation.ReservationStart).TotalDays + 1;
             return room.Price * daysOfReservation;
         }
 
@@ -101,19 +140,24 @@ namespace HotelBookingGarnet.Services
         {
             var dateValid = DateValidation(newReservation);
             var occupationValid = await OccupationValidationAsync(newReservation, roomId);
-            var guestValid = GuestNumberValidation(newReservation, roomId);
+            var guestValid = GuestNumberValidation(newReservation);
+            AddErrorMessages(newReservation, dateValid, occupationValid, guestValid);
 
+            return newReservation.ErrorMessages;
+        }
+
+        private static void AddErrorMessages(ReservationViewModel newReservation, string dateValid,
+            string occupationValid, string guestValid)
+        {
             if (dateValid != null)
                 newReservation.ErrorMessages.Add(dateValid);
             if (occupationValid != null)
                 newReservation.ErrorMessages.Add(occupationValid);
             if (guestValid != null)
                 newReservation.ErrorMessages.Add(guestValid);
-
-            return newReservation.ErrorMessages;
         }
 
-        private static string GuestNumberValidation(ReservationViewModel newReservation, long roomId)
+        private static string GuestNumberValidation(ReservationViewModel newReservation)
         {
             var guestNameListSize = newReservation.GuestsNameInString.Split(", ").Length;
             return newReservation.NumberOfGuest != guestNameListSize
@@ -159,6 +203,7 @@ namespace HotelBookingGarnet.Services
             {
                 return "The end of the booking must not precede the start time!";
             }
+
             return startDate < DateTime.Today ? "The booking cannot begin earlier than today!" : null;
         }
 
@@ -166,8 +211,10 @@ namespace HotelBookingGarnet.Services
         {
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
 
-            var reservations = await applicationContext.Reservations.Where(r => r.HotelId == hotelId && start <= r.ReservationStart && r.ReservationStart <= end ||
-                    start <= r.ReservationEnd && r.ReservationEnd <= end || r.ReservationStart <= start && end <= r.ReservationEnd).ToListAsync();
+            var reservations = await applicationContext.Reservations.Where(r =>
+                r.HotelId == hotelId && start <= r.ReservationStart && r.ReservationStart <= end ||
+                start <= r.ReservationEnd && r.ReservationEnd <= end ||
+                r.ReservationStart <= start && end <= r.ReservationEnd).ToListAsync();
 
             Dictionary<long, int> roomsReservation = new Dictionary<long, int>();
 
@@ -196,6 +243,7 @@ namespace HotelBookingGarnet.Services
                     filteredRooms.Add(rooms.ElementAt(i));
                 }
             }
+
             return filteredRooms;
         }
 
@@ -213,6 +261,7 @@ namespace HotelBookingGarnet.Services
                     roomsReservation[roomId.ElementAt(i)]++;
                 }
             }
+
             return roomsReservation;
         }
 
@@ -223,6 +272,7 @@ namespace HotelBookingGarnet.Services
             {
                 tempList.Add(reservations.ElementAt(i).RoomId);
             }
+
             return tempList;
         }
     }

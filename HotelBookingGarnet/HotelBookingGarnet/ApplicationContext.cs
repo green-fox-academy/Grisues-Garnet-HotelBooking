@@ -1,5 +1,4 @@
 using HotelBookingGarnet.Models;
-using System.Collections.Immutable;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +7,7 @@ namespace HotelBookingGarnet
 {
     public class ApplicationContext : IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; }
+        public new DbSet<User> Users { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<PropertyType> PropertyTypes { get; set; }
         public DbSet<Bed> Beds { get; set; }

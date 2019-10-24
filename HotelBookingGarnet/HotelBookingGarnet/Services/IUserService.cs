@@ -10,13 +10,13 @@ namespace HotelBookingGarnet.Services
     public interface IUserService
     {
         Task AddUserToRoleAsync(User user, RegisterViewModel model);
-        Task<User> FindByEmailAsync(string email);
         Task<List<string>> LoginAsync(LoginViewModel model);
         Task<IdentityResult> RegisterAsync(RegisterViewModel model);
         Task Logout();
+        Task<User> FindUserByHotelIdAsync(long hotelId);
         AuthenticationProperties ConfigureExternalAutheticationProp(string provider, string returnUrl);
         Task<ExternalLoginInfo> GetExternalLoginInfoAsync();
         Task<SignInResult> ExternalLoginSingnInAsync(string loginProvider, string providerKey, bool isPersistent);
-        Task<List<string>> CreateAndLoginGoogleUser(ExternalLoginInfo info);  
+        Task<List<string>> CreateAndLoginGoogleUser(ExternalLoginInfo info);
     }
 }

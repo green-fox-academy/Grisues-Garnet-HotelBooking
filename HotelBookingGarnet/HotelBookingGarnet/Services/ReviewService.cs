@@ -15,7 +15,6 @@ namespace HotelBookingGarnet.Services
             this.applicationContext = applicationContext;
         }
 
-
         public async Task AddReviewAsync(long hotelId, IndexViewModel newReview, string userId)
         {
             var review = new Review

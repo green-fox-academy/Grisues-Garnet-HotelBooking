@@ -122,7 +122,16 @@
             PublicKeyToken=b77a5c561934e089
         </value>
     </resheader>
-    <data name="The RoomName field is required." xml:space="preserve">
-    <value>A Szoba neve mező kitöltése kötelező.</value>
+    <data name="Set the reservation start date!" xml:space="preserve">
+    <value>Állítsa be a foglalás kezdő dátumát!</value>
+  </data>
+    <data name="Set the reservation end date!" xml:space="preserve">
+    <value>Állítsa be a foglalás befejezési dátumát!</value>
+ </data>
+    <data name="Guest number is required!" xml:space="preserve">
+    <value>Adja meg a vendégek számát!</value>
+  </data>
+    <data name="Please give all the guests name!" xml:space="preserve">
+    <value>Kérem adja meg az összes vendég nevét!</value>
   </data>
 </root>
