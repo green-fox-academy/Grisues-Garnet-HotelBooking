@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using HotelBookingGarnet.Controllers.Home;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -86,6 +89,45 @@ namespace HotelBookingGarnet.Services
         public async Task Logout()
         {
             await signInManager.SignOutAsync();
+        }
+
+        public AuthenticationProperties ConfigureExternalAutheticationProp(string provider, string returnUrl)
+        {
+            return signInManager.ConfigureExternalAuthenticationProperties(provider,returnUrl);
+        }
+
+        public async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
+        {
+            return await signInManager.GetExternalLoginInfoAsync();
+        }
+
+        public async Task<SignInResult> ExternalLoginSingnInAsync(string loginProvider, string providerKey, bool isPersistent)
+        {
+            return await signInManager.ExternalLoginSignInAsync(loginProvider, providerKey, isPersistent);
+        }
+
+        public async Task<List<string>> CreateAndLoginGoogleUser(ExternalLoginInfo info)
+        {
+            var user = new User
+            {
+                Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
+                UserName = info.Principal.FindFirst(ClaimTypes.Email).Value.Split("@")[0],
+            };
+
+            var result = await userManager.CreateAsync(user);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "Guest");
+                result = await userManager.AddLoginAsync(user,info);
+                
+                if (result.Succeeded)
+                {
+                    await signInManager.SignInAsync(user,false);
+                }
+            }
+            return result.Errors
+                .Select(e => e.Description)
+                .ToList();
         }
     }
 }
