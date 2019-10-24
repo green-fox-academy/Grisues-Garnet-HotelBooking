@@ -56,6 +56,7 @@ namespace HotelBookingGarnet
             services.AddTransient<IHotelPropertyTypeService, HotelPropertyTypeService>();
             services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IGuestService, GuestService>();
+            services.AddTransient<IReviewService, ReviewService>();
             services.Configure<IdentityOptions>(options => { options.Password.RequireNonAlphanumeric = false; });
             services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
             services.AddMvc()
