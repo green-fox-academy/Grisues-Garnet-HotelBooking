@@ -41,6 +41,15 @@
                     </p>
                 </div>
             </form>
+            <div style="width: 100%; height: 20px; border-bottom: 1px solid black; text-align: center">
+                <span style="font-size: 20px; background-color: white; padding: 0 10px;">
+                    OR
+                </span>
+            </div>
+            <a class="btn btn-danger" asp-controller="Login" asp-action="GoogleLogin">
+                <i class="fab fa-google"></i> @localizer["Login with Google"]
+            </a>
+
         </section>
     </div>
 </div>

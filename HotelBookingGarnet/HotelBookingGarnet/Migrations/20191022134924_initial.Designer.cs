@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingGarnet.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191013113942_Init")]
-    partial class Init
+    [Migration("20191022134924_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("HotelBookingGarnet.Models.Bed", b =>
@@ -252,22 +252,22 @@ namespace HotelBookingGarnet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "98798a39-a81b-49a5-bcde-6708351d0b8b",
-                            ConcurrencyStamp = "d6e90bb0-7e7e-4c37-9e26-a478b90f60e9",
+                            Id = "464ab68c-a8b1-498c-a47a-a88d07ca851c",
+                            ConcurrencyStamp = "41660908-b0fd-4c88-a428-a8df3af5e58d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "6f479210-fbfa-473f-93b9-8859f1c29889",
-                            ConcurrencyStamp = "e44ef157-c482-4f2a-912b-c14434729abb",
+                            Id = "aa2a47f4-449f-456a-a7ea-e4894cd7a932",
+                            ConcurrencyStamp = "8ce66d59-2ed9-44ec-8938-6ba6d6bf9512",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "578e228f-c599-497f-af9e-301d6e67ec57",
-                            ConcurrencyStamp = "ff648579-65de-4d08-92ec-68a3e8b54a70",
+                            Id = "2659c0a2-ae88-4082-8046-09096b9e3823",
+                            ConcurrencyStamp = "22dbfaf3-e8b4-4bd8-a523-9a36d0aeac83",
                             Name = "Hotel Manager",
                             NormalizedName = "HOTEL MANAGER"
                         });

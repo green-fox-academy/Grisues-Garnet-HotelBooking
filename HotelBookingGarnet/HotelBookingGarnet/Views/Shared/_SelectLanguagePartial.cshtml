@@ -13,7 +13,7 @@
         .ToList();
 }
 
-<div title="@Localizer["Request culture provider:"] @requestCulture.Provider.GetType().Name">
+<div>
     <form id="selectLanguage" asp-controller="Hotel" asp-action="SetLanguage" 
           asp-route-returnUrl="@Context.Request.Path" method="post" role="form">
         @Localizer["Language:"] <select name="culture"
