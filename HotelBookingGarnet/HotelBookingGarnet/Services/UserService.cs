@@ -117,7 +117,6 @@ namespace HotelBookingGarnet.Services
                 await userManager.AddToRoleAsync(user, "Guest");
                 result = await userManager.AddLoginAsync(user,info);
                 
-
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user,false);
