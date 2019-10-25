@@ -175,31 +175,9 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 await bedService.AddBedAsync(newBed, roomId);
                 return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new {hotelId});
             }
-
             return View(newBed);
         }
 
-        [Authorize]
-        [HttpGet("/settings")]
-        public async Task<IActionResult> Settings()
-        {
-            var currentUser = await userManager.GetUserAsync(HttpContext.User);
-            
-            return View(new SettingsViewModel{User = currentUser});
-        }
-
-        [Authorize]
-        [HttpPost("/settings")]
-        public IActionResult SetLanguage(string culture, string returnUrl)
-        {
-            Response.Cookies.Append(
-                CookieRequestCultureProvider.DefaultCookieName,
-                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddDays(1) });
-
-            return LocalRedirect(returnUrl);
-        }
-       
         [Authorize(Roles = "Hotel Manager")]
         [HttpGet("/myhotels")]
         public async Task<IActionResult> MyHotels()
