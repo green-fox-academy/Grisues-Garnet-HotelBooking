@@ -59,7 +59,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             var roomBeds = roomBedService.GetRoomBeds();
             ViewData["propertyType"] = property.PropertyType.Type;
             ViewData["averageRating"] = hotelService.AverageRating(hotel.Reviews);
-            var isReviewed = reviewService.Reviewed(hotel.Reviews, currentUser.Id);
+            var isReviewed = reviewService.Reviewed(hotel.Reviews, currentUser);
             var reviewsPaging = hotelService.ReviewsList(hotel.Reviews, queryParam);
             return View(new IndexViewModel
                 {User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri, IsReviewed = isReviewed, ReviewsPagingList = reviewsPaging, QueryParam = queryParam, ActionName = nameof(HotelInfo)});
@@ -103,7 +103,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 await hotelPropertyTypeService.EditPropertyTypeAsync(hotelId, editHotel.PropertyType);
                 return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new {hotelId});
             }
-
+            ViewBag.TimeZones = dateTimeService.FindTimeZones();
             return View(editHotel);
         }
 
@@ -137,7 +137,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
 
                 return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new {hotelId});
             }
-
+            ViewBag.TimeZones = dateTimeService.FindTimeZones();
             return View(newHotel);
         }
 
@@ -214,9 +214,9 @@ namespace HotelBookingGarnet.Controllers.Hotel
             return View(myHotels);
         }
 
-        [Authorize]
-        [HttpPost("/info/{hotelId}")]
-        public async Task<IActionResult> HotelInfo(long hotelId, IndexViewModel newReview, DateTime start, DateTime end, QueryParam queryParam)
+        [AllowAnonymous]
+        [HttpPost("/review/{hotelId}")]
+        public async Task<IActionResult> HotelReview(long hotelId, IndexViewModel newReview, QueryParam queryParam)
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             if (ModelState.IsValid)
@@ -230,15 +230,33 @@ namespace HotelBookingGarnet.Controllers.Hotel
             var roomBeds = roomBedService.GetRoomBeds();
             ViewData["propertyType"] = property.PropertyType.Type;
             ViewData["averageRating"] = hotelService.AverageRating(hotel.Reviews);
-            var rooms = await reservationService.FindAvailableRoomByHotelIdAndDateAsync(hotelId, start, end);
             var reviewsPaging = hotelService.ReviewsList(hotel.Reviews, queryParam);
             newReview.User = currentUser;
             newReview.Hotel = hotel;
             newReview.RoomBeds = roomBeds;
             newReview.FolderList = blobsUri;
-            newReview.Rooms = rooms;
             newReview.ReviewsPagingList = reviewsPaging;
-            return View(newReview);
+            return View("HotelInfo", newReview);
         }
+        
+        [AllowAnonymous]
+        [HttpPost("/info/{hotelId}")]
+        public async Task<IActionResult> HotelInfo(long hotelId, DateTime start, DateTime end, QueryParam queryParam)
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            
+            var blobsUri = await imageService.ListAsync(hotelId);
+            var hotel = await hotelService.FindHotelByIdAsync(hotelId);
+            var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
+            var roomBeds = roomBedService.GetRoomBeds();
+            ViewData["propertyType"] = property.PropertyType.Type;
+            ViewData["averageRating"] = hotelService.AverageRating(hotel.Reviews);
+            var isReviewed = reviewService.Reviewed(hotel.Reviews, currentUser);
+            var rooms = await reservationService.FindAvailableRoomByHotelIdAndDateAsync(hotelId, start, end);
+            var reviewsPaging = hotelService.ReviewsList(hotel.Reviews, queryParam);
+            return View(new IndexViewModel 
+                {User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri, IsReviewed = isReviewed, ReviewsPagingList = reviewsPaging, QueryParam = queryParam, Rooms = rooms, ActionName = nameof(HotelInfo)});
+        }
+        
     }
 }

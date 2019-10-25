@@ -166,7 +166,7 @@ namespace HotelBookingGarnet.Services
         {
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
 
-            var reservations = await applicationContext.Reservations.Where(r => r.HotelId == hotelId && start <= r.ReservationStart && r.ReservationStart <= end ||
+            var reservations = await applicationContext.Reservations.Where(r => r.HotelId == hotel.HotelId).Where(r => start <= r.ReservationStart && r.ReservationStart <= end ||
                     start <= r.ReservationEnd && r.ReservationEnd <= end || r.ReservationStart <= start && end <= r.ReservationEnd).ToListAsync();
 
             Dictionary<long, int> roomsReservation = new Dictionary<long, int>();
@@ -191,7 +191,12 @@ namespace HotelBookingGarnet.Services
             List<Room> filteredRooms = new List<Room>();
             for (int i = 0; i < rooms.Count; i++)
             {
-                if (rooms.ElementAt(i).NumberOfRooms > roomsReservation[rooms.ElementAt(i).RoomId])
+                if (!roomsReservation.ContainsKey(rooms.ElementAt(i).RoomId))
+                {
+                    filteredRooms.Add(rooms.ElementAt(i));
+
+                    
+                }else if (rooms.ElementAt(i).NumberOfRooms > roomsReservation[rooms.ElementAt(i).RoomId])
                 {
                     filteredRooms.Add(rooms.ElementAt(i));
                 }
