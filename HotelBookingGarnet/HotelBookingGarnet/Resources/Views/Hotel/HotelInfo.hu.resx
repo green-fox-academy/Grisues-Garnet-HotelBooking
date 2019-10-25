@@ -231,4 +231,7 @@
   <data name="Invalid search criteria!" xml:space="preserve">
     <value>Nem megfelelő keresési feltételek!</value>
   </data>
+  <data name="You have to login to review this hotel." xml:space="preserve">
+    <value>Az értékeléshez be kell jelentkezni.</value>
+  </data>
 </root>

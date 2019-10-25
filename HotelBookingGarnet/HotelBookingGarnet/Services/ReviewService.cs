@@ -28,17 +28,19 @@ namespace HotelBookingGarnet.Services
             await applicationContext.SaveChangesAsync();
         }
 
-        public bool Reviewed(List<Review> reviews, string userId)
+        public bool Reviewed(List<Review> reviews, User user)
         {
             bool isReviewed = false;
-            foreach (var review in reviews)
+            if (user != null)
             {
-                if (review.UserId == userId)
+                foreach (var review in reviews)
                 {
-                    isReviewed = true;
+                    if (review.UserId == user.Id)
+                    {
+                        isReviewed = true;
+                    }
                 }
             }
-
             return isReviewed;
         }
     }
