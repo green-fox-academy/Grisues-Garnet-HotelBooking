@@ -239,7 +239,6 @@ namespace HotelBookingGarnet.Services
                 {
                     filteredRooms.Add(rooms.ElementAt(i));
 
-                    
                 }else if (rooms.ElementAt(i).NumberOfRooms > roomsReservation[rooms.ElementAt(i).RoomId])
                 {
                     filteredRooms.Add(rooms.ElementAt(i));
