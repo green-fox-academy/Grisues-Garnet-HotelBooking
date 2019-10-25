@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using HotelBookingGarnet.Services;
@@ -9,12 +7,8 @@ using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using HotelBookingGarnet.Controllers.Home;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.WindowsAzure.Storage;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
-using AutoMapper;
 using HotelBookingGarnet.Utils;
 
 namespace HotelBookingGarnet.Controllers.Hotel
@@ -33,7 +27,10 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IReviewService reviewService;
         private readonly IReservationService reservationService;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IHotelPropertyTypeService hotelPropertyTypeService, IDateTimeService dateTimeService, IMapper mapper, IReviewService reviewService, IReservationService reservationService)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService,
+            IRoomService roomService, IBedService bedService, IRoomBedService roomBedService,
+            IHotelPropertyTypeService hotelPropertyTypeService, IDateTimeService dateTimeService, IMapper mapper,
+            IReviewService reviewService, IReservationService reservationService)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
@@ -62,7 +59,10 @@ namespace HotelBookingGarnet.Controllers.Hotel
             var isReviewed = reviewService.Reviewed(hotel.Reviews, currentUser);
             var reviewsPaging = hotelService.ReviewsList(hotel.Reviews, queryParam);
             return View(new IndexViewModel
-                {User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri, IsReviewed = isReviewed, ReviewsPagingList = reviewsPaging, QueryParam = queryParam, ActionName = nameof(HotelInfo)});
+            {
+                User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri, IsReviewed = isReviewed,
+                ReviewsPagingList = reviewsPaging, QueryParam = queryParam, ActionName = nameof(HotelInfo)
+            });
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]
@@ -200,11 +200,11 @@ namespace HotelBookingGarnet.Controllers.Hotel
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddDays(1) });
+                new CookieOptions {Expires = DateTimeOffset.UtcNow.AddDays(1)});
 
             return LocalRedirect(returnUrl);
         }
-       
+
         [Authorize(Roles = "Hotel Manager")]
         [HttpGet("/myhotels")]
         public async Task<IActionResult> MyHotels()
@@ -213,7 +213,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             var myHotels = await hotelService.ListMyHotelsAsync(currentUser.Id);
             return View(myHotels);
         }
-
+        
         [AllowAnonymous]
         [HttpPost("/review/{hotelId}")]
         public async Task<IActionResult> HotelReview(long hotelId, IndexViewModel newReview, QueryParam queryParam)
@@ -224,6 +224,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 await reviewService.AddReviewAsync(hotelId, newReview, currentUser.Id);
                 return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new {hotelId});
             }
+
             var blobsUri = await imageService.ListAsync(hotelId);
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
             var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);
@@ -257,6 +258,5 @@ namespace HotelBookingGarnet.Controllers.Hotel
             return View(new IndexViewModel 
                 {User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri, IsReviewed = isReviewed, ReviewsPagingList = reviewsPaging, QueryParam = queryParam, Rooms = rooms, ActionName = nameof(HotelInfo)});
         }
-        
     }
 }

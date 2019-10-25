@@ -73,7 +73,7 @@ namespace HotelBookingGarnet.Services
             return qry;
         }
 
-        public async Task<Hotel> FindHotelByName(string hotelName)
+        public async Task<Hotel> FindHotelByNameAsync(string hotelName)
         {
             var foundedHotel = await applicationContext.Hotels.Include(a => a.HotelPropertyTypes)
                 .FirstOrDefaultAsync(a => a.HotelName == hotelName);

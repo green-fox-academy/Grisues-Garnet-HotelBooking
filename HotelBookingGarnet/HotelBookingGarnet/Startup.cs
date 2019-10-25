@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using HotelBookingGarnet.Services.Helpers.AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace HotelBookingGarnet
 {
@@ -30,6 +31,11 @@ namespace HotelBookingGarnet
         {
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
@@ -57,18 +63,28 @@ namespace HotelBookingGarnet
             services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IGuestService, GuestService>();
             services.AddTransient<IReviewService, ReviewService>();
-            services.Configure<IdentityOptions>(options => { options.Password.RequireNonAlphanumeric = false; });
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.User.RequireUniqueEmail = true;
+            });
             services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
             services.AddMvc()
                 .AddViewLocalization(options => { options.ResourcesPath = "Resources"; })
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization();
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "896619303427-qeleqnubha96r1dfpo4fc21bvkjeo80h.apps.googleusercontent.com";
+                    options.ClientSecret = "aYYDQvMAmQFsptc2vpiHl56t";
+                });
             services.SetUpAutoMapper();
             services.AddMvc();
-            services.AddPaging();
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                var supportedCultures = new List<CultureInfo> {
+                var supportedCultures = new List<CultureInfo>
+                {
                     new CultureInfo("en-GB"),
                     new CultureInfo("hu-HU")
                 };
@@ -86,6 +102,7 @@ namespace HotelBookingGarnet
             {
                 app.UseDeveloperExceptionPage();
             }
+
             var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(options.Value);
             app.UseHttpsRedirection();
