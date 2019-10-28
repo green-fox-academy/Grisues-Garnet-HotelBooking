@@ -74,10 +74,10 @@
                 <span asp-validation-for="@Model.Files" class="text-danger"></span>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">@ViewData["Action"]</button>
+        <button type="submit" class="btn btn-primary btn-sm">@ViewData["Action"]</button>
         @if (@ViewData["Action"].Equals("Add"))
         {
-            <a class="btn btn-danger" asp-controller="Home" asp-action="Index" role="button">@localizer["Cancel"]</a>
+            <a class="btn btn-danger btn-sm" asp-controller="Home" asp-action="Index" role="button">@localizer["Cancel"]</a>
         }
         else
         {

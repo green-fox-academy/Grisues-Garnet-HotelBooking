@@ -3,6 +3,7 @@
     background-color: rgb(42, 165, 170);
     background-image: url('teal3.jpg');
     background-blend-mode: overlay;
+    /*background-blend-mode: overlay;*/
     background-attachment:fixed;
 }
 
@@ -12,8 +13,7 @@ nav {
 
 .container {
     background-color: white;
-    padding-right: 0;
-    padding-left: 0;
+    padding: 0px !important;
     min-height: 100vh;
     border: 1px solid darkslategrey;
 }
@@ -21,9 +21,9 @@ nav {
 .my-search {
     background-image: url('orange3.jpg');
 /*    background-color: rgb(245, 128, 32);*/
+    background-color: rgb(245, 128, 32);
     min-height: 100vh;
     border: 1px solid darkslategrey;
-    
 }
 
 .my-border {
@@ -55,13 +55,17 @@ h1 {
     height:200px;
 }
 
-.btn {
-    margin-bottom: 10px;
-}
-
 .my-star {
     vertical-align: top;
     width: 15px;
     height: 15px;
+}
+
+.my-btn{
+    display: inline;
+}
+
+.google-btn {
+    padding-top: 20px;
 }
 

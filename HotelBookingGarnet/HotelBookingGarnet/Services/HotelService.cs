@@ -44,7 +44,7 @@ namespace HotelBookingGarnet.Services
         public async Task<Hotel> FindHotelByIdAsync(long hotelId)
         {
             var foundHotel = await applicationContext.Hotels.Include(p => p.HotelPropertyTypes)
-                .Include(h => h.Rooms).SingleOrDefaultAsync(x => x.HotelId == hotelId);
+                .Include(h => h.Rooms).Include(r => r.Reviews).SingleOrDefaultAsync(x => x.HotelId == hotelId);
 
             return foundHotel;
         }
@@ -73,7 +73,7 @@ namespace HotelBookingGarnet.Services
             return qry;
         }
 
-        public async Task<Hotel> FindHotelByName(string hotelName)
+        public async Task<Hotel> FindHotelByNameAsync(string hotelName)
         {
             var foundedHotel = await applicationContext.Hotels.Include(a => a.HotelPropertyTypes)
                 .FirstOrDefaultAsync(a => a.HotelName == hotelName);
@@ -124,6 +124,28 @@ namespace HotelBookingGarnet.Services
                 .Include(h => h.HotelPropertyTypes)
                 .Where(h => h.UserId == userId).OrderBy(h => h.HotelName).ToListAsync();
             return myHotels;
+        }
+
+        public double AverageRating(List<Review> reviews)
+        {
+            if (reviews.Count > 0)
+            {
+                var sum = 0;
+                foreach (var review in reviews)
+                {
+                    sum += review.Rating;
+                }
+
+                var avg = sum / reviews.Count;
+                return avg;
+            }
+
+            return 0;
+        }
+
+        public PagingList<Review> ReviewsList(List<Review> reviews, QueryParam queryParam)
+        {
+            return PagingList.Create(reviews, 10, queryParam.Page);
         }
     }
 }
