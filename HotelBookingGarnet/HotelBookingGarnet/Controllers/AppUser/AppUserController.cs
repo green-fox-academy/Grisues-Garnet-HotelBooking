@@ -29,6 +29,7 @@ namespace HotelBookingGarnet.Controllers
         [HttpGet("/settings")]
         public async Task<IActionResult> Settings()
         {
+            ViewData["message"] = "";
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             return View(new SettingsViewModel {User = currentUser});
         }
@@ -37,6 +38,7 @@ namespace HotelBookingGarnet.Controllers
         [HttpPost("/settings")]
         public async Task<IActionResult> Settings(string culture, string returnUrl, SettingsViewModel settingsViewModel)
         {
+            var user = await userManager.GetUserAsync(HttpContext.User);
             if (settingsViewModel.OldPassword == null)
             {
                 Response.Cookies.Append(
@@ -44,20 +46,26 @@ namespace HotelBookingGarnet.Controllers
                     CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
                     new CookieOptions {Expires = DateTimeOffset.UtcNow.AddDays(1)});
                 return LocalRedirect(returnUrl);
-            } 
-            if (settingsViewModel.OldPassword != null && settingsViewModel.NewPassword != null
-                                                      && settingsViewModel.ConfirmPassword != null)
+            }
+            if (ModelState.IsValid)
             {
-                var user = await userManager.GetUserAsync(HttpContext.User);
-                var result = await userManager.ChangePasswordAsync(user,
-                    settingsViewModel.OldPassword, settingsViewModel.NewPassword);
-                if (result.Succeeded)
+                if (settingsViewModel.OldPassword == settingsViewModel.NewPassword)
                 {
-                    ViewData["message"] = "Password change was successful!";
-                    return View();
+                    ViewData["error"] = "New password and old password can't be the same!";
+                    return View(new SettingsViewModel {User = user});
+                }
+                if (settingsViewModel.NewPassword != settingsViewModel.OldPassword)
+                {
+                    var result = await userManager.ChangePasswordAsync(user,
+                        settingsViewModel.OldPassword, settingsViewModel.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        ViewData["message"] = "Password change was successful!";
+                        return View(new SettingsViewModel {User = user});
+                    }
                 }
             }
-            return View();
+            return View(new SettingsViewModel {User = user});
         }
     }
 }

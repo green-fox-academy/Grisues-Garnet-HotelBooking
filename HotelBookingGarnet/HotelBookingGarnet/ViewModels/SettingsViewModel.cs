@@ -19,7 +19,6 @@ namespace HotelBookingGarnet.ViewModels
         [DataType(DataType.Password)]
         [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
         MinimumLength = 6)]
-        [Compare("OldPassword", ErrorMessage = "New password and old password can't be the same!")]
         public string NewPassword { get; set; }
         
         [Display(Name = "Confirm password")]
@@ -27,7 +26,7 @@ namespace HotelBookingGarnet.ViewModels
         [DataType(DataType.Password)]
         [Compare("NewPassword", ErrorMessage = "Confirmation password and new password doesn't match")]
         public string ConfirmPassword { get; set; }
-        
-        //public List<string> ErrorMessages { get; set; }
+
+        public List<string> ErrorMessages { get; set; }
     }
 }

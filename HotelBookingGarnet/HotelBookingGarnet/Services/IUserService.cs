@@ -13,5 +13,7 @@ namespace HotelBookingGarnet.Services
         Task<List<string>> LoginAsync(LoginViewModel model);
         Task<IdentityResult> RegisterAsync(RegisterViewModel model);
         Task Logout();
+//        bool ValidatePasswordChangingFields(string OldPwd, string NewPwd, string ConfirmPwd);
+//        Task<IdentityResult> ChangePasswordAsync(SettingsViewModel settingsViewModel);
     }
 }

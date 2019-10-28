@@ -5,7 +5,7 @@
 
 
 <form asp-controller="AppUser" asp-action="Settings" method="post" asp-route-returnUrl="@Context.Request.Path" role="form">
-    @* <h1>@Model.User.UserName @localizer["'s settings"]</h1>  *@
+    <h1>@Model.User.UserName @localizer["'s settings"]</h1> 
     <div class="rows">
         <div>
         <h4>@localizer["Change the language of the page"]</h4>
@@ -35,6 +35,7 @@
         <div>
             <label asp-for="NewPassword"></label>
             <input asp-for="NewPassword"/>
+            <span class="text-danger">@ViewData["error"]</span>
             <span asp-validation-for="NewPassword" class="text-danger"></span>
         </div>
         <div>
