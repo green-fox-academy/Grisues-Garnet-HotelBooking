@@ -1,5 +1,7 @@
 using System;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
+using AutoMapper.Configuration.Internal;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
@@ -9,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Manage.Internal;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
@@ -18,11 +21,13 @@ namespace HotelBookingGarnet.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly IUserService userService;
-        
-        public AppUserController(UserManager<User> userManager, IUserService userService)
+        private readonly IStringLocalizer<AppUserController> _localizer;
+
+        public AppUserController(UserManager<User> userManager, IUserService userService, IStringLocalizer<AppUserController> localizer)
         {
             this.userManager = userManager;
             this.userService = userService;
+            _localizer = localizer;
         }
 
         [Authorize]
@@ -51,7 +56,7 @@ namespace HotelBookingGarnet.Controllers
             {
                 if (settingsViewModel.OldPassword == settingsViewModel.NewPassword)
                 {
-                    ViewData["error"] = "New password and old password can't be the same!";
+                    ViewData["error"] = _localizer["New password and old password can't be the same!"];
                     return View(new SettingsViewModel {User = user});
                 }
                 if (settingsViewModel.NewPassword != settingsViewModel.OldPassword)

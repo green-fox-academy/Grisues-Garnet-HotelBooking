@@ -83,28 +83,5 @@ namespace HotelBookingGarnet.Services
         {
             await signInManager.SignOutAsync();
         }
-
-//        public bool ValidatePasswordChangingFields(string OldPwd, string NewPwd, string ConfirmPwd)
-//        {
-//            if (OldPwd != NewPwd && OldPwd != null & NewPwd != null && ConfirmPwd != null && NewPwd == ConfirmPwd)
-//            {
-//                return true;
-//            }
-//
-//            return false;
-//        }
-//
-//        public Task<IdentityResult> ChangePasswordAsync(SettingsViewModel settingsViewModel)
-//        {
-//            var validatedFields = ValidatePasswordChangingFields(settingsViewModel.OldPassword,
-//                settingsViewModel.NewPassword, settingsViewModel.ConfirmPassword);
-//            if (validatedFields)
-//            {
-//                var result = userManager.ChangePasswordAsync(settingsViewModel.User, settingsViewModel.OldPassword,
-//                    settingsViewModel.NewPassword);
-//                return result;
-//            }
-//            
-//        }
     }
 }
