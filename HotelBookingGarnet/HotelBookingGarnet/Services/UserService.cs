@@ -45,7 +45,6 @@ namespace HotelBookingGarnet.Services
                 await AddUserToRoleAsync(user, model);
                 return result;
             }
-
             return result;
         }
 
@@ -64,7 +63,7 @@ namespace HotelBookingGarnet.Services
             return model.ErrorMessages;
         }
 
-        private static List<string> CheckLoginErrors(SignInResult result, List<string> errors)
+        private List<string> CheckLoginErrors(SignInResult result, List<string> errors)
         {
             if (!result.Succeeded)
             {
