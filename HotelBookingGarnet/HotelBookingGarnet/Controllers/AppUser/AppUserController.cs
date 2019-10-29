@@ -72,5 +72,18 @@ namespace HotelBookingGarnet.Controllers
             }
             return View(new SettingsViewModel {User = user});
         }
+        [HttpGet ("/forgotPassword")]
+        [ValidateAntiForgeryToken]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost("/forgotPassword")]
+        public async Task<IActionResult> SendRecoveryEmail(RegisterViewModel model)
+        {
+            
+        }
+        
     }
 }

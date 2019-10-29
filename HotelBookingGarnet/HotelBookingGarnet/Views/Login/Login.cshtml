@@ -4,7 +4,7 @@
 @inject SignInManager<User> SignInManager
 
 @{
-    ViewData["Title"] =@localizer["Log in"];
+    ViewData["Title"] = @localizer["Log in"];
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -38,6 +38,11 @@
                 <div class="form-group">
                     <p>
                         <a asp-action="Register" asp-controller="Register">@localizer["Register as a new user?"]</a>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <p>
+                        <a asp-action="ForgotPassword" asp-controller="AppUser">@localizer["Forgot your password?"]</a>
                     </p>
                 </div>
             </form>
