@@ -69,18 +69,15 @@ namespace HotelBookingGarnet.Controllers.Login
         [HttpGet("/Google-response")]
         public async Task<IActionResult> GoogleResponse()
         {
-
             var info = await userService.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 return RedirectToAction(nameof(Login));
             }
-            
             var result = await userService.ExternalLoginSingnInAsync(info.LoginProvider, info.ProviderKey, false);
-            
             if (!result.Succeeded)
             {
-                await userService.CreateAndLoginGoogleUser(info);
+                await userService.CreateAndLoginGoogleUserAsync(info);
             }
             return RedirectToAction(nameof(HomeController.Index),"Home");
         }

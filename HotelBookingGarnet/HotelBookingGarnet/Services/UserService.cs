@@ -105,7 +105,7 @@ namespace HotelBookingGarnet.Services
             return await signInManager.ExternalLoginSignInAsync(loginProvider, providerKey, isPersistent);
         }
 
-        public async Task<List<string>> CreateAndLoginGoogleUser(ExternalLoginInfo info)
+        public async Task<List<string>> CreateAndLoginGoogleUserAsync(ExternalLoginInfo info)
         {
             var user = await userManager.FindByEmailAsync(info.Principal.FindFirstValue(ClaimTypes.Email));
 
