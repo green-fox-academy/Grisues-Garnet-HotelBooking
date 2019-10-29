@@ -4,7 +4,7 @@
     ViewData["Title"] = "TaxiReservation";
 }
 
-<h1>@localizer["Add a new Reservation"]</h1>
+<h1>@localizer["Add a new Taxi Reservation"]</h1>
 <form asp-controller="Reservation" asp-action="AddTaxiReservation" asp-route-Userid=@ViewData["UserId"] method="post">
     <div class="form-group">
         <p>
@@ -18,21 +18,21 @@
             <span asp-validation-for="StartLocal" class="text-danger"></span>
         </p>
         <label asp-for="StartLocal">@localizer["Pick-up location:"]</label>
-        <input type="text" input asp-for="StartLocal"  >
+        <input type="text" input asp-for="StartLocal" class="form-control" >
     </div>
     <div class="form-group">
         <p>
             <span asp-validation-for="EndLocal" class="text-danger"></span>
         </p>
         <label asp-for="EndLocal">@localizer["Drop-off location:"]</label>
-        <input type="text" input asp-for="EndLocal"  >
+        <input type="text" input asp-for="EndLocal" class="form-control" >
     </div>
     <div class="form-group">
         <p>
-            <span asp-validation-for="TaxiNumberOfGuest" class="text-danger"></span>
+            <span asp-validation-for="NumberOfGuest" class="text-danger"></span>
         </p>
-        <label asp-for="TaxiNumberOfGuest">@localizer["Number of guests:"]</label>
-        <input type="number" min="1" max="100" asp-for="TaxiNumberOfGuest" class="form-control" />
+        <label asp-for="NumberOfGuest">@localizer["Number of travelers:"]</label>
+        <input type="number" min="1" max="100" asp-for="NumberOfGuest" class="form-control" />
     </div>
     <div class="form-group">
         <p>

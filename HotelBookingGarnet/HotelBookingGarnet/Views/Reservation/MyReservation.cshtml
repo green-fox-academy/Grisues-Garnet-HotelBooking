@@ -4,7 +4,7 @@
     ViewData["Title"] = @localizer["MyReservation"];
 }
 
-<h1>@localizer["MyReservation"]</h1>
+<h1>@localizer["My Reservation"]</h1>
 
 <table class="table">
     <tr>
@@ -47,18 +47,17 @@
                 </td>
             }
         </tr>
-
     }
 </table>
-
-<h1>Taxi Reservations</h1>
+<br />
+<h1>@localizer["Taxi Reservations"]</h1>
 <table class="table">
     <tr>
-        <th>Start</th>
-        <th>Start local</th>
-        <th>Start local</th>
-        <th>Number of Guests</th>
-        <th>Phone Number</th>
+        <th>@localizer["Start"]</th>
+        <th>@localizer["Pick-up local"]</th>
+        <th>@localizer["Drop-off local"]</th>
+        <th>@localizer["Number of travelers"]</th>
+        <th>@localizer["Phone Number"]</th>
     </tr>
     @foreach (var taxi in Model.TaxiReservations)
     {

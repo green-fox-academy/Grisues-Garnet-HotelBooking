@@ -120,8 +120,11 @@
   <data name="Add a new Reservation" xml:space="preserve">
     <value>Új foglalás</value>
   </data>
+  <data name="Add a new Taxi Reservation" xml:space="preserve">
+    <value>Új Taxi foglalás</value>
+  </data>
   <data name="Contact phone number :" xml:space="preserve">
-    <value>Telefonszám :</value>
+    <value>Telefonszám:</value>
   </data>
   <data name="Drop-off location:" xml:space="preserve">
     <value>Érkezési helyszín:</value>
@@ -132,8 +135,8 @@
   <data name="Make Reservation" xml:space="preserve">
     <value>Foglalás elküldése</value>
   </data>
-  <data name="Number of guests:" xml:space="preserve">
-    <value>Utasok száma : </value>
+  <data name="Number of travelers:" xml:space="preserve">
+    <value>Utasok száma: </value>
   </data>
   <data name="Pick-up location:" xml:space="preserve">
     <value>Felvételi helyszín:</value>

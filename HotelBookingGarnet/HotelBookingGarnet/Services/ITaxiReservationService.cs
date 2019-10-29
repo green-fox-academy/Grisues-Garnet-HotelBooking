@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace HotelBookingGarnet.Services
 {
-   public interface ITaxiReservationService
+    public interface ITaxiReservationService
     {
-       Task<long> AddTaxiReservationAsync(TaxiReservationViewModel newTaxiReservation, string userId);
+        Task<long> AddTaxiReservationAsync(TaxiReservationViewModel newTaxiReservation, string userId);
         Task<List<TaxiReservation>> FindTaxiReservationByUserIdAsync(string userId);
         Task DeleteTaxiReservationByIdAsync(long taxiReservationId);
+        Task<TaxiReservation> FindTaxiReservationByIdAsync(long taxiReservationId);
     }
 }

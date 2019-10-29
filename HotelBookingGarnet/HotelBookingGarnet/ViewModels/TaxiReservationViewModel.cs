@@ -15,7 +15,7 @@ namespace HotelBookingGarnet.ViewModels
         [Required(ErrorMessage = "Set the reservation end local!")]
         public string EndLocal { get; set; }
         [Required(ErrorMessage = "Guest number is required!")]
-        public int? TaxiNumberOfGuest { get; set; }
+        public int? NumberOfGuest { get; set; }
         [Required(ErrorMessage = "Phone number is required!")]
         public string PhoneNumber { get; set; }
         public List<string> ErrorMessages { get; set; } = new List<string>();
