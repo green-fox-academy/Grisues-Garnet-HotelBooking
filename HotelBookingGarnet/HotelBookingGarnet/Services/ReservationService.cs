@@ -129,7 +129,7 @@ namespace HotelBookingGarnet.Services
             await email.SendAsync();
         }
 
-        private async Task<int> CalculatePriceAsync(long roomId, Reservation reservation)
+        public async Task<int> CalculatePriceAsync(long roomId, Reservation reservation)
         {
             var room = await roomService.FindRoomByIdAsync(roomId);
             var daysOfReservation = (int) (reservation.ReservationEnd - reservation.ReservationStart).TotalDays + 1;
