@@ -36,8 +36,8 @@ namespace HotelBookingGarnetTest.TestUtils
             {
                 new Reservation
                 {
-                    ReservationStart = new DateTime(2019,11,10),
-                    ReservationEnd = new DateTime(2019,11,12),
+                    ReservationStart = new DateTime(2019, 11, 10),
+                    ReservationEnd = new DateTime(2019, 11, 12),
                     ReservationId = 1,
                 }
             });

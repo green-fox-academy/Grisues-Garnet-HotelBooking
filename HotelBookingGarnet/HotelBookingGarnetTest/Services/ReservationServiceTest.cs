@@ -29,7 +29,7 @@ namespace HotelBookingGarnetTest.Services
             mockHotelService = new Mock<IHotelService>();
             mockRoomService = new Mock<IRoomService>();
         }
-        
+
         [Fact]
         public async Task CalculatePriceAsync_SimpleValuesShouldCalculate()
         {
@@ -45,13 +45,11 @@ namespace HotelBookingGarnetTest.Services
                         RoomId = 1,
                         Price = 400
                     }));
-                    
+
                 const int expected = 1200;
                 var actual = await reservationService.CalculatePriceAsync(1, reservation);
                 Assert.Equal(expected, actual);
             }
         }
-        
-        
     }
 }
