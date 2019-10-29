@@ -1,10 +1,10 @@
 ﻿@model IndexViewModel
 
 @{
-    ViewData["Title"] =@localizer["MyReservation"];
+    ViewData["Title"] = @localizer["MyReservation"];
 }
 
-    <h1>@localizer["MyReservation"]</h1>
+<h1>@localizer["MyReservation"]</h1>
 
 <table class="table">
     <tr>
@@ -17,56 +17,67 @@
     </tr>
     @foreach (var reservation in @Model.Reservations)
     {
-<tr>
-    <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
-    <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
-    <td>
-        @foreach (var hotel in Model.HotelList)
-        {@if (reservation.HotelId == hotel.HotelId)
-            {
-                <a asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@hotel.HotelId">@hotel.HotelName</a>
+        <tr>
+            <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
+            <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
+            <td>
+                @foreach (var hotel in Model.HotelList)
+                {@if (reservation.HotelId == hotel.HotelId)
+                    {
+                        <a asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@hotel.HotelId">@hotel.HotelName</a>
+                    }
             }
-    }
-    </td>
-    <td>@reservation.NumberOfGuest</td>
-    <td>@reservation.TotalPrice ft</td>
-    <td>
-        @foreach (var guest in reservation.GuestsList)
-        {
-            <div>
-                <span>@guest.GuestName</span>
-            </div>
-        }
-    </td>
-    @if (reservation.ReservationStart > DateTime.Now.AddDays(+1))
-    {
-        <td>
-            <form asp-controller="Reservation" asp-action="CancelReservation" asp-route-ReservationId="@reservation.ReservationId" method="post">
-                <button type="submit" class="btn btn-primary">@localizer["Cancel"]</button>
-            </form>
-        </td>
-    }
-</tr>   
+            </td>
+            <td>@reservation.NumberOfGuest</td>
+            <td>@reservation.TotalPrice ft</td>
+            <td>
+                @foreach (var guest in reservation.GuestsList)
+                {
+                    <div>
+                        <span>@guest.GuestName</span>
+                    </div>
+                }
+            </td>
+            @if (reservation.ReservationStart > DateTime.Now.AddDays(+1))
+            {
+                <td>
+                    <form asp-controller="Reservation" asp-action="CancelReservation" asp-route-ReservationId="@reservation.ReservationId" method="post">
+                        <button type="submit" class="btn btn-primary">@localizer["Cancel"]</button>
+                    </form>
+                </td>
+            }
+        </tr>
+
     }
 </table>
 
-<table>
+<h1>Taxi Reservations</h1>
+<table class="table">
     <tr>
-        <th>Taxi Reservation Start</th>
-        <th>Taxi Reservation End</th>
+        <th>Start</th>
+        <th>Start local</th>
+        <th>Start local</th>
         <th>Number of Guests</th>
         <th>Phone Number</th>
     </tr>
     @foreach (var taxi in Model.TaxiReservations)
     {
-    <tr>
-        <td>@taxi.TaxiReservationStart</td>
-        <td>@taxi.TaxiReservationEnd</td>
-        <td>@taxi.NumberOfGuest</td>
-        <td>@taxi.PhoneNumber</td>
-    </tr>
+        <tr>
+            <td><time>@taxi.TaxiReservationStart</time></td>
+            <td>@taxi.StartLocal</td>
+            <td>@taxi.EndLocal</td>
+            <td>@taxi.NumberOfGuest</td>
+            <td>@taxi.PhoneNumber</td>
+            @if (taxi.TaxiReservationStart > DateTime.Now.AddHours(+1))
+            {
+                <td>
+                    <form asp-controller="Reservation" asp-action="CancelTaxiReservation" asp-route-taxiReservationId="@taxi.TaxiReservationId" method="post">
+                        <button type="submit" class="btn btn-primary">@localizer["Cancel"]</button>
+                    </form>
+                </td>
+            }
+        </tr>
     }
-
 </table>
 <form asp-controller="Reservation" asp-action="CleanReservation" asp-route-UserId="@Model.User.Id" method="post">
     <button type="submit" class="btn btn-primary">Clean up</button>

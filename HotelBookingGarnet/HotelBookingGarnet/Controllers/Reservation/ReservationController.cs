@@ -103,18 +103,33 @@ namespace HotelBookingGarnet.Controllers
             return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
         }
 
-        [HttpGet("/taxireservation")]
-        public async Task<IActionResult> TaxiReservation()
+        [HttpGet("/addtaxireservation")]
+        public async Task<IActionResult> AddTaxiReservation()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             ViewData["UserId"] = currentUser.Id;
-            return View();
+            return View(new TaxiReservationViewModel());
         }
 
         [HttpPost("/addtaxireservation")]
-        public async Task<IActionResult> AddTaxiReservation(TaxiReservationViewModel newTaxiReservation, string UserId)
+        public async Task<IActionResult> AddTaxiReservation(TaxiReservationViewModel newTaxiReservation)
         {
-            await taxiReservationService.AddTaxiReservationAsync(newTaxiReservation, UserId);
+            if (ModelState.IsValid)
+            {
+                
+                    var currentUser = await userManager.GetUserAsync(HttpContext.User);
+                    var taxiReservationId =
+                        await taxiReservationService.AddTaxiReservationAsync(newTaxiReservation, currentUser.Id);
+                    return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
+            }
+
+            return View();
+        }
+
+        [HttpPost("/canceltaxireservation")]
+        public async Task<IActionResult> CancelTaxiReservation(long taxiReservationId)
+        {
+            await taxiReservationService.DeleteTaxiReservationByIdAsync(taxiReservationId);
             return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
         }
     }

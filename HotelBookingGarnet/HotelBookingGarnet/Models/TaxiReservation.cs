@@ -9,7 +9,8 @@ namespace HotelBookingGarnet.Models
     {
         public long TaxiReservationId { get; set; }
         public DateTime TaxiReservationStart { get; set; }
-        public DateTime TaxiReservationEnd { get; set; }
+        public string StartLocal { get; set; }
+        public string EndLocal { get; set; }
         public int NumberOfGuest { get; set; }
         public string PhoneNumber { get; set; }
         public string UserId { get; set; }

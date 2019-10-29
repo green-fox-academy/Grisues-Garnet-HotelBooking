@@ -30,11 +30,21 @@ namespace HotelBookingGarnet.Services
             return TaxiReservation.TaxiReservationId;
         }
 
+        public async Task DeleteTaxiReservationByIdAsync(long taxiReservationId)
+        {
+            var taxiReservation =
+               await applicationContext.TaxiReservations.FirstOrDefaultAsync(r => r.TaxiReservationId == taxiReservationId);
+            applicationContext.TaxiReservations.Remove(taxiReservation);
+            applicationContext.SaveChanges();
+           
+        }
+
         public async Task<List<TaxiReservation>> FindTaxiReservationByUserIdAsync(string userId)
         {
             var taxiReservation = await applicationContext.TaxiReservations
                 .Where(t => t.UserId == userId).OrderBy(t => t.TaxiReservationStart).ToListAsync();
             return taxiReservation;
         }
+
     }
 }

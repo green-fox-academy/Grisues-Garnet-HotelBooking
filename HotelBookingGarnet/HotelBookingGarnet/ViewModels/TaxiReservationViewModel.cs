@@ -9,12 +9,15 @@ namespace HotelBookingGarnet.ViewModels
     public class TaxiReservationViewModel
     {
         [Required(ErrorMessage = "Set the reservation start date!")]
-        public DateTime TaxiReservationStart { get; set; }
-        [Required(ErrorMessage = "Set the reservation end date!")]
-        public DateTime TaxiReservationEnd { get; set; }
+        public DateTime? TaxiReservationStart { get; set; }
+        [Required(ErrorMessage = "Set the reservation Start local!")]
+        public string StartLocal { get; set; }
+        [Required(ErrorMessage = "Set the reservation end local!")]
+        public string EndLocal { get; set; }
         [Required(ErrorMessage = "Guest number is required!")]
-        public int TaxiNumberOfGuest { get; set; }
+        public int? TaxiNumberOfGuest { get; set; }
         [Required(ErrorMessage = "Phone number is required!")]
         public string PhoneNumber { get; set; }
+        public List<string> ErrorMessages { get; set; } = new List<string>();
     }
 }
