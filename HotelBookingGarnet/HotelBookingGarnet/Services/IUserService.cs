@@ -18,5 +18,6 @@ namespace HotelBookingGarnet.Services
         Task<ExternalLoginInfo> GetExternalLoginInfoAsync();
         Task<SignInResult> ExternalLoginSingnInAsync(string loginProvider, string providerKey, bool isPersistent);
         Task<List<string>> CreateAndLoginGoogleUserAsync(ExternalLoginInfo info);
+        Task<User> FindUserByTaxiReservationIdAsync(string userId);
     }
 }

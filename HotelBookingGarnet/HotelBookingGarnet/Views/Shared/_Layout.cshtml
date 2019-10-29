@@ -27,7 +27,11 @@
                             @localizer["My Reservation"]
                         </button>
                     </form>
-
+                    <form method="get" asp-action="AddTaxiReservation" asp-controller="Reservation">
+                        <button type="submit" class="nav-link btn btn-link py-0" style="width: auto">
+                           @localizer["Taxi Reservation"]
+                        </button>
+                    </form>
                     if (!User.IsInRole("Guest"))
                     {
                         <form method="get" asp-action="AddHotel" asp-controller="Hotel">

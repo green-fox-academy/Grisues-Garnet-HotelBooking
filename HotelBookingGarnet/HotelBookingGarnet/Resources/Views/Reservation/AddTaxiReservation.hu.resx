@@ -117,25 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddHotel" xml:space="preserve">
-    <value>Hotel hozzáadása</value>
+  <data name="Add a new Reservation" xml:space="preserve">
+    <value>Új foglalás</value>
   </data>
-  <data name="Login" xml:space="preserve">
-    <value>Bejelentkezés</value>
+  <data name="Add a new Taxi Reservation" xml:space="preserve">
+    <value>Új Taxi foglalás</value>
   </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Kijelentkezés</value>
+  <data name="Contact phone number :" xml:space="preserve">
+    <value>Telefonszám:</value>
   </data>
-  <data name="My Hotels" xml:space="preserve">
-    <value>Saját Hotelek</value>
+  <data name="Drop-off location:" xml:space="preserve">
+    <value>Érkezési helyszín:</value>
   </data>
-  <data name="My Reservation" xml:space="preserve">
-    <value>Foglalásaim</value>
+  <data name="End date:" xml:space="preserve">
+    <value>Foglalás vége:</value>
   </data>
-  <data name="Register" xml:space="preserve">
-    <value>Regisztráció</value>
+  <data name="Make Reservation" xml:space="preserve">
+    <value>Foglalás elküldése</value>
   </data>
-  <data name="Taxi Reservation" xml:space="preserve">
-    <value>Taxi foglalás</value>
+  <data name="Number of travelers:" xml:space="preserve">
+    <value>Utasok száma: </value>
+  </data>
+  <data name="Pick-up location:" xml:space="preserve">
+    <value>Felvételi helyszín:</value>
+  </data>
+  <data name="Start date:" xml:space="preserve">
+    <value>Foglalás kezdete:</value>
+  </data>
+  <data name="The booking cannot begin earlier than today!" xml:space="preserve">
+    <value>A foglalás dátuma nem előzheti meg a mai dátumot!</value>
   </data>
 </root>

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HotelBookingGarnet.Migrations
 {
-    public partial class CreateInitial : Migration
+    public partial class bb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -211,6 +211,30 @@ namespace HotelBookingGarnet.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TaxiReservations",
+                columns: table => new
+                {
+                    TaxiReservationId = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TaxiReservationStart = table.Column<DateTime>(nullable: false),
+                    StartLocal = table.Column<string>(nullable: true),
+                    EndLocal = table.Column<string>(nullable: true),
+                    NumberOfGuest = table.Column<int>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxiReservations", x => x.TaxiReservationId);
+                    table.ForeignKey(
+                        name: "FK_TaxiReservations_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "HotelPropertyType",
                 columns: table => new
                 {
@@ -359,17 +383,17 @@ namespace HotelBookingGarnet.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1b8e89f6-4740-4c36-b9de-1fa1918fc2fb", "7b5ca4d7-4945-4dba-9887-2e8e92ed4ab0", "Admin", "ADMIN" });
+                values: new object[] { "b28542b5-43fc-4a6e-b6c8-7f7f1150e9d3", "1116b7d0-efe3-4f23-99b6-1408917f2d8c", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2773cf1d-25f7-42f3-968c-c754e5ad64f4", "34dc4ffc-fae5-40f8-a98f-dce50b077da4", "Guest", "GUEST" });
+                values: new object[] { "86045ee4-38fa-474f-999a-593cabefbe60", "09984b86-d4fe-4013-8eb3-8961561ffd82", "Guest", "GUEST" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "3a9d49fb-0fce-4ad5-ba0f-81cd30daaa0e", "9257596f-0735-4284-9c02-b6bebced63f3", "Hotel Manager", "HOTEL MANAGER" });
+                values: new object[] { "bf17b385-10bc-4045-bab6-02c617474597", "34e381b0-d323-4380-8592-e4ffe166c1fd", "Hotel Manager", "HOTEL MANAGER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -447,6 +471,11 @@ namespace HotelBookingGarnet.Migrations
                 name: "IX_Rooms_HotelId",
                 table: "Rooms",
                 column: "HotelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaxiReservations_UserId",
+                table: "TaxiReservations",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -477,6 +506,9 @@ namespace HotelBookingGarnet.Migrations
 
             migrationBuilder.DropTable(
                 name: "RoomBed");
+
+            migrationBuilder.DropTable(
+                name: "TaxiReservations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
