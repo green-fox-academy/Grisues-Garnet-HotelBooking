@@ -294,22 +294,22 @@ namespace HotelBookingGarnet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8cbe058f-6306-4b25-be45-4f039d965cba",
-                            ConcurrencyStamp = "ae1f4551-676b-44c0-9a4a-b2479da9b2fc",
+                            Id = "b28542b5-43fc-4a6e-b6c8-7f7f1150e9d3",
+                            ConcurrencyStamp = "1116b7d0-efe3-4f23-99b6-1408917f2d8c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "5547da10-aaa3-4671-866e-d6bac2a2026f",
-                            ConcurrencyStamp = "34ac4706-3d83-4e65-9460-f8db73201e1e",
+                            Id = "86045ee4-38fa-474f-999a-593cabefbe60",
+                            ConcurrencyStamp = "09984b86-d4fe-4013-8eb3-8961561ffd82",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "e1db4793-9a5c-469a-a569-1e598e66a8bd",
-                            ConcurrencyStamp = "9e8afb8c-01be-4194-ba20-a02c000a8332",
+                            Id = "bf17b385-10bc-4045-bab6-02c617474597",
+                            ConcurrencyStamp = "34e381b0-d323-4380-8592-e4ffe166c1fd",
                             Name = "Hotel Manager",
                             NormalizedName = "HOTEL MANAGER"
                         });

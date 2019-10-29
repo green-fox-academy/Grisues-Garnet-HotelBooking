@@ -45,7 +45,6 @@ namespace HotelBookingGarnet.Services
                 await AddUserToRoleAsync(user, model);
                 return result;
             }
-
             return result;
         }
 
@@ -64,7 +63,7 @@ namespace HotelBookingGarnet.Services
             return model.ErrorMessages;
         }
 
-        private static List<string> CheckLoginErrors(SignInResult result, List<string> errors)
+        private List<string> CheckLoginErrors(SignInResult result, List<string> errors)
         {
             if (!result.Succeeded)
             {
@@ -106,26 +105,33 @@ namespace HotelBookingGarnet.Services
             return await signInManager.ExternalLoginSignInAsync(loginProvider, providerKey, isPersistent);
         }
 
-        public async Task<List<string>> CreateAndLoginGoogleUser(ExternalLoginInfo info)
+        public async Task<List<string>> CreateAndLoginGoogleUserAsync(ExternalLoginInfo info)
         {
-            var user = new User
-            {
-                Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
-                UserName = info.Principal.FindFirst(ClaimTypes.Email).Value.Split("@")[0],
-            };
+            var user = await userManager.FindByEmailAsync(info.Principal.FindFirstValue(ClaimTypes.Email));
 
-            var result = await userManager.CreateAsync(user);
-            if (result.Succeeded)
+            if (user == null)
             {
-                await userManager.AddToRoleAsync(user, "Guest");
-                result = await userManager.AddLoginAsync(user,info);
+                user = new User
+                {
+                    Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
+                    UserName = info.Principal.FindFirst(ClaimTypes.Email).Value.Split("@")[0],
+                };
                 
+                var result = await userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    await signInManager.SignInAsync(user,false);
+                    await userManager.AddToRoleAsync(user, "Guest");
                 }
             }
-            return result.Errors
+            
+            var loginResult = await userManager.AddLoginAsync(user,info);
+                
+            if (loginResult.Succeeded)
+            {
+                await signInManager.SignInAsync(user,false);
+            }
+            
+            return loginResult.Errors
                 .Select(e => e.Description)
                 .ToList();
         }

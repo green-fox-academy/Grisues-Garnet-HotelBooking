@@ -8,6 +8,7 @@ using FluentEmail.Core;
 using FluentEmail.Mailgun;
 using HotelBookingGarnet.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace HotelBookingGarnet.Services
 {
@@ -19,9 +20,11 @@ namespace HotelBookingGarnet.Services
         private readonly IRoomService roomService;
         private readonly IUserService userService;
         private readonly IHotelService hotelService;
+        private string domainName;
+        private string apiKey;
 
         public ReservationService(IMapper mapper, ApplicationContext applicationContext, IGuestService guestService,
-            IRoomService roomService, IUserService userService, IHotelService hotelService)
+            IRoomService roomService, IUserService userService, IHotelService hotelService, IConfiguration configuration)
         {
             this.applicationContext = applicationContext;
             this.mapper = mapper;
@@ -29,6 +32,8 @@ namespace HotelBookingGarnet.Services
             this.roomService = roomService;
             this.userService = userService;
             this.hotelService = hotelService;
+            this.domainName = configuration.GetConnectionString("DomainName");
+            this.apiKey = configuration.GetConnectionString("ApiKey");
         }
 
         public async Task<List<Reservation>> FindReservationsByHotelIdAsync(long hotelId)
@@ -98,10 +103,7 @@ namespace HotelBookingGarnet.Services
 
         private async Task SendEmailAsync(long hotelId, Reservation reservation)
         {
-            var sender = new MailgunSender(
-                "sandbox0ec3cdedf8584e3fa03c7b70b98fc52f.mailgun.org",
-                "869a1d058062aee81f0348cb5cd5ace5-2dfb0afe-68088ff5"
-            );
+            var sender = new MailgunSender(domainName, apiKey);
             Email.DefaultSender = sender;
 
             var user = await userService.FindUserByHotelIdAsync(hotelId);
@@ -129,7 +131,7 @@ namespace HotelBookingGarnet.Services
             await email.SendAsync();
         }
 
-        private async Task<int> CalculatePriceAsync(long roomId, Reservation reservation)
+        public async Task<int> CalculatePriceAsync(long roomId, Reservation reservation)
         {
             var room = await roomService.FindRoomByIdAsync(roomId);
             var daysOfReservation = (int) (reservation.ReservationEnd - reservation.ReservationStart).TotalDays + 1;

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HotelBookingGarnet.Migrations
 {
-    public partial class a : Migration
+    public partial class bb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -211,6 +211,30 @@ namespace HotelBookingGarnet.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TaxiReservations",
+                columns: table => new
+                {
+                    TaxiReservationId = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TaxiReservationStart = table.Column<DateTime>(nullable: false),
+                    StartLocal = table.Column<string>(nullable: true),
+                    EndLocal = table.Column<string>(nullable: true),
+                    NumberOfGuest = table.Column<int>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxiReservations", x => x.TaxiReservationId);
+                    table.ForeignKey(
+                        name: "FK_TaxiReservations_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "HotelPropertyType",
                 columns: table => new
                 {
@@ -359,17 +383,17 @@ namespace HotelBookingGarnet.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "8a211b0d-5801-4250-b6f8-e7d05217ebe2", "f7bf6798-e1db-4cb7-b534-aa291bf0934c", "Admin", "ADMIN" });
+                values: new object[] { "b28542b5-43fc-4a6e-b6c8-7f7f1150e9d3", "1116b7d0-efe3-4f23-99b6-1408917f2d8c", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "4b96d275-4d4d-48b3-84e8-b7d0200b0428", "51b8cba6-0df3-4f16-acf6-690bbce9d0d5", "Guest", "GUEST" });
+                values: new object[] { "86045ee4-38fa-474f-999a-593cabefbe60", "09984b86-d4fe-4013-8eb3-8961561ffd82", "Guest", "GUEST" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b9e9cbf0-77bc-44e3-b660-dbb06e2203bd", "5216424a-7ff0-40e0-b91d-796bfa1c9c2d", "Hotel Manager", "HOTEL MANAGER" });
+                values: new object[] { "bf17b385-10bc-4045-bab6-02c617474597", "34e381b0-d323-4380-8592-e4ffe166c1fd", "Hotel Manager", "HOTEL MANAGER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -447,6 +471,11 @@ namespace HotelBookingGarnet.Migrations
                 name: "IX_Rooms_HotelId",
                 table: "Rooms",
                 column: "HotelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaxiReservations_UserId",
+                table: "TaxiReservations",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -477,6 +506,9 @@ namespace HotelBookingGarnet.Migrations
 
             migrationBuilder.DropTable(
                 name: "RoomBed");
+
+            migrationBuilder.DropTable(
+                name: "TaxiReservations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

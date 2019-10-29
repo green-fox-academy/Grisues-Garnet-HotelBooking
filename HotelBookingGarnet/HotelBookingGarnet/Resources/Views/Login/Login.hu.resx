@@ -135,4 +135,7 @@
   <data name="User with the given Email does not exist!" xml:space="preserve">
     <value>Az email cím nem létezik!</value>
   </data>
+  <data name="Login with Facebook" xml:space="preserve">
+    <value>Bejelentkezés Facebook fiókkal</value>
+  </data>
 </root>
