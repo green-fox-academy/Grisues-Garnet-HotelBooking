@@ -17,6 +17,6 @@ namespace HotelBookingGarnet.Services
         AuthenticationProperties ConfigureExternalAutheticationProp(string provider, string returnUrl);
         Task<ExternalLoginInfo> GetExternalLoginInfoAsync();
         Task<SignInResult> ExternalLoginSingnInAsync(string loginProvider, string providerKey, bool isPersistent);
-        Task<List<string>> CreateAndLoginGoogleUser(ExternalLoginInfo info);
+        Task<List<string>> CreateAndLoginGoogleUserAsync(ExternalLoginInfo info);
     }
 }

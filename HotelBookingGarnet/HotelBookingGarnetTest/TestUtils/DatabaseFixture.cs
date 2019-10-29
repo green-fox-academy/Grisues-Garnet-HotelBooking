@@ -15,7 +15,7 @@ namespace HotelBookingGarnetTest.TestUtils
             options = TestDbOptions.Get();
             using (var context = new ApplicationContext(options))
             {
-                SeedPosts(context);
+                SeedReservation(context);
                 context.SaveChanges();
             }
         }
@@ -30,7 +30,7 @@ namespace HotelBookingGarnetTest.TestUtils
             }
         }
 
-        private void SeedPosts(ApplicationContext context)
+        private void SeedReservation(ApplicationContext context)
         {
             context.Reservations.AddRange(new List<Reservation>
             {
