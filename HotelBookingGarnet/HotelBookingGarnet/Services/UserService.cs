@@ -45,6 +45,7 @@ namespace HotelBookingGarnet.Services
                 await AddUserToRoleAsync(user, model);
                 return result;
             }
+
             return result;
         }
 
@@ -85,14 +86,14 @@ namespace HotelBookingGarnet.Services
             }
         }
 
-        public async Task Logout()
+        public async Task LogoutAsync()
         {
             await signInManager.SignOutAsync();
         }
 
         public AuthenticationProperties ConfigureExternalAutheticationProp(string provider, string returnUrl)
         {
-            return signInManager.ConfigureExternalAuthenticationProperties(provider,returnUrl);
+            return signInManager.ConfigureExternalAuthenticationProperties(provider, returnUrl);
         }
 
         public async Task<ExternalLoginInfo> GetExternalLoginInfoAsync()
@@ -100,7 +101,8 @@ namespace HotelBookingGarnet.Services
             return await signInManager.GetExternalLoginInfoAsync();
         }
 
-        public async Task<SignInResult> ExternalLoginSingnInAsync(string loginProvider, string providerKey, bool isPersistent)
+        public async Task<SignInResult> ExternalLoginSingnInAsync(string loginProvider, string providerKey,
+            bool isPersistent)
         {
             return await signInManager.ExternalLoginSignInAsync(loginProvider, providerKey, isPersistent);
         }
@@ -117,16 +119,57 @@ namespace HotelBookingGarnet.Services
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(user, "Guest");
-                result = await userManager.AddLoginAsync(user,info);
-                
+                result = await userManager.AddLoginAsync(user, info);
+
                 if (result.Succeeded)
                 {
-                    await signInManager.SignInAsync(user,false);
+                    await signInManager.SignInAsync(user, false);
                 }
             }
+
             return result.Errors
                 .Select(e => e.Description)
                 .ToList();
+        }
+
+        public async Task<List<string>> IsEmailPresent(LoginViewModel model)
+        {
+            var user = await userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                model.ErrorMessages.Add("User with the given Email does not exist");
+                return model.ErrorMessages;
+            }
+
+            return model.ErrorMessages;
+        }
+
+        public string GenerateNewPassword()
+        {
+            var random = new Random();
+            var length = random.Next(6, 20);
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var generatedPassword = "";
+            
+            while (!generatedPassword.Any(char.IsUpper) || !generatedPassword.Any(char.IsDigit))
+            {
+                generatedPassword = Generation(chars, length, random);
+            }
+
+            return generatedPassword;
+        }
+        
+        private static string Generation(string chars, int length, Random random)
+        {
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+        
+        public Task<IdentityResult> ChangePasswordAsync(string newRandomPassword, User user)
+        {
+            userManager.RemovePasswordAsync(user);
+            var result = userManager.AddPasswordAsync(user, newRandomPassword);
+            return result;
         }
     }
 }

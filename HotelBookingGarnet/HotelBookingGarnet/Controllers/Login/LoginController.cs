@@ -23,7 +23,7 @@ namespace HotelBookingGarnet.Controllers.Login
         public async Task<IActionResult> Login()
         {
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-            await userService.Logout();
+            await userService.LogoutAsync();
             return View(new LoginViewModel());
         }
 
