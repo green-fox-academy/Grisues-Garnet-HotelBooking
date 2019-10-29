@@ -49,6 +49,25 @@
 </tr>   
     }
 </table>
+
+<table>
+    <tr>
+        <th>Taxi Reservation Start</th>
+        <th>Taxi Reservation End</th>
+        <th>Number of Guests</th>
+        <th>Phone Number</th>
+    </tr>
+    @foreach (var taxi in Model.TaxiReservations)
+    {
+    <tr>
+        <td>@taxi.TaxiReservationStart</td>
+        <td>@taxi.TaxiReservationEnd</td>
+        <td>@taxi.NumberOfGuest</td>
+        <td>@taxi.PhoneNumber</td>
+    </tr>
+    }
+
+</table>
 <form asp-controller="Reservation" asp-action="CleanReservation" asp-route-UserId="@Model.User.Id" method="post">
     <button type="submit" class="btn btn-primary">Clean up</button>
 </form>

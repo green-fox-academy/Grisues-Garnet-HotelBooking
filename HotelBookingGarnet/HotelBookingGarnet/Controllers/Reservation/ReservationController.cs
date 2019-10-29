@@ -18,15 +18,14 @@ namespace HotelBookingGarnet.Controllers
         private readonly UserManager<User> userManager;
         private readonly IReservationService reservationService;
         private readonly IHotelService hotelService;
-        private readonly IGuestService guestService;
+        private readonly ITaxiReservationService taxiReservationService;
 
-        public ReservationController(UserManager<User> userManager, IReservationService reservationService,
-            IHotelService hotelService, IGuestService guestService)
+        public ReservationController(UserManager<User> userManager, IReservationService reservationService, IHotelService hotelService, ITaxiReservationService taxiReservationService)
         {
             this.userManager = userManager;
             this.reservationService = reservationService;
             this.hotelService = hotelService;
-            this.guestService = guestService;
+            this.taxiReservationService = taxiReservationService;
         }
 
         [Authorize(Roles = "Guest, Hotel Manager")]
@@ -35,9 +34,10 @@ namespace HotelBookingGarnet.Controllers
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             var reservations = await reservationService.FindReservationByReservationIdAsync(currentUser.Id);
+            var taxiReservation = await taxiReservationService.FindTaxiReservationByUserIdAsync(currentUser.Id);
             var hotel = hotelService.GetHotels();
 
-            return View(new IndexViewModel {Reservations = reservations, HotelList = hotel, User = currentUser});
+            return View(new IndexViewModel {Reservations = reservations, TaxiReservations = taxiReservation, HotelList = hotel, User = currentUser});
         }
 
         [HttpPost("/cancelreservation/{reservationId}")]
@@ -101,6 +101,21 @@ namespace HotelBookingGarnet.Controllers
             await reservationService.DeleteExpiredReservationByIdAsync(userId);
 
             return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
-        } 
+        }
+
+        [HttpGet("/taxireservation")]
+        public async Task<IActionResult> TaxiReservation()
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            ViewData["UserId"] = currentUser.Id;
+            return View();
+        }
+
+        [HttpPost("/addtaxireservation")]
+        public async Task<IActionResult> AddTaxiReservation(TaxiReservationViewModel newTaxiReservation, string UserId)
+        {
+            await taxiReservationService.AddTaxiReservationAsync(newTaxiReservation, UserId);
+            return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
+        }
     }
 }

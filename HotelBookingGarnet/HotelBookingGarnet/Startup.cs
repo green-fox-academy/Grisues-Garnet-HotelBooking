@@ -63,6 +63,7 @@ namespace HotelBookingGarnet
             services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IGuestService, GuestService>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<ITaxiReservationService, TaxiReservationService>();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;

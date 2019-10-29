@@ -3,14 +3,16 @@ using System;
 using HotelBookingGarnet;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotelBookingGarnet.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20191028162442_taxi")]
+    partial class taxi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,8 +214,6 @@ namespace HotelBookingGarnet.Migrations
 
                     b.HasKey("TaxiReservationId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("TaxiReservations");
                 });
 
@@ -292,22 +292,22 @@ namespace HotelBookingGarnet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1ed7def2-29ae-4d35-9c07-54ddd5b16a26",
-                            ConcurrencyStamp = "023a335e-0c13-44bb-9558-2b2790b63da6",
+                            Id = "359f779d-3142-4ead-b524-1a7d2169a2f5",
+                            ConcurrencyStamp = "75fce94e-6c58-40ac-9b93-4196e5bb576c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "fb8de299-8295-4ffa-9eee-402a450a9a4e",
-                            ConcurrencyStamp = "8da5889c-d012-453d-a952-71787ceb28af",
+                            Id = "5557edde-bb64-41b7-af7e-b62dc51335c8",
+                            ConcurrencyStamp = "d65fa89e-fa32-47d5-a364-9ffd81171aa4",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "49d77a1e-00b0-4bb9-a5fc-7ccab79e1a8c",
-                            ConcurrencyStamp = "8e2f7473-8fa3-4ae8-bff0-deeef22266f4",
+                            Id = "507201ea-49ed-46dd-8d2a-9c9c9ab61b07",
+                            ConcurrencyStamp = "9c577fb3-1c83-4447-8711-4672b0e681a2",
                             Name = "Hotel Manager",
                             NormalizedName = "HOTEL MANAGER"
                         });
@@ -464,13 +464,6 @@ namespace HotelBookingGarnet.Migrations
                         .WithMany("RoomBeds")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("HotelBookingGarnet.Models.TaxiReservation", b =>
-                {
-                    b.HasOne("HotelBookingGarnet.Models.User")
-                        .WithMany("TaxiReservations")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
