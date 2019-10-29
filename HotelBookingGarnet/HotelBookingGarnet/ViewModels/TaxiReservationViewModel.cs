@@ -10,9 +10,9 @@ namespace HotelBookingGarnet.ViewModels
     {
         [Required(ErrorMessage = "Set the reservation start date!")]
         public DateTime? TaxiReservationStart { get; set; }
-        [Required(ErrorMessage = "Set the reservation Start local!")]
+        [Required(ErrorMessage = "Set the reservation Pick-up local!")]
         public string StartLocal { get; set; }
-        [Required(ErrorMessage = "Set the reservation end local!")]
+        [Required(ErrorMessage = "Set the reservation Drop-off local!")]
         public string EndLocal { get; set; }
         [Required(ErrorMessage = "Guest number is required!")]
         public int? NumberOfGuest { get; set; }

@@ -12,4 +12,3 @@ namespace HotelBookingGarnet.Services.Helpers.AutoMapper.Profiles
         }
     }
 }
-

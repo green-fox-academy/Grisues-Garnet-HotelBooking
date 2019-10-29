@@ -54,7 +54,24 @@ namespace HotelBookingGarnet.Services
                 .Where(t => t.UserId == userId).OrderBy(t => t.TaxiReservationStart).ToListAsync();
             return taxiReservation;
         }
+        public async Task<List<string>> TaxiReservationValidationAsync(TaxiReservationViewModel newTaxiReservation)
+        {
+            var dateValid = DateValidation(newTaxiReservation);
+            AddErrorMessages(newTaxiReservation, dateValid);
 
+            return newTaxiReservation.ErrorMessages;
+        }
+        private static void AddErrorMessages(TaxiReservationViewModel newTaxiReservation, string dateValid)
+        {
+            if (dateValid != null)
+                newTaxiReservation.ErrorMessages.Add(dateValid);
+        }
+        private static string DateValidation(TaxiReservationViewModel newTaxiReservation)
+        {
+            var startDate = newTaxiReservation.TaxiReservationStart;
+
+            return startDate < DateTime.Today ? "The booking cannot begin earlier than today!" : null;
+        }
         private async Task SendEmailAsync(TaxiReservation taxiReservation)
         {
             var sender = new MailgunSender(

@@ -119,13 +119,19 @@ namespace HotelBookingGarnet.Controllers
         {
             if (ModelState.IsValid)
             {
-                var currentUser = await userManager.GetUserAsync(HttpContext.User);
-                var taxiReservationId =
-                    await taxiReservationService.AddTaxiReservationAsync(newTaxiReservation, currentUser.Id);
-                return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
+                var errors = await taxiReservationService.TaxiReservationValidationAsync(newTaxiReservation);
+                if (errors.Count == 0)
+                {
+                    var currentUser = await userManager.GetUserAsync(HttpContext.User);
+                    var taxiReservationId =
+                        await taxiReservationService.AddTaxiReservationAsync(newTaxiReservation, currentUser.Id);
+                    return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
+                }
+                newTaxiReservation.ErrorMessages = errors;
+                return View(newTaxiReservation);   
             }
 
-            return View();
+            return View(newTaxiReservation);
         }
 
         [Authorize(Roles = "Hotel Manager, Admin, Guest")]

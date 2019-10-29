@@ -123,13 +123,13 @@
   <data name="Phone number is required!" xml:space="preserve">
     <value>Adja meg a telefonszámát!</value>
   </data>
-  <data name="Set the reservation end local!" xml:space="preserve">
+  <data name="Set the reservation Drop-off local!" xml:space="preserve">
     <value>Adja meg az érkezési helyszínt!</value>
+  </data>
+  <data name="Set the reservation Pick-up local!" xml:space="preserve">
+    <value>Adja meg az indulási helyszínt!</value>
   </data>
   <data name="Set the reservation start date!" xml:space="preserve">
     <value>Állítsa be a foglalás kezdő dátumát!</value>
-  </data>
-  <data name="Set the reservation Start local!" xml:space="preserve">
-    <value>Adja meg az indulási helyszínt!</value>
   </data>
 </root>

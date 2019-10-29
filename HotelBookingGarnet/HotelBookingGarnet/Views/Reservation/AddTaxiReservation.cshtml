@@ -5,6 +5,13 @@
 }
 
 <h1>@localizer["Add a new Taxi Reservation"]</h1>
+@if (Model.ErrorMessages != null)
+{
+    @foreach (var error in Model.ErrorMessages)
+    {
+        <h6 class="text-danger">@localizer[@error]</h6>
+    }
+}
 <form asp-controller="Reservation" asp-action="AddTaxiReservation" asp-route-Userid=@ViewData["UserId"] method="post">
     <div class="form-group">
         <p>
@@ -18,14 +25,14 @@
             <span asp-validation-for="StartLocal" class="text-danger"></span>
         </p>
         <label asp-for="StartLocal">@localizer["Pick-up location:"]</label>
-        <input type="text" input asp-for="StartLocal" class="form-control" >
+        <input type="text" input asp-for="StartLocal" class="form-control">
     </div>
     <div class="form-group">
         <p>
             <span asp-validation-for="EndLocal" class="text-danger"></span>
         </p>
         <label asp-for="EndLocal">@localizer["Drop-off location:"]</label>
-        <input type="text" input asp-for="EndLocal" class="form-control" >
+        <input type="text" input asp-for="EndLocal" class="form-control">
     </div>
     <div class="form-group">
         <p>

@@ -144,7 +144,7 @@
   <data name="Start date:" xml:space="preserve">
     <value>Foglalás kezdete:</value>
   </data>
-  <data name="The end of the booking must not precede the start time!" xml:space="preserve">
-    <value>A foglalás vége nem előzheti meg a kezdési időpontot!</value>
+  <data name="The booking cannot begin earlier than today!" xml:space="preserve">
+    <value>A foglalás dátuma nem előzheti meg a mai dátumot!</value>
   </data>
 </root>
