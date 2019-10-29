@@ -41,7 +41,7 @@ namespace HotelBookingGarnet
             {
                 services.AddDbContext<ApplicationContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("ProductionConnection")));
-                services.AddAuthentication()
+/*                services.AddAuthentication()
                     .AddGoogle(options =>
                     {
                         options.ClientId = Configuration.GetConnectionString("GoogleClientId");
@@ -51,7 +51,7 @@ namespace HotelBookingGarnet
                     {
                         options.AppId = Configuration.GetConnectionString("FacebookAppClient");
                         options.AppSecret = Configuration.GetConnectionString("FacebookAppSecret");
-                    });
+                    });*/
             }
             else
             {
