@@ -15,13 +15,10 @@ namespace HotelBookingGarnet.Controllers.Login
     public class LoginController : Controller
     {
         private readonly IUserService userService;
-        private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
 
-        public LoginController(IUserService userService, UserManager<User> userManager)
+        public LoginController(IUserService userService)
         {
             this.userService = userService;
-            this.userManager = userManager;
         }
 
         [HttpGet("/login")]
