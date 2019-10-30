@@ -261,7 +261,7 @@
                         <hr />
                         @if (!Model.IsReviewed)
                         {
-                            <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@Model.Hotel.HotelId" method="post">
+                            <form asp-controller="Hotel" asp-action="HotelReview" asp-route-hotelId="@Model.Hotel.HotelId" method="post">
                                 <div class="form-group">
                                     <label asp-for="@Model.Rating"></label>
                                     <select type="text" asp-for="@Model.Rating">
