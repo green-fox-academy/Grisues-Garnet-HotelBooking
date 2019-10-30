@@ -7,5 +7,6 @@ namespace HotelBookingGarnet.Models
     {
         public List<Hotel> Hotels { get; set; }
         public List<Reservation> UserReservations { get; set; }
+        public List<TaxiReservation> TaxiReservations { get; set; }
     }
 }

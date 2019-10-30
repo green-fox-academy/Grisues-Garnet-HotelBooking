@@ -135,5 +135,11 @@ namespace HotelBookingGarnet.Services
                 .Select(e => e.Description)
                 .ToList();
         }
+
+        public async Task<User> FindUserByTaxiReservationIdAsync(string userId)
+        {
+            var user = await applicationContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            return user;
+        }
     }
 }

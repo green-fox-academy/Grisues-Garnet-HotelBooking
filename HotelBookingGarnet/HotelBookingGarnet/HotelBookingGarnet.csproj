@@ -7,7 +7,7 @@
         <ApplicationIcon />
         <OutputType>WinExe</OutputType>
         <StartupObject />
-
+        <UserSecretsId>f59069d8-8cbc-46df-ba18-b6dd975ebc10</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,7 +16,7 @@
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />
         <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="11.1.0" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
         <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
         <PackageReference Include="ReflectionIT.Mvc.Paging" Version="3.5.0" />
         <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
@@ -27,7 +27,7 @@
         <Folder Include="Controllers\Home" />
         <Folder Include="Controllers\Reservation" />
         <Folder Include="Views\Hotel" />
+        <Folder Include="wwwroot\js\" />
         
     </ItemGroup>
-
 </Project>

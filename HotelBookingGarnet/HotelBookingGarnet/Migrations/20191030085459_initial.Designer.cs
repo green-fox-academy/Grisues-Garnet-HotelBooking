@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelBookingGarnet.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20191029125526_CreateInitial")]
-    partial class CreateInitial
+    [Migration("20191030085459_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("HotelBookingGarnet.Models.Bed", b =>
@@ -197,6 +197,30 @@ namespace HotelBookingGarnet.Migrations
                     b.ToTable("RoomBed");
                 });
 
+            modelBuilder.Entity("HotelBookingGarnet.Models.TaxiReservation", b =>
+                {
+                    b.Property<long>("TaxiReservationId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EndLocal");
+
+                    b.Property<int>("NumberOfGuest");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<string>("StartLocal");
+
+                    b.Property<DateTime>("TaxiReservationStart");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("TaxiReservationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TaxiReservations");
+                });
+
             modelBuilder.Entity("HotelBookingGarnet.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -272,22 +296,22 @@ namespace HotelBookingGarnet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1b8e89f6-4740-4c36-b9de-1fa1918fc2fb",
-                            ConcurrencyStamp = "7b5ca4d7-4945-4dba-9887-2e8e92ed4ab0",
+                            Id = "eea48182-ea0a-42b7-88bf-8c6f99b68b33",
+                            ConcurrencyStamp = "9fbe5bc6-2af4-4fad-9e3e-3cab791f698f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "2773cf1d-25f7-42f3-968c-c754e5ad64f4",
-                            ConcurrencyStamp = "34dc4ffc-fae5-40f8-a98f-dce50b077da4",
+                            Id = "7ca4c07c-3af4-497e-a171-6e3d6f695c9b",
+                            ConcurrencyStamp = "9f99d9a0-5df7-4aa7-a20d-dfd9df0ab2f0",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "3a9d49fb-0fce-4ad5-ba0f-81cd30daaa0e",
-                            ConcurrencyStamp = "9257596f-0735-4284-9c02-b6bebced63f3",
+                            Id = "b745f051-e532-4837-b069-32d53a512f68",
+                            ConcurrencyStamp = "6ccbfc1d-eb75-4290-b770-b9bfc7c13d99",
                             Name = "Hotel Manager",
                             NormalizedName = "HOTEL MANAGER"
                         });
@@ -444,6 +468,13 @@ namespace HotelBookingGarnet.Migrations
                         .WithMany("RoomBeds")
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HotelBookingGarnet.Models.TaxiReservation", b =>
+                {
+                    b.HasOne("HotelBookingGarnet.Models.User")
+                        .WithMany("TaxiReservations")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
