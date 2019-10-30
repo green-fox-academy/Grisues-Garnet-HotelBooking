@@ -132,4 +132,7 @@
   <data name="Yes, I am" xml:space="preserve">
     <value>Igen, az vagyok</value>
   </data>
+  <data name="Login with Facebook" xml:space="preserve">
+    <value>Regisztráció Facebook fiókkal</value>
+  </data>
 </root>

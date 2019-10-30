@@ -15,7 +15,7 @@ namespace HotelBookingGarnetTest.TestUtils
             options = TestDbOptions.Get();
             using (var context = new ApplicationContext(options))
             {
-                SeedReservation(context);
+                Seed(context);
                 context.SaveChanges();
             }
         }
@@ -25,12 +25,11 @@ namespace HotelBookingGarnetTest.TestUtils
             using (var context = new ApplicationContext(options))
             {
                 context.Reservations.RemoveRange(context.Reservations);
-                context.Rooms.RemoveRange(context.Rooms);
                 context.SaveChanges();
             }
         }
 
-        private void SeedReservation(ApplicationContext context)
+        private void Seed(ApplicationContext context)
         {
             context.Reservations.AddRange(new List<Reservation>
             {
@@ -39,6 +38,7 @@ namespace HotelBookingGarnetTest.TestUtils
                     ReservationStart = new DateTime(2019, 11, 10),
                     ReservationEnd = new DateTime(2019, 11, 12),
                     ReservationId = 1,
+                    RoomId = 5,
                 }
             });
         }
