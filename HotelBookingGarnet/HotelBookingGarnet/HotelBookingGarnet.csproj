@@ -7,12 +7,7 @@
         <ApplicationIcon />
         <OutputType>WinExe</OutputType>
         <StartupObject />
-<<<<<<< HEAD
         <UserSecretsId>f59069d8-8cbc-46df-ba18-b6dd975ebc10</UserSecretsId>
-=======
-      
->>>>>>> 9434051723cde8c1becd237283a53bdbe7b62fc9
-
     </PropertyGroup>
 
     <ItemGroup>
@@ -35,5 +30,4 @@
         <Folder Include="wwwroot\js\" />
         
     </ItemGroup>
-
 </Project>
