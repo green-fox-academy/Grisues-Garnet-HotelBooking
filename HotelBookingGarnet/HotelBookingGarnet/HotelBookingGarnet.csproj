@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
+        <UserSecretsId>f59069d8-8cbc-46df-ba18-b6dd975ebc10</UserSecretsId>
         <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
         <ApplicationIcon />
         <OutputType>WinExe</OutputType>
@@ -12,6 +13,7 @@
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="9.0.0" />
         <PackageReference Include="FluentEmail.Mailgun" Version="2.7.0" />
+        <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" />
