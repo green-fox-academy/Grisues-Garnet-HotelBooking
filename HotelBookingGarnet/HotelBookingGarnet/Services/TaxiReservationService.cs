@@ -59,7 +59,7 @@ namespace HotelBookingGarnet.Services
                 .Where(t => t.UserId == userId).OrderBy(t => t.TaxiReservationStart).ToListAsync();
             return taxiReservation;
         }
-        public List<string> TaxiReservationValidationAsync(TaxiReservationViewModel newTaxiReservation)
+        public List<string> TaxiReservationValidation(TaxiReservationViewModel newTaxiReservation)
         {
             var dateValid = DateValidation(newTaxiReservation);
             AddErrorMessages(newTaxiReservation, dateValid);

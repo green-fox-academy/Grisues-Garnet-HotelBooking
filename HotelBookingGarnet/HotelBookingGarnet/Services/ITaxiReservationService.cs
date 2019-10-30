@@ -13,6 +13,6 @@ namespace HotelBookingGarnet.Services
         Task<List<TaxiReservation>> FindTaxiReservationByUserIdAsync(string userId);
         Task DeleteTaxiReservationByIdAsync(long taxiReservationId);
         Task<TaxiReservation> FindTaxiReservationByIdAsync(long taxiReservationId);
-        List<string> TaxiReservationValidationAsync(TaxiReservationViewModel newTaxiReservation);
+        List<string> TaxiReservationValidation(TaxiReservationViewModel newTaxiReservation);
     }
 }

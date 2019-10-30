@@ -119,7 +119,7 @@ namespace HotelBookingGarnet.Controllers
         {
             if (ModelState.IsValid)
             {
-                var errors = taxiReservationService.TaxiReservationValidationAsync(newTaxiReservation);
+                var errors = taxiReservationService.TaxiReservationValidation(newTaxiReservation);
                 if (errors.Count == 0)
                 {
                     var currentUser = await userManager.GetUserAsync(HttpContext.User);
