@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using HotelBookingGarnet.Services;
@@ -9,12 +7,6 @@ using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using HotelBookingGarnet.Controllers.Home;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Http;
-using AutoMapper;
 using HotelBookingGarnet.Utils;
 
 namespace HotelBookingGarnet.Controllers.Hotel
