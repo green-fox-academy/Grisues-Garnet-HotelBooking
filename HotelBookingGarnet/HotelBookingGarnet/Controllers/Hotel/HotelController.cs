@@ -184,6 +184,15 @@ namespace HotelBookingGarnet.Controllers.Hotel
             }
             return View(newBed);
         }
+       
+        [Authorize(Roles = "Hotel Manager")]
+        [HttpGet("/myhotels")]
+        public async Task<IActionResult> MyHotels()
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            var myHotels = await hotelService.ListMyHotelsAsync(currentUser.Id);
+            return View(myHotels);
+        }
         
         [AllowAnonymous]
         [HttpPost("/review/{hotelId}")]
