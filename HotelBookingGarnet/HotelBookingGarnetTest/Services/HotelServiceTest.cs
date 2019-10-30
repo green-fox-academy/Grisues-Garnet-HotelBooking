@@ -28,7 +28,7 @@ namespace HotelBookingGarnetTest.Services
         }
 
         [Fact]
-        public async Task AverageRating_ShouldCalculateAverage()
+        public void AverageRating_ShouldCalculateAverage()
         {
             using (var context = new ApplicationContext(options))
             {

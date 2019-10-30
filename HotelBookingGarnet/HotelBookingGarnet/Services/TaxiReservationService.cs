@@ -8,6 +8,7 @@ using FluentEmail.Mailgun;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace HotelBookingGarnet.Services
 {
@@ -16,12 +17,16 @@ namespace HotelBookingGarnet.Services
         private readonly ApplicationContext applicationContext;
         private readonly IMapper mapper;
         private readonly IUserService userService;
+        private string domainName;
+        private string apiKey;
 
-        public TaxiReservationService(ApplicationContext applicationContext, IMapper mapper, IUserService userService)
+        public TaxiReservationService(ApplicationContext applicationContext, IMapper mapper, IUserService userService, IConfiguration configuration)
         {
             this.applicationContext = applicationContext;
             this.mapper = mapper;
             this.userService = userService;
+            this.domainName = configuration.GetConnectionString("DomainName");
+            this.apiKey = configuration.GetConnectionString("ApiKey");
         }
 
         public async Task<long> AddTaxiReservationAsync(TaxiReservationViewModel newTaxiReservation, string userId)
@@ -54,18 +59,20 @@ namespace HotelBookingGarnet.Services
                 .Where(t => t.UserId == userId).OrderBy(t => t.TaxiReservationStart).ToListAsync();
             return taxiReservation;
         }
-        public async Task<List<string>> TaxiReservationValidationAsync(TaxiReservationViewModel newTaxiReservation)
+        public List<string> TaxiReservationValidationAsync(TaxiReservationViewModel newTaxiReservation)
         {
             var dateValid = DateValidation(newTaxiReservation);
             AddErrorMessages(newTaxiReservation, dateValid);
 
             return newTaxiReservation.ErrorMessages;
         }
+        
         private static void AddErrorMessages(TaxiReservationViewModel newTaxiReservation, string dateValid)
         {
             if (dateValid != null)
                 newTaxiReservation.ErrorMessages.Add(dateValid);
         }
+        
         private static string DateValidation(TaxiReservationViewModel newTaxiReservation)
         {
             var startDate = newTaxiReservation.TaxiReservationStart;
@@ -74,10 +81,7 @@ namespace HotelBookingGarnet.Services
         }
         private async Task SendEmailAsync(TaxiReservation taxiReservation)
         {
-            var sender = new MailgunSender(
-                "sandbox0ec3cdedf8584e3fa03c7b70b98fc52f.mailgun.org",
-                "869a1d058062aee81f0348cb5cd5ace5-2dfb0afe-68088ff5"
-            );
+            var sender = new MailgunSender(domainName, apiKey);
             Email.DefaultSender = sender;
 
             var user = await userService.FindUserByTaxiReservationIdAsync(taxiReservation.UserId);
@@ -95,7 +99,7 @@ namespace HotelBookingGarnet.Services
                 "\r\n (This is an auto generated message, please do not reply!)";
 
             var email = Email
-                .From("mailgun@sandbox0ec3cdedf8584e3fa03c7b70b98fc52f.mailgun.org", "GarnetTravel.Info")
+                .From(domainName, "GarnetTravel.Info")
                 .To(user.Email)
                 .Subject($"Reservation notification #{taxiReservation.TaxiReservationId}")
                 .UsingTemplate(template, false, false);
