@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using System.Threading.Tasks;
 using HotelBookingGarnet.Controllers.Home;
+using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authentication;
@@ -14,9 +16,9 @@ namespace HotelBookingGarnet.Controllers.Login
     {
         private readonly IUserService userService;
 
-        public LoginController(IUserService UserService)
+        public LoginController(IUserService userService)
         {
-            userService = UserService;
+            this.userService = userService;
         }
 
         [HttpGet("/login")]
@@ -54,6 +56,15 @@ namespace HotelBookingGarnet.Controllers.Login
 
             return new ChallengeResult("Google", properties);
         }
+        
+        [HttpGet("/Facebook-login")]
+        public IActionResult FacebookLogin()
+        {
+            var redirectUrl = "Google-response";
+            var properties = userService.ConfigureExternalAutheticationProp("Facebook",redirectUrl);
+
+            return new ChallengeResult("Facebook", properties);
+        }
 
         [HttpGet("/Google-response")]
         public async Task<IActionResult> GoogleResponse()
@@ -63,12 +74,10 @@ namespace HotelBookingGarnet.Controllers.Login
             {
                 return RedirectToAction(nameof(Login));
             }
-
             var result = await userService.ExternalLoginSingnInAsync(info.LoginProvider, info.ProviderKey, false);
-
             if (!result.Succeeded)
             {
-                await userService.CreateAndLoginGoogleUser(info);
+                await userService.CreateAndLoginGoogleUserAsync(info);
             }
             return RedirectToAction(nameof(HomeController.Index),"Home");
         }

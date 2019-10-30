@@ -41,11 +41,39 @@ namespace HotelBookingGarnet
             {
                 services.AddDbContext<ApplicationContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("ProductionConnection")));
+                services.AddAuthentication()
+                    .AddGoogle(options =>
+                    {
+                        options.ClientId = Configuration.GetConnectionString("GoogleClientId");
+                        options.ClientSecret = Configuration.GetConnectionString("GoogleClientSecret");
+                    })
+                    .AddFacebook(options =>
+                    {
+                        options.AppId = Configuration.GetConnectionString("FacebookAppClient");
+                        options.AppSecret = Configuration.GetConnectionString("FacebookAppSecret");
+                    });
             }
             else
             {
                 services.AddDbContext<ApplicationContext>(builder =>
                     builder.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+                services.AddAuthentication()
+                    .AddGoogle(options =>
+                    {
+                        IConfigurationSection googleAuthNSection =
+                            Configuration.GetSection("Authentication:Google");
+
+                        options.ClientId = googleAuthNSection["ClientId"];
+                        options.ClientSecret = googleAuthNSection["ClientSecret"];
+                    })
+                    .AddFacebook(options =>
+                    {
+                        IConfigurationSection googleAuthNSection =
+                            Configuration.GetSection("Authentication:Facebook");
+
+                        options.AppId = googleAuthNSection["AppId"];
+                        options.AppSecret = googleAuthNSection["AppSecret"];
+                    });
             }
 
             services.BuildServiceProvider().GetService<ApplicationContext>().Database.Migrate();
@@ -63,6 +91,7 @@ namespace HotelBookingGarnet
             services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IGuestService, GuestService>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<ITaxiReservationService, TaxiReservationService>();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;
@@ -73,12 +102,7 @@ namespace HotelBookingGarnet
                 .AddViewLocalization(options => { options.ResourcesPath = "Resources"; })
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization();
-            services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    options.ClientId = "896619303427-qeleqnubha96r1dfpo4fc21bvkjeo80h.apps.googleusercontent.com";
-                    options.ClientSecret = "aYYDQvMAmQFsptc2vpiHl56t";
-                });
+
             services.SetUpAutoMapper();
             services.AddMvc();
             services.Configure<RequestLocalizationOptions>(options =>

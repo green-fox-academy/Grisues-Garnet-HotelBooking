@@ -17,10 +17,11 @@ namespace HotelBookingGarnet.Services
         AuthenticationProperties ConfigureExternalAutheticationProp(string provider, string returnUrl);
         Task<ExternalLoginInfo> GetExternalLoginInfoAsync();
         Task<SignInResult> ExternalLoginSingnInAsync(string loginProvider, string providerKey, bool isPersistent);
-        Task<List<string>> CreateAndLoginGoogleUser(ExternalLoginInfo info);
         Task<List<string>> IsEmailPresent(LoginViewModel model);
         string GenerateNewPassword();
-        Task<IdentityResult> ChangePasswordAsync(string newRandomPassword, User user);
-        Task SendRecoveryPasswordAsync(string modelEmail);
+        Task ChangePasswordAsync(string newRandomPassword, User user);
+        Task SendRecoveryPasswordAsync(string modelEmail, string newPassword);
+        Task<List<string>> CreateAndLoginGoogleUserAsync(ExternalLoginInfo info);
+        Task<User> FindUserByTaxiReservationIdAsync(string userId);
     }
 }

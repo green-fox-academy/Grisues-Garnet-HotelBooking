@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HotelBookingGarnet.Migrations
 {
-    public partial class Init : Migration
+    public partial class Init3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -211,6 +211,30 @@ namespace HotelBookingGarnet.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TaxiReservations",
+                columns: table => new
+                {
+                    TaxiReservationId = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TaxiReservationStart = table.Column<DateTime>(nullable: false),
+                    StartLocal = table.Column<string>(nullable: true),
+                    EndLocal = table.Column<string>(nullable: true),
+                    NumberOfGuest = table.Column<int>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxiReservations", x => x.TaxiReservationId);
+                    table.ForeignKey(
+                        name: "FK_TaxiReservations_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "HotelPropertyType",
                 columns: table => new
                 {
@@ -359,17 +383,17 @@ namespace HotelBookingGarnet.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "05690cc2-8ab2-4f1c-ab4c-698ef7a73d26", "515f9916-4283-479d-bb17-e4b62dc5068e", "Admin", "ADMIN" });
+                values: new object[] { "1dda2420-1c77-44a5-81bc-f09631eefd1a", "708d849e-21ef-4510-9348-e93491daa35a", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "0e087937-7bf1-4f12-9d6b-9d43aea47d74", "8d01626a-1153-47eb-951c-5bbb0673c28a", "Guest", "GUEST" });
+                values: new object[] { "cc6459ac-253f-49b0-bfff-0f16cf6de105", "1f7dae49-f064-4d09-88ae-6d1a4666a278", "Guest", "GUEST" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "c0283d00-21e4-46f8-9ed8-a0da366cbfe5", "c774a334-ba6c-4df2-97f3-9afe2a702d80", "Hotel Manager", "HOTEL MANAGER" });
+                values: new object[] { "40d35b4b-ec24-41fd-a610-b865c065b9ab", "497402e5-be0e-410b-965b-8c1a31bb6266", "Hotel Manager", "HOTEL MANAGER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -447,6 +471,11 @@ namespace HotelBookingGarnet.Migrations
                 name: "IX_Rooms_HotelId",
                 table: "Rooms",
                 column: "HotelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaxiReservations_UserId",
+                table: "TaxiReservations",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -477,6 +506,9 @@ namespace HotelBookingGarnet.Migrations
 
             migrationBuilder.DropTable(
                 name: "RoomBed");
+
+            migrationBuilder.DropTable(
+                name: "TaxiReservations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

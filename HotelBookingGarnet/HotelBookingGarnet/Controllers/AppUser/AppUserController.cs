@@ -89,8 +89,8 @@ namespace HotelBookingGarnet.Controllers
         public async Task<IActionResult> SendRecoveryEmail(LoginViewModel model)
         {
             var user = await userManager.FindByEmailAsync(model.Email);
-            
             ModelState.Remove("Password");
+
             if (!ModelState.IsValid)
             {
                 return View("~/Views/AppUser/ForgotPassword.cshtml", model);
@@ -104,14 +104,9 @@ namespace HotelBookingGarnet.Controllers
             }
 
             var newRandomPassword = userService.GenerateNewPassword();
-            var result = await userService.ChangePasswordAsync(newRandomPassword, user);
-            if (result.Succeeded)
-            {
-                await userService.SendRecoveryPasswordAsync(model.Email);
-                return View("~/Views/AppUser/ResetConfirmation.cshtml");
-            }
-            model.ErrorMessages.Add("Error occured, try again!");
-            return View("~/Views/AppUser/ForgotPassword.cshtml", model);
+            await userService.ChangePasswordAsync(newRandomPassword, user);
+            await userService.SendRecoveryPasswordAsync(model.Email, newRandomPassword);
+            return View("~/Views/AppUser/ResetConfirmation.cshtml");
         }
     }
 }

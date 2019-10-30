@@ -8,7 +8,7 @@ namespace HotelBookingGarnetTest.TestUtils
         public static DbContextOptions<ApplicationContext> Get()
         {
             return new DbContextOptionsBuilder<ApplicationContext>()
-                .UseInMemoryDatabase(databaseName: "blog-testdb")
+                .UseInMemoryDatabase(databaseName: "hotel-testdb")
                 .Options;
         }
     }
