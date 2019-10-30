@@ -182,7 +182,6 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 await bedService.AddBedAsync(newBed, roomId);
                 return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new {hotelId});
             }
-
             return View(newBed);
         }
 

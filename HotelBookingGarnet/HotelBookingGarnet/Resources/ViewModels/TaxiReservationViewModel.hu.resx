@@ -117,25 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Invalid login attempt" xml:space="preserve">
-    <value>Érvénytelen bejelentkezési kísérlet</value>
+  <data name="Guest number is required!" xml:space="preserve">
+    <value>Adja meg a vendégek számát!</value>
   </data>
-  <data name="Log in" xml:space="preserve">
-    <value>Bejelentkezés</value>
+  <data name="Phone number is required!" xml:space="preserve">
+    <value>Adja meg a telefonszámát!</value>
   </data>
-  <data name="Login with Google" xml:space="preserve">
-    <value>Bejelentkezés Google fiókkal</value>
+  <data name="Set the reservation Drop-off local!" xml:space="preserve">
+    <value>Adja meg az érkezési helyszínt!</value>
   </data>
-  <data name="Register as a new user?" xml:space="preserve">
-    <value>Új felhasználóként regisztrálnál?</value>
+  <data name="Set the reservation Pick-up local!" xml:space="preserve">
+    <value>Adja meg az indulási helyszínt!</value>
   </data>
-  <data name="Use a local account to log in." xml:space="preserve">
-    <value>Jelentkezzen be a fiókjával.</value>
-  </data>
-  <data name="User with the given Email does not exist!" xml:space="preserve">
-    <value>Az email cím nem létezik!</value>
-  </data>
-  <data name="Login with Facebook" xml:space="preserve">
-    <value>Bejelentkezés Facebook fiókkal</value>
+  <data name="Set the reservation start date!" xml:space="preserve">
+    <value>Állítsa be a foglalás kezdő dátumát!</value>
   </data>
 </root>

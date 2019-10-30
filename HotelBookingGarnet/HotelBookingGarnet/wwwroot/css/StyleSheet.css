@@ -2,6 +2,7 @@
     height: 100%;
     background-color: rgb(42, 165, 170);
     background-image: url('teal3.jpg');
+    background-blend-mode: overlay;
     /*background-blend-mode: overlay;*/
     background-attachment:fixed;
 }
@@ -53,6 +54,7 @@ nav {
 
 .my-search {
     background-image: url('orange3.jpg');
+/*    background-color: rgb(245, 128, 32);*/
     background-color: rgb(245, 128, 32);
     min-height: 100vh;
     border: 1px solid darkslategrey;

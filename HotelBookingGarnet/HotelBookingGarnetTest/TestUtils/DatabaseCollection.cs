@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
+﻿using Xunit;
 
-namespace TestProject1.Properties.TestUtils
+namespace HotelBookingGarnetTest.TestUtils
 {
     [CollectionDefinition("Database collection")]
     public class DatabaseCollection : ICollectionFixture<DatabaseFixture>

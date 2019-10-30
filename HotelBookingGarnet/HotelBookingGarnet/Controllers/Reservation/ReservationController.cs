@@ -18,28 +18,29 @@ namespace HotelBookingGarnet.Controllers
         private readonly UserManager<User> userManager;
         private readonly IReservationService reservationService;
         private readonly IHotelService hotelService;
-        private readonly IGuestService guestService;
+        private readonly ITaxiReservationService taxiReservationService;
 
-        public ReservationController(UserManager<User> userManager, IReservationService reservationService,
-            IHotelService hotelService, IGuestService guestService)
+        public ReservationController(UserManager<User> userManager, IReservationService reservationService, IHotelService hotelService, ITaxiReservationService taxiReservationService)
         {
             this.userManager = userManager;
             this.reservationService = reservationService;
             this.hotelService = hotelService;
-            this.guestService = guestService;
+            this.taxiReservationService = taxiReservationService;
         }
 
-        [Authorize(Roles = "Guest, Hotel Manager")]
+        [Authorize(Roles = "Guest, Hotel Manager, Admin")]
         [HttpGet("/myreservation")]
         public async Task<IActionResult> MyReservation()
         {
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             var reservations = await reservationService.FindReservationByReservationIdAsync(currentUser.Id);
+            var taxiReservation = await taxiReservationService.FindTaxiReservationByUserIdAsync(currentUser.Id);
             var hotel = hotelService.GetHotels();
 
-            return View(new IndexViewModel {Reservations = reservations, HotelList = hotel, User = currentUser});
+            return View(new IndexViewModel { Reservations = reservations, TaxiReservations = taxiReservation, HotelList = hotel, User = currentUser });
         }
 
+        [Authorize(Roles = "Hotel Manager, Admin, Guest")]
         [HttpPost("/cancelreservation/{reservationId}")]
         public async Task<IActionResult> CancelReservation(long reservationId)
         {
@@ -47,7 +48,7 @@ namespace HotelBookingGarnet.Controllers
             return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
         }
 
-        [Authorize(Roles = "Hotel Manager, Admin")]
+        [Authorize(Roles = "Hotel Manager, Admin, Guest")]
         [HttpGet("/hotelReservation/{hotelId}")]
         public async Task<IActionResult> HotelReservation(long hotelId)
         {
@@ -55,7 +56,7 @@ namespace HotelBookingGarnet.Controllers
             var hotelReservations = await reservationService.FindReservationsByHotelIdAsync(hotelId);
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
 
-            return View(new IndexViewModel {Reservations = hotelReservations, Hotel = hotel, User = currentUser});
+            return View(new IndexViewModel { Reservations = hotelReservations, Hotel = hotel, User = currentUser });
         }
 
         [HttpGet("/newReservation/{roomId}/{hotelId}")]
@@ -77,7 +78,7 @@ namespace HotelBookingGarnet.Controllers
                     var currentUser = await userManager.GetUserAsync(HttpContext.User);
                     var reservationId =
                         await reservationService.AddReservationAsync(newReservation, currentUser.Id, roomId, hotelId);
-                    return RedirectToAction(nameof(ConfirmationPage), "Reservation", new {reservationId});
+                    return RedirectToAction(nameof(ConfirmationPage), "Reservation", new { reservationId });
                 }
 
                 newReservation.ErrorMessages = errors;
@@ -94,13 +95,51 @@ namespace HotelBookingGarnet.Controllers
             return View(reservation);
         }
 
-        [Authorize(Roles = "Guest")]
+        [Authorize(Roles = "Guest, Hotel Manager, Admin")]
         [HttpPost("/cleanreservation")]
         public async Task<IActionResult> CleanReservation(string userId)
         {
             await reservationService.DeleteExpiredReservationByIdAsync(userId);
 
             return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
-        } 
+        }
+
+        [Authorize(Roles = "Hotel Manager, Admin, Guest")]
+        [HttpGet("/addtaxireservation")]
+        public async Task<IActionResult> AddTaxiReservation()
+        {
+            var currentUser = await userManager.GetUserAsync(HttpContext.User);
+            ViewData["UserId"] = currentUser.Id;
+            return View(new TaxiReservationViewModel());
+        }
+
+        [Authorize(Roles = "Hotel Manager, Admin, Guest")]
+        [HttpPost("/addtaxireservation")]
+        public async Task<IActionResult> AddTaxiReservation(TaxiReservationViewModel newTaxiReservation)
+        {
+            if (ModelState.IsValid)
+            {
+                var errors = await taxiReservationService.TaxiReservationValidationAsync(newTaxiReservation);
+                if (errors.Count == 0)
+                {
+                    var currentUser = await userManager.GetUserAsync(HttpContext.User);
+                    var taxiReservationId =
+                        await taxiReservationService.AddTaxiReservationAsync(newTaxiReservation, currentUser.Id);
+                    return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
+                }
+                newTaxiReservation.ErrorMessages = errors;
+                return View(newTaxiReservation);   
+            }
+
+            return View(newTaxiReservation);
+        }
+
+        [Authorize(Roles = "Hotel Manager, Admin, Guest")]
+        [HttpPost("/canceltaxireservation")]
+        public async Task<IActionResult> CancelTaxiReservation(long taxiReservationId)
+        {
+            await taxiReservationService.DeleteTaxiReservationByIdAsync(taxiReservationId);
+            return RedirectToAction(nameof(ReservationController.MyReservation), "Reservation");
+        }
     }
 }

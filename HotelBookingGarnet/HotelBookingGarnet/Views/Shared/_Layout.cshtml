@@ -35,7 +35,11 @@
                             @localizer["My Reservation"]
                         </button>
                     </form>
-
+                    <form method="get" asp-action="AddTaxiReservation" asp-controller="Reservation">
+                        <button type="submit" class="nav-link btn btn-link py-0" style="width: auto">
+                           @localizer["Taxi Reservation"]
+                        </button>
+                    </form>
                     if (!User.IsInRole("Guest"))
                     {
                         <form method="get" asp-action="AddHotel" asp-controller="Hotel">
@@ -54,7 +58,7 @@
                             @localizer["Logout"] (@User.Identity.Name)
                         </button>
                     </form>
-                    <a asp-action="Settings" asp-controller="Hotel" class="nav-link btn btn-link py-0"
+                    <a asp-action="Settings" asp-controller="AppUser" class="nav-link btn btn-link py-0"
                        style="width: auto ">
                         <img src="~/images/cog.png" height="20" width="20" />
                     </a>
