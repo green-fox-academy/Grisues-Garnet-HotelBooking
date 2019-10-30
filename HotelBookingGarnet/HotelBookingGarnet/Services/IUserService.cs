@@ -21,5 +21,6 @@ namespace HotelBookingGarnet.Services
         Task<List<string>> IsEmailPresent(LoginViewModel model);
         string GenerateNewPassword();
         Task<IdentityResult> ChangePasswordAsync(string newRandomPassword, User user);
+        Task SendRecoveryPasswordAsync(string modelEmail);
     }
 }

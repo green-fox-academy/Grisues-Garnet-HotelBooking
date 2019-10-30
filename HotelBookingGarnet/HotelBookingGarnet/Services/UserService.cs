@@ -171,5 +171,10 @@ namespace HotelBookingGarnet.Services
             var result = userManager.AddPasswordAsync(user, newRandomPassword);
             return result;
         }
+
+        public Task SendRecoveryPasswordAsync(string modelEmail)
+        {
+            
+        }
     }
 }
