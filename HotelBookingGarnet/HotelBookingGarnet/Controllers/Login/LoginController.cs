@@ -52,16 +52,16 @@ namespace HotelBookingGarnet.Controllers.Login
         public IActionResult GoogleLogin()
         {
             var redirectUrl = "Google-response";
-            var properties = userService.ConfigureExternalAutheticationProp("Google",redirectUrl);
+            var properties = userService.ConfigureExternalAutheticationProp("Google", redirectUrl);
 
             return new ChallengeResult("Google", properties);
         }
-        
+
         [HttpGet("/Facebook-login")]
         public IActionResult FacebookLogin()
         {
             var redirectUrl = "Google-response";
-            var properties = userService.ConfigureExternalAutheticationProp("Facebook",redirectUrl);
+            var properties = userService.ConfigureExternalAutheticationProp("Facebook", redirectUrl);
 
             return new ChallengeResult("Facebook", properties);
         }
@@ -74,12 +74,14 @@ namespace HotelBookingGarnet.Controllers.Login
             {
                 return RedirectToAction(nameof(Login));
             }
+
             var result = await userService.ExternalLoginSingnInAsync(info.LoginProvider, info.ProviderKey, false);
             if (!result.Succeeded)
             {
                 await userService.CreateAndLoginGoogleUserAsync(info);
             }
-            return RedirectToAction(nameof(HomeController.Index),"Home");
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 }
