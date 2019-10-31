@@ -38,7 +38,7 @@ namespace HotelBookingGarnet.Controllers.Home
         [HttpPost("/logout")]
         public async Task<IActionResult> Logout()
         {
-            await userService.Logout();
+            await userService.LogoutAsync();
             return RedirectToAction(nameof(LoginController.Login), "Login");
         }
     }
