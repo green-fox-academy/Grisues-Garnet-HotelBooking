@@ -35,7 +35,6 @@ namespace HotelBookingGarnetTest.Services
         {
             using (var context = new ApplicationContext(options))
             {
-                
                 var hotel = new HotelViewModel
                 {
                     HotelName = "Test",

@@ -128,5 +128,15 @@ namespace HotelBookingGarnet.Services
                 .Select(e => e.Description)
                 .ToList();
         }
+        
+        public async Task<User> GetUserAsync()
+        { 
+            var claimsPrincipal = signInManager.Context.User;
+            if (claimsPrincipal == null)
+            {
+                return null;
+            }
+            return await userManager.GetUserAsync(claimsPrincipal);
+        }
     }
 }

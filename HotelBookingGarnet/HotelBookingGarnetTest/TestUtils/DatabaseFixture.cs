@@ -45,11 +45,6 @@ namespace HotelBookingGarnetTest.TestUtils
             context.Hotels.Add(new Hotel()
             {
                 HotelName = "Test",
-//                Country = "Test",
-//                Region = "test",
-//                Address = "test",
-//                City = "test",
-//                Description = "test",
             });
         }
     }
