@@ -15,7 +15,8 @@ namespace HotelBookingGarnetTest.TestUtils
             options = TestDbOptions.Get();
             using (var context = new ApplicationContext(options))
             {
-                SeedReservation(context);
+                Seed(context);
+                SeedHotel(context);
                 context.SaveChanges();
             }
         }
@@ -26,11 +27,12 @@ namespace HotelBookingGarnetTest.TestUtils
             {
                 context.Reservations.RemoveRange(context.Reservations);
                 context.Rooms.RemoveRange(context.Rooms);
+                context.Hotels.RemoveRange(context.Hotels);
                 context.SaveChanges();
             }
         }
 
-        private void SeedReservation(ApplicationContext context)
+        private void Seed(ApplicationContext context)
         {
             context.Reservations.AddRange(new List<Reservation>
             {
@@ -41,6 +43,20 @@ namespace HotelBookingGarnetTest.TestUtils
                     ReservationId = 1,
                 }
             });
+        }
+
+        private void SeedHotel(ApplicationContext context)
+        {
+            context.Hotels.AddRange(new List<Hotel>
+            {
+                new Hotel
+                {
+                    HotelName = "kakukk",
+                    HotelId = 1,
+                }
+            });
+
+            
         }
     }
 }

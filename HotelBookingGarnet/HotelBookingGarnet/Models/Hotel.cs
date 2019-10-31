@@ -23,9 +23,5 @@ namespace HotelBookingGarnet.Models
         public List<Reservation> HotelReservations { get; set; }
         public string TimeZone { get; set; }
         public List<Review> Reviews { get; set; }
-        public static implicit operator Hotel(List<Hotel> v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
