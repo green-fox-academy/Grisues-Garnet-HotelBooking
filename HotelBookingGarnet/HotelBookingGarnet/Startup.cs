@@ -62,16 +62,15 @@ namespace HotelBookingGarnet
                     {
                         IConfigurationSection googleAuthNSection =
                             Configuration.GetSection("Authentication:Google");
-                    
+
                         options.ClientId = googleAuthNSection["ClientId"];
                         options.ClientSecret = googleAuthNSection["ClientSecret"];
-                    
                     })
                     .AddFacebook(options =>
                     {
                         IConfigurationSection googleAuthNSection =
                             Configuration.GetSection("Authentication:Facebook");
-                    
+
                         options.AppId = googleAuthNSection["AppId"];
                         options.AppSecret = googleAuthNSection["AppSecret"];
                     });
@@ -103,7 +102,7 @@ namespace HotelBookingGarnet
                 .AddViewLocalization(options => { options.ResourcesPath = "Resources"; })
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization();
-            
+
             services.SetUpAutoMapper();
             services.AddMvc();
             services.Configure<RequestLocalizationOptions>(options =>
