@@ -41,6 +41,24 @@ namespace HotelBookingGarnetTest.TestUtils
                     RoomId = 5,
                 }
             });
+            context.Rooms.AddRange(new List<Room>
+            {
+                new Room
+                {
+                    RoomId = 2,
+                    RoomName = "TestRoom",
+                    HotelId = 1,
+                }
+            });
+            context.Hotels.AddRange(new List<Hotel>
+            {
+                new Hotel
+                {
+                    HotelId = 1,
+                    HotelName = "SeaShark",
+                    Price = 100
+                }
+            });
         }
     }
 }
