@@ -26,14 +26,11 @@ namespace HotelBookingGarnetTest.Controllers
         [Fact]
         public async Task Logout_UserShouldLogout()
         {
-            mockUserService.Setup(x => x.Logout());
-
             var controller = new HomeController(mockHotelService.Object, mockUserService.Object, mockImageService.Object);
 
             var result =await controller.Logout();
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal("Login", redirectResult.ActionName);
-
         }
     }
 }
