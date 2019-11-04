@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HotelBookingGarnet.Migrations
 {
-    public partial class Init : Migration
+    public partial class Init4 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -211,6 +211,30 @@ namespace HotelBookingGarnet.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TaxiReservations",
+                columns: table => new
+                {
+                    TaxiReservationId = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TaxiReservationStart = table.Column<DateTime>(nullable: false),
+                    StartLocal = table.Column<string>(nullable: true),
+                    EndLocal = table.Column<string>(nullable: true),
+                    NumberOfGuest = table.Column<int>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaxiReservations", x => x.TaxiReservationId);
+                    table.ForeignKey(
+                        name: "FK_TaxiReservations_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "HotelPropertyType",
                 columns: table => new
                 {
@@ -264,6 +288,28 @@ namespace HotelBookingGarnet.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    ReviewId = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Rating = table.Column<int>(nullable: false),
+                    Text = table.Column<string>(nullable: true),
+                    HotelId = table.Column<long>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.ReviewId);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Hotels_HotelId",
+                        column: x => x.HotelId,
+                        principalTable: "Hotels",
+                        principalColumn: "HotelId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -337,17 +383,17 @@ namespace HotelBookingGarnet.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "98798a39-a81b-49a5-bcde-6708351d0b8b", "d6e90bb0-7e7e-4c37-9e26-a478b90f60e9", "Admin", "ADMIN" });
+                values: new object[] { "4cc82851-8f73-42f1-b8fe-43708a4087e5", "cd744790-f816-4864-82dc-f4b6454e043d", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "6f479210-fbfa-473f-93b9-8859f1c29889", "e44ef157-c482-4f2a-912b-c14434729abb", "Guest", "GUEST" });
+                values: new object[] { "eb384ffa-0d21-46a5-ac53-f4749e8efd1f", "571b0c71-b3f5-484b-bf16-a3dc60e075e8", "Guest", "GUEST" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "578e228f-c599-497f-af9e-301d6e67ec57", "ff648579-65de-4d08-92ec-68a3e8b54a70", "Hotel Manager", "HOTEL MANAGER" });
+                values: new object[] { "6a4fbc8f-4c10-4639-baf2-d82e871e2cb7", "6e05ec83-8a2b-493f-b575-e4ecd4de9394", "Hotel Manager", "HOTEL MANAGER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -412,6 +458,11 @@ namespace HotelBookingGarnet.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reviews_HotelId",
+                table: "Reviews",
+                column: "HotelId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoomBed_BedId",
                 table: "RoomBed",
                 column: "BedId");
@@ -420,6 +471,11 @@ namespace HotelBookingGarnet.Migrations
                 name: "IX_Rooms_HotelId",
                 table: "Rooms",
                 column: "HotelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaxiReservations_UserId",
+                table: "TaxiReservations",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -446,7 +502,13 @@ namespace HotelBookingGarnet.Migrations
                 name: "HotelPropertyType");
 
             migrationBuilder.DropTable(
+                name: "Reviews");
+
+            migrationBuilder.DropTable(
                 name: "RoomBed");
+
+            migrationBuilder.DropTable(
+                name: "TaxiReservations");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

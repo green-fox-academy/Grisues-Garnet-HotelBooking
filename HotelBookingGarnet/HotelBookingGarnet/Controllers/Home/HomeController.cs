@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using HotelBookingGarnet.Controllers.Login;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.Utils;
 using HotelBookingGarnet.ViewModels;
@@ -37,8 +38,8 @@ namespace HotelBookingGarnet.Controllers.Home
         [HttpPost("/logout")]
         public async Task<IActionResult> Logout()
         {
-            await userService.Logout();
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            await userService.LogoutAsync();
+            return RedirectToAction(nameof(LoginController.Login), "Login");
         }
     }
 }

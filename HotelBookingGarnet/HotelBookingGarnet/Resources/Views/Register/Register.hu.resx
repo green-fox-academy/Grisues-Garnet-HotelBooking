@@ -123,10 +123,16 @@
   <data name="Register" xml:space="preserve">
     <value>Regisztráció</value>
   </data>
+  <data name="Register with Google" xml:space="preserve">
+    <value>Regisztráció Google fiókkal</value>
+  </data>
   <data name="User Registration" xml:space="preserve">
     <value>Regisztráció</value>
   </data>
   <data name="Yes, I am" xml:space="preserve">
     <value>Igen, az vagyok</value>
+  </data>
+  <data name="Register with Facebook" xml:space="preserve">
+    <value>Regisztráció Facebook fiókkal</value>
   </data>
 </root>

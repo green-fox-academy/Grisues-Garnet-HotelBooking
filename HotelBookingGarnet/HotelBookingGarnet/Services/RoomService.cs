@@ -38,6 +38,12 @@ namespace HotelBookingGarnet.Services
             await applicationContext.SaveChangesAsync();
         }
 
+        public async Task<List<Room>> FindRoomByHotelIdAsync(long hotelId)
+        {
+           var rooms = await applicationContext.Rooms.Where(r => r.HotelId == hotelId).ToListAsync();
+            return rooms;
+        }
+
         public async Task<Room> FindRoomByIdAsync(long roomId)
         {
             var room = await applicationContext.Rooms.Include(a => a.RoomBeds)

@@ -120,7 +120,10 @@
   <data name="Cancel" xml:space="preserve">
     <value>Vissza</value>
   </data>
-  <data name="MyReservation" xml:space="preserve">
+  <data name="Drop-off local" xml:space="preserve">
+    <value>Érkezés helyszíne</value>
+  </data>
+  <data name="My Reservation" xml:space="preserve">
     <value>Foglalásaim</value>
   </data>
   <data name="Name of Guests" xml:space="preserve">
@@ -129,11 +132,26 @@
   <data name="Number of Guests" xml:space="preserve">
     <value>Vendégek Száma</value>
   </data>
+  <data name="Number of travelers" xml:space="preserve">
+    <value>Utasok száma</value>
+  </data>
+  <data name="Phone Number" xml:space="preserve">
+    <value>Megadott telefonszám:</value>
+  </data>
+  <data name="Pick-up local" xml:space="preserve">
+    <value>Indulás helyszíne</value>
+  </data>
   <data name="Reservation End" xml:space="preserve">
     <value>Foglalás Vége</value>
   </data>
   <data name="Reservation Start" xml:space="preserve">
     <value>Foglalás Kezdete</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Foglalás kezdete</value>
+  </data>
+  <data name="Taxi Reservations" xml:space="preserve">
+    <value>Taxi foglalásaim</value>
   </data>
   <data name="Total price" xml:space="preserve">
     <value>Teljes ár</value>

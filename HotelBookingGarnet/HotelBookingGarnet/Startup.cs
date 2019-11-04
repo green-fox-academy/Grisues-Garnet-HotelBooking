@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using HotelBookingGarnet.Services.Helpers.AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace HotelBookingGarnet
 {
@@ -30,16 +31,49 @@ namespace HotelBookingGarnet
         {
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationContext>();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
                 services.AddDbContext<ApplicationContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("ProductionConnection")));
+                services.AddAuthentication()
+                    .AddGoogle(options =>
+                    {
+                        options.ClientId = Configuration.GetConnectionString("GoogleClientId");
+                        options.ClientSecret = Configuration.GetConnectionString("GoogleClientSecret");
+                    })
+                    .AddFacebook(options =>
+                    {
+                        options.AppId = Configuration.GetConnectionString("FacebookAppClient");
+                        options.AppSecret = Configuration.GetConnectionString("FacebookAppSecret");
+                    });
             }
             else
             {
                 services.AddDbContext<ApplicationContext>(builder =>
                     builder.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+                services.AddAuthentication()
+                    .AddGoogle(options =>
+                    {
+                        IConfigurationSection googleAuthNSection =
+                            Configuration.GetSection("Authentication:Google");
+
+                        options.ClientId = googleAuthNSection["ClientId"];
+                        options.ClientSecret = googleAuthNSection["ClientSecret"];
+                    })
+                    .AddFacebook(options =>
+                    {
+                        IConfigurationSection googleAuthNSection =
+                            Configuration.GetSection("Authentication:Facebook");
+
+                        options.AppId = googleAuthNSection["AppId"];
+                        options.AppSecret = googleAuthNSection["AppSecret"];
+                    });
             }
 
             services.BuildServiceProvider().GetService<ApplicationContext>().Database.Migrate();
@@ -56,18 +90,25 @@ namespace HotelBookingGarnet
             services.AddTransient<IHotelPropertyTypeService, HotelPropertyTypeService>();
             services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IGuestService, GuestService>();
-            services.Configure<IdentityOptions>(options => { options.Password.RequireNonAlphanumeric = false; });
+            services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<ITaxiReservationService, TaxiReservationService>();
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireNonAlphanumeric = false;
+                options.User.RequireUniqueEmail = true;
+            });
             services.AddLocalization(options => { options.ResourcesPath = "Resources"; });
             services.AddMvc()
                 .AddViewLocalization(options => { options.ResourcesPath = "Resources"; })
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization();
+
             services.SetUpAutoMapper();
             services.AddMvc();
-            services.AddPaging();
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                var supportedCultures = new List<CultureInfo> {
+                var supportedCultures = new List<CultureInfo>
+                {
                     new CultureInfo("en-GB"),
                     new CultureInfo("hu-HU")
                 };
@@ -85,6 +126,7 @@ namespace HotelBookingGarnet
             {
                 app.UseDeveloperExceptionPage();
             }
+
             var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(options.Value);
             app.UseHttpsRedirection();

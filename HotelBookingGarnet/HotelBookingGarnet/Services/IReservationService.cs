@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.ViewModels;
-
+using System;
 
 namespace HotelBookingGarnet.Services
 {
@@ -17,6 +16,7 @@ namespace HotelBookingGarnet.Services
         Task DeleteExpiredReservationByIdAsync(string userId);
         Task<long> AddReservationAsync(ReservationViewModel newReservation, string userId, long roomId, long hotelId);
         Task<Reservation> FindReservationByReservationIdAsync(long reservationId);
-        List<string> ReservationValidation(ReservationViewModel newReservation, long roomId);
+        Task <List<string>> ReservationValidationAsync(ReservationViewModel newReservation, long roomId);
+        Task <List<Room>> FindAvailableRoomByHotelIdAndDateAsync(long hotelId, DateTime reservationStart, DateTime reservationEnd);
     }
 }

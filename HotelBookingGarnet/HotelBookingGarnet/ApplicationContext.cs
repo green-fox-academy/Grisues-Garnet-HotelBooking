@@ -1,5 +1,4 @@
 using HotelBookingGarnet.Models;
-using System.Collections.Immutable;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +16,8 @@ namespace HotelBookingGarnet
         public DbSet<RoomBed> RoomBed { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Guest> Guests { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<TaxiReservation> TaxiReservations { get; set; }
 
         public ApplicationContext(DbContextOptions options) : base(options)
         {
@@ -25,7 +26,7 @@ namespace HotelBookingGarnet
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HotelPropertyType>()
-                .HasKey(a => new {a.HotelId, a.PropertyTypeId});
+                .HasKey(a => new { a.HotelId, a.PropertyTypeId });
             modelBuilder.Entity<HotelPropertyType>()
                 .HasOne(a => a.Hotel)
                 .WithMany(a => a.HotelPropertyTypes)
@@ -37,7 +38,7 @@ namespace HotelBookingGarnet
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<RoomBed>()
-                .HasKey(a => new {a.RoomId, a.BedId});
+                .HasKey(a => new { a.RoomId, a.BedId });
             modelBuilder.Entity<RoomBed>()
                 .HasOne(a => a.Room)
                 .WithMany(a => a.RoomBeds)
@@ -50,9 +51,9 @@ namespace HotelBookingGarnet
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<IdentityRole>().HasData(
-                new IdentityRole {Name = "Admin", NormalizedName = "Admin".ToUpper()},
-                new IdentityRole {Name = "Guest", NormalizedName = "Guest".ToUpper()},
-                new IdentityRole {Name = "Hotel Manager", NormalizedName = "Hotel Manager".ToUpper()}
+                new IdentityRole { Name = "Admin", NormalizedName = "Admin".ToUpper() },
+                new IdentityRole { Name = "Guest", NormalizedName = "Guest".ToUpper() },
+                new IdentityRole { Name = "Hotel Manager", NormalizedName = "Hotel Manager".ToUpper() }
             );
         }
     }

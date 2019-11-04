@@ -15,10 +15,12 @@ namespace HotelBookingGarnet.Services
         List<Hotel> GetHotels();
         Task EditHotelAsync(long hotelId, HotelViewModel editHotel);
         Task<Hotel> FindHotelByIdAsync(long hotelId);
-        Task<long> AddHotelAsync(HotelViewModel newHotel, string userId);   
-        Task<Hotel> FindHotelByName(string hotelName);
+        Task<long> AddHotelAsync(HotelViewModel newHotel, string userId);
+        Task<Hotel> FindHotelByNameAsync(string hotelName);
         Task<PagingList<Hotel>> FilterHotelsAsync(QueryParam queryParam);
         Task SetIndexImageAsync(long hotelId);
         Task<List<Hotel>> ListMyHotelsAsync(string userId);
+        double AverageRating(List<Review> reviews);
+        PagingList<Review> ReviewsList(List<Review> reviews, QueryParam queryParam);
     }
 }

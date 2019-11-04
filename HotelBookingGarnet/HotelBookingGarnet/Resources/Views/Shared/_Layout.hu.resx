@@ -135,4 +135,7 @@
   <data name="Register" xml:space="preserve">
     <value>Regisztráció</value>
   </data>
+  <data name="Taxi Reservation" xml:space="preserve">
+    <value>Taxi foglalás</value>
+  </data>
 </root>

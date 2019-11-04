@@ -86,11 +86,11 @@ namespace HotelBookingGarnet.Services
 
         public List<string> Validate(IFormFileCollection files, HotelViewModel newHotel)
         {
-            for (int i = 0; i < files.Count; i++)
+            foreach (var file in files)
             {
-                if (CheckImageExtension(files[i]))
+                if (CheckImageExtension(file))
                 {
-                    if (files[i].Length < fourMegaByte)
+                    if (file.Length < fourMegaByte)
                     {
                         return newHotel.ErrorMessages;
                     }
