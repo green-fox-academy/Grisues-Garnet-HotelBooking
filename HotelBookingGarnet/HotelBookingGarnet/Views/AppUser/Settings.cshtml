@@ -5,50 +5,59 @@
 
 
 <form asp-controller="AppUser" asp-action="Settings" method="post" asp-route-returnUrl="@Context.Request.Path" role="form">
-    <h1>@Model.User.UserName @localizer["'s settings"]</h1> 
-    <div class="rows">
-        <div>
-        <h4>@localizer["Change the language of the page"]</h4>
-        @inject IViewLocalizer Localizer
-        @inject IOptions<RequestLocalizationOptions> LocOptions
-        @{
-            var requestCulture = Context.Features.Get<IRequestCultureFeature>();
-            var cultureItems = LocOptions.Value.SupportedUICultures
-                .Select(c => new SelectListItem {Value = c.Name, Text = c.DisplayName})
-                .ToList();
-        }
-        <div>
-            @Localizer["Language:"]
-            <select name="culture"
-                    asp-for="@requestCulture.RequestCulture.UICulture.Name"
-                    asp-items="cultureItems">
-            </select>
+    <div class="rows" class="card">
+        <div class="card-body">
+            <div class="card-title">
+                <h1>@Model.User.UserName @localizer["'s settings"]</h1>
+                </div>
+            <div>
+                <div class="card-subtitle mb-2 text-muted">
+                    <h4>@localizer["Change the language of the page"]</h4>
+                </div>
+                @inject IViewLocalizer Localizer
+                @inject IOptions<RequestLocalizationOptions> LocOptions
+                @{
+                    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+                    var cultureItems = LocOptions.Value.SupportedUICultures
+                        .Select(c => new SelectListItem {Value = c.Name, Text = c.DisplayName})
+                        .ToList();
+                }
+                <div>
+                    @Localizer["Language:"]
+                    <select name="culture"
+                            asp-for="@requestCulture.RequestCulture.UICulture.Name"
+                            asp-items="cultureItems">
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div>
+                 <div class="card-subtitle mb-2 text-muted">
+                     <h4>@localizer["Change your password"]</h4>
+                     </div>
+                <div class="form-group">
+                    <label asp-for="OldPassword">@localizer["Old Password"]</label>
+                    <input asp-for="OldPassword" class="form-control"/>
+                    <span asp-validation-for="OldPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NewPassword">@localizer["New Password"]</label>
+                    <input asp-for="NewPassword" class="form-control"/>
+                    <span class="text-danger">@ViewData["error"]</span>
+                    <span asp-validation-for="NewPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword">@localizer["ConfirmPassword"]</label>
+                    <input asp-for="ConfirmPassword" class="form-control"/>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div>
+                    <span class="text-success">@ViewData["message"]</span>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">@localizer["Save changes"]</button>
+                </div>
+            </div>
         </div>
-    </div>
-    <div>
-        <h4>@localizer["Change your password"]</h4>
-        <div>
-            <label asp-for="OldPassword">@localizer["Old Password"]</label>
-            <input asp-for="OldPassword"/>
-            <span asp-validation-for="OldPassword" class="text-danger"></span>
-        </div>
-        <div>
-            <label asp-for="NewPassword">@localizer["New Password"]</label>
-            <input asp-for="NewPassword"/>
-            <span class="text-danger">@ViewData["error"]</span>
-            <span asp-validation-for="NewPassword" class="text-danger"></span>
-        </div>
-        <div>
-            <label asp-for="ConfirmPassword">@localizer["ConfirmPassword"]</label>
-            <input asp-for="ConfirmPassword"/>
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-        <div>
-            <span class="text-success">@ViewData["message"]</span>
-        </div>
-        <div>
-            <button type="submit" class="btn btn-primary">@localizer["Save changes"]</button>
-        </div>
-    </div>
     </div>
 </form>
