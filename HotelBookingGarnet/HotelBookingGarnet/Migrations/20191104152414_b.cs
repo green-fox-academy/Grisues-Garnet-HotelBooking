@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HotelBookingGarnet.Migrations
 {
-    public partial class bb : Migration
+    public partial class b : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -383,17 +383,17 @@ namespace HotelBookingGarnet.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b28542b5-43fc-4a6e-b6c8-7f7f1150e9d3", "1116b7d0-efe3-4f23-99b6-1408917f2d8c", "Admin", "ADMIN" });
+                values: new object[] { "6d3e54cd-3484-4d96-a44b-951a45402e25", "b12d488d-3fa1-431a-b0c6-9f10b3660d00", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "86045ee4-38fa-474f-999a-593cabefbe60", "09984b86-d4fe-4013-8eb3-8961561ffd82", "Guest", "GUEST" });
+                values: new object[] { "155c22d8-8de2-4d2a-8a5d-36828e8f116a", "be1f5608-0929-4168-a7e5-0dd11c0d3493", "Guest", "GUEST" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "bf17b385-10bc-4045-bab6-02c617474597", "34e381b0-d323-4380-8592-e4ffe166c1fd", "Hotel Manager", "HOTEL MANAGER" });
+                values: new object[] { "4aacdbfe-7127-4182-a240-031662d1460b", "61e15bd8-34db-4b07-a80f-e11450129ca4", "Hotel Manager", "HOTEL MANAGER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

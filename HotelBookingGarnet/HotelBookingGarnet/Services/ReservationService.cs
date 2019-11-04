@@ -24,7 +24,8 @@ namespace HotelBookingGarnet.Services
         private string apiKey;
 
         public ReservationService(IMapper mapper, ApplicationContext applicationContext, IGuestService guestService,
-            IRoomService roomService, IUserService userService, IHotelService hotelService, IConfiguration configuration)
+            IRoomService roomService, IUserService userService, IHotelService hotelService,
+            IConfiguration configuration)
         {
             this.applicationContext = applicationContext;
             this.mapper = mapper;
@@ -212,8 +213,10 @@ namespace HotelBookingGarnet.Services
         public async Task<List<Room>> FindAvailableRoomByHotelIdAndDateAsync(long hotelId, DateTime start, DateTime end)
         {
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
-            var reservations = await applicationContext.Reservations.Where(r => r.HotelId == hotel.HotelId).Where(r => start <= r.ReservationStart && r.ReservationStart <= end ||
-                    start <= r.ReservationEnd && r.ReservationEnd <= end || r.ReservationStart <= start && end <= r.ReservationEnd).ToListAsync();
+            var reservations = await applicationContext.Reservations.Where(r => r.HotelId == hotel.HotelId).Where(r =>
+                start <= r.ReservationStart && r.ReservationStart <= end ||
+                start <= r.ReservationEnd && r.ReservationEnd <= end ||
+                r.ReservationStart <= start && end <= r.ReservationEnd).ToListAsync();
 
             Dictionary<long, int> roomsReservation = new Dictionary<long, int>();
 
@@ -240,8 +243,8 @@ namespace HotelBookingGarnet.Services
                 if (!roomsReservation.ContainsKey(rooms.ElementAt(i).RoomId))
                 {
                     filteredRooms.Add(rooms.ElementAt(i));
-
-                }else if (rooms.ElementAt(i).NumberOfRooms > roomsReservation[rooms.ElementAt(i).RoomId])
+                }
+                else if (rooms.ElementAt(i).NumberOfRooms > roomsReservation[rooms.ElementAt(i).RoomId])
                 {
                     filteredRooms.Add(rooms.ElementAt(i));
                 }

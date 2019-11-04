@@ -2,9 +2,11 @@ using System;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using AutoMapper.Configuration.Internal;
+using FluentEmail.Core;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -23,7 +25,8 @@ namespace HotelBookingGarnet.Controllers
         private readonly IUserService userService;
         private readonly IStringLocalizer<AppUserController> _localizer;
 
-        public AppUserController(UserManager<User> userManager, IUserService userService, IStringLocalizer<AppUserController> localizer)
+        public AppUserController(UserManager<User> userManager, IUserService userService,
+            IStringLocalizer<AppUserController> localizer)
         {
             this.userManager = userManager;
             this.userService = userService;
@@ -52,6 +55,7 @@ namespace HotelBookingGarnet.Controllers
                     new CookieOptions {Expires = DateTimeOffset.UtcNow.AddDays(1)});
                 return LocalRedirect(returnUrl);
             }
+
             if (ModelState.IsValid)
             {
                 if (settingsViewModel.OldPassword == settingsViewModel.NewPassword)
@@ -59,6 +63,7 @@ namespace HotelBookingGarnet.Controllers
                     ViewData["error"] = _localizer["New password and old password can't be the same!"];
                     return View(new SettingsViewModel {User = user});
                 }
+
                 if (settingsViewModel.NewPassword != settingsViewModel.OldPassword)
                 {
                     var result = await userManager.ChangePasswordAsync(user,
@@ -70,7 +75,38 @@ namespace HotelBookingGarnet.Controllers
                     }
                 }
             }
+
             return View(new SettingsViewModel {User = user});
+        }
+
+        [HttpGet("/forgotPassword")]
+        public IActionResult ForgotPassword()
+        {
+            return View(new LoginViewModel());
+        }
+
+        [HttpPost("/forgotPassword")]
+        public async Task<IActionResult> SendRecoveryEmail(LoginViewModel model)
+        {
+            var user = await userManager.FindByEmailAsync(model.Email);
+            ModelState.Remove("Password");
+
+            if (!ModelState.IsValid)
+            {
+                return View("~/Views/AppUser/ForgotPassword.cshtml", model);
+            }
+
+            var errors = await userService.IsEmailPresent(model);
+            if (errors.Count != 0)
+            {
+                model.ErrorMessages = errors;
+                return View("~/Views/AppUser/ForgotPassword.cshtml", model);
+            }
+
+            var newRandomPassword = userService.GenerateNewPassword();
+            await userService.ChangePasswordAsync(newRandomPassword, user);
+            await userService.SendRecoveryPasswordAsync(model.Email, newRandomPassword);
+            return View("~/Views/AppUser/ResetConfirmation.cshtml");
         }
     }
 }

@@ -7,8 +7,6 @@ using HotelBookingGarnet.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Http;
 using HotelBookingGarnet.Utils;
 
 namespace HotelBookingGarnet.Controllers.Hotel
@@ -27,10 +25,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IReviewService reviewService;
         private readonly IReservationService reservationService;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService,
-            IRoomService roomService, IBedService bedService, IRoomBedService roomBedService,
-            IHotelPropertyTypeService hotelPropertyTypeService, IDateTimeService dateTimeService, IMapper mapper,
-            IReviewService reviewService, IReservationService reservationService)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IHotelPropertyTypeService hotelPropertyTypeService, IDateTimeService dateTimeService, IMapper mapper, IReviewService reviewService, IReservationService reservationService)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
@@ -59,10 +54,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             var isReviewed = reviewService.Reviewed(hotel.Reviews, currentUser);
             var reviewsPaging = hotelService.ReviewsList(hotel.Reviews, queryParam);
             return View(new IndexViewModel
-            {
-                User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri, IsReviewed = isReviewed,
-                ReviewsPagingList = reviewsPaging, QueryParam = queryParam, ActionName = nameof(HotelInfo)
-            });
+                {User = currentUser, Hotel = hotel, RoomBeds = roomBeds, FolderList = blobsUri, IsReviewed = isReviewed, ReviewsPagingList = reviewsPaging, QueryParam = queryParam, ActionName = nameof(HotelInfo)});
         }
 
         [Authorize(Roles = "Hotel Manager, Admin")]
@@ -93,6 +85,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
                     var errors = imageService.Validate(editHotel.Files, editHotel);
                     if (errors.Count != 0)
                     {
+                        ViewBag.TimeZones = dateTimeService.FindTimeZones();
                         return View(editHotel);
                     }
 
@@ -128,6 +121,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
                     var errors = imageService.Validate(newHotel.Files, newHotel);
                     if (errors.Count != 0)
                     {
+                        ViewBag.TimeZones = dateTimeService.FindTimeZones();
                         return View(newHotel);
                     }
 
@@ -182,8 +176,8 @@ namespace HotelBookingGarnet.Controllers.Hotel
             }
             return View(newBed);
         }
-
-        [Authorize(Roles = "Hotel Manager")]
+       
+        [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpGet("/myhotels")]
         public async Task<IActionResult> MyHotels()
         {
@@ -202,7 +196,6 @@ namespace HotelBookingGarnet.Controllers.Hotel
                 await reviewService.AddReviewAsync(hotelId, newReview, currentUser.Id);
                 return RedirectToAction(nameof(HotelController.HotelInfo), "Hotel", new {hotelId});
             }
-
             var blobsUri = await imageService.ListAsync(hotelId);
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
             var property = await hotelPropertyTypeService.FindPropertyByHotelIdAsync(hotelId);

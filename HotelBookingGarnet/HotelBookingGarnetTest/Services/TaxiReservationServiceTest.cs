@@ -5,6 +5,7 @@ using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
 using HotelBookingGarnetTest.TestUtils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace HotelBookingGarnetTest.Services
         private readonly DbContextOptions<ApplicationContext> options;
         private readonly Mock<IMapper> mockMapper;
         private readonly Mock<IUserService> mockUserService;
+        private readonly IConfiguration configuration;
 
         public TaxiReservationServiceTest()
         {
@@ -33,11 +35,11 @@ namespace HotelBookingGarnetTest.Services
         {
             using (var context = new ApplicationContext(options))
             {
-                var taxiReservationService = new TaxiReservationService(context, mockMapper.Object, mockUserService.Object);
+                var taxiReservationService = new TaxiReservationService(context, mockMapper.Object, mockUserService.Object, configuration );
                 var taxiReservation = new TaxiReservationViewModel { StartLocal = "Budapest", EndLocal = "Siófok", TaxiReservationStart = new DateTime(2019, 10, 11), NumberOfGuest = 2, PhoneNumber = "05202222" };
 
                 List<string> expected = new List<string>() { "The booking cannot begin earlier than today!" };
-                var actual = await taxiReservationService.TaxiReservationValidationAsync(taxiReservation);
+                var actual =  taxiReservationService.TaxiReservationValidation(taxiReservation);
                 Assert.Equal(expected, actual);
             }
         }
@@ -47,7 +49,7 @@ namespace HotelBookingGarnetTest.Services
         {
             using (var context = new ApplicationContext(options))
             {
-                var taxiReservationService = new TaxiReservationService(context, mockMapper.Object, mockUserService.Object);
+                var taxiReservationService = new TaxiReservationService(context, mockMapper.Object, mockUserService.Object, configuration);
                 var taxiReservation = new TaxiReservation
                 {
                     TaxiReservationStart = new DateTime(2019, 11, 10),
@@ -58,7 +60,6 @@ namespace HotelBookingGarnetTest.Services
                     EndLocal = "Siófok",
                     UserId = "1"
                 };
-                //new TaxiReservation expected = new TaxiReservation;
                 long id = taxiReservation.TaxiReservationId;
                 var actual = await taxiReservationService.FindTaxiReservationByIdAsync(1);
                 Assert.Equal(id, actual.TaxiReservationId);
@@ -69,7 +70,7 @@ namespace HotelBookingGarnetTest.Services
         {
             using (var context = new ApplicationContext(options))
             {
-                var taxiReservationService = new TaxiReservationService(context, mockMapper.Object, mockUserService.Object);
+                var taxiReservationService = new TaxiReservationService(context, mockMapper.Object, mockUserService.Object, configuration);
                 var taxiReservation = new TaxiReservation
                 {
                     TaxiReservationStart = new DateTime(2019, 11, 10),

@@ -46,8 +46,15 @@
                 OR
             </span>
         </div>
-        <a class="btn btn-danger" asp-controller="Login" asp-action="GoogleLogin">
-            <i class="fab fa-google"></i> @localizer["Register with Google"]
-        </a>
+        <div class="google-btn">
+            <a class="btn btn-danger" asp-controller="Login" asp-action="GoogleLogin">
+                <i class="fab fa-google"></i> @localizer["Register with Google"]
+            </a>
+        </div>
+        <div class="google-btn">
+            <a class="btn btn-primary" asp-controller="Login" asp-action="FacebookLogin">
+                <i class="fab fa-facebook"></i> @localizer["Register with Facebook"]
+            </a>
+        </div>
     </div>
 </div>
