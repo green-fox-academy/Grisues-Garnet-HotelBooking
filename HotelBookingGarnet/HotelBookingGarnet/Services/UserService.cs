@@ -144,6 +144,18 @@ namespace HotelBookingGarnet.Services
                 .ToList();
         }
 
+        public async Task<User> GetUserAsync()
+        {
+            var claimsPrincipal = signInManager.Context.User;
+            if (claimsPrincipal == null)
+            {
+                return null;
+            }
+
+            return await userManager.GetUserAsync(claimsPrincipal);
+        }
+        
+
         public async Task<List<string>> IsEmailPresent(LoginViewModel model)
         {
             var user = await userManager.FindByEmailAsync(model.Email);

@@ -42,6 +42,11 @@ namespace HotelBookingGarnetTest.TestUtils
                     RoomId = 5,
                 }
             });
+
+            context.Hotels.Add(new Hotel()
+            {
+                HotelName = "Test",
+            });
         }
         private void SeedTaxiReservation(ApplicationContext context)
         {
