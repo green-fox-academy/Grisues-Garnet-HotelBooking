@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using HotelBookingGarnet;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnetTest.TestUtils;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using Xunit;
 
@@ -19,6 +22,7 @@ namespace HotelBookingGarnetTest.Services
         private readonly Mock<IRoomService> mockRoomService;
         private readonly Mock<IUserService> mockUserService;
         private readonly Mock<IHotelService> mockHotelService;
+        private readonly Mock<IConfiguration> mockConfiguration;
 
         public ReservationServiceTest()
         {
@@ -28,6 +32,7 @@ namespace HotelBookingGarnetTest.Services
             mockUserService = new Mock<IUserService>();
             mockHotelService = new Mock<IHotelService>();
             mockRoomService = new Mock<IRoomService>();
+            mockConfiguration = new Mock<IConfiguration>();
         }
 
         [Fact]
@@ -36,7 +41,7 @@ namespace HotelBookingGarnetTest.Services
             using (var context = new ApplicationContext(options))
             {
                 var reservationService = new ReservationService(mockMapper.Object, context, mockGuestService.Object,
-                    mockRoomService.Object, mockUserService.Object, mockHotelService.Object);
+                    mockRoomService.Object, mockUserService.Object, mockHotelService.Object, mockConfiguration.Object);
                 var reservation = await reservationService.FindReservationByReservationIdAsync(1);
 
                 mockRoomService.Setup(x => x.FindRoomByIdAsync(1))
@@ -46,9 +51,30 @@ namespace HotelBookingGarnetTest.Services
                         Price = 400
                     }));
 
-                const int expected = 1200;
+                int expected = 1200;
                 var actual = await reservationService.CalculatePriceAsync(1, reservation);
                 Assert.Equal(expected, actual);
+            }
+        }
+
+        [Fact]
+        public async Task FindReservationByReservationIdAsync_ShouldFindReservation()
+        {
+            using (var context = new ApplicationContext(options))
+            {
+                var reservationService = new ReservationService(mockMapper.Object, context, mockGuestService.Object,
+                    mockRoomService.Object, mockUserService.Object, mockHotelService.Object, mockConfiguration.Object);
+                
+                var expected = new Reservation
+                {
+                    ReservationStart = new DateTime(2019, 11, 10),
+                    ReservationEnd = new DateTime(2019, 11, 12),
+                    ReservationId = 1,
+                };
+                var actual = await reservationService.FindReservationByReservationIdAsync(1);
+                Assert.Equal(expected.ReservationStart, actual.ReservationStart);
+                Assert.Equal(expected.ReservationEnd, actual.ReservationEnd);
+                Assert.Equal(expected.ReservationId, actual.ReservationId);
             }
         }
     }

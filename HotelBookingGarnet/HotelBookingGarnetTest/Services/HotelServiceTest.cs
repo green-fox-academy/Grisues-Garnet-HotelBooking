@@ -1,6 +1,4 @@
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using HotelBookingGarnet;
@@ -14,20 +12,21 @@ using Xunit;
 
 namespace HotelBookingGarnetTest.Services
 {
-    [Collection("DatabaseCollection")]
+
+    [Collection("Database collection")]
     public class HotelServiceTest
     {
         private readonly DbContextOptions<ApplicationContext> options;
         private readonly Mock<IPropertyTypeService> mockPropertyTypeService;
         private readonly Mock<IImageService> mockImageService;
         private readonly Mock<IMapper> mockMapper;
-
+        
         public HotelServiceTest()
         {
             options = TestDbOptions.Get();
-            mockMapper = new Mock<IMapper>();
-            mockImageService = new Mock<IImageService>();
             mockPropertyTypeService = new Mock<IPropertyTypeService>();
+            mockImageService = new Mock<IImageService>();
+            mockMapper = new Mock<IMapper>();
         }
 
         [Fact]
@@ -38,15 +37,15 @@ namespace HotelBookingGarnetTest.Services
                 var hotel = new HotelViewModel
                 {
                     HotelName = "Test",
-                    Country = "Test", 
-                    Region = "test", 
-                    Address = "test", 
-                    City = "test", 
+                    Country = "Test",
+                    Region = "test",
+                    Address = "test",
+                    City = "test",
                     Description = "test",
                 };
-                
-                var hotelService = new HotelService(context, mockPropertyTypeService.Object, 
-                    mockImageService.Object,mockMapper.Object );
+
+                var hotelService = new HotelService(context, mockPropertyTypeService.Object,
+                    mockImageService.Object, mockMapper.Object);
 
                 mockPropertyTypeService.Setup(x => x.AddPropertyTypeAsync(It.IsAny<string>()))
                     .Returns(Task.FromResult(new PropertyType()
@@ -67,7 +66,27 @@ namespace HotelBookingGarnetTest.Services
                     });
                 var length = await context.Hotels.CountAsync();
                 var actual = await hotelService.AddHotelAsync(hotel, "123");
-                Assert.Equal(length +1 , await context.Hotels.CountAsync());
+                Assert.Equal(length + 1, await context.Hotels.CountAsync());
+
+            }
+        }
+
+        [Fact]
+        public void AverageRating_ShouldCalculateAverage()
+        {
+            using (var context = new ApplicationContext(options))
+            {
+                var hotelService = new HotelService(context, mockPropertyTypeService.Object, mockImageService.Object, 
+                    mockMapper.Object);
+
+                List<Review> reviews = new List<Review>();
+                reviews.Add(new Review{Rating = 4});
+                reviews.Add(new Review{Rating = 2});
+                reviews.Add(new Review{Rating = 3});
+                
+                var actual = hotelService.AverageRating(reviews);
+                var expected = 3;
+                Assert.Equal(expected, actual);
             }
         }
     }

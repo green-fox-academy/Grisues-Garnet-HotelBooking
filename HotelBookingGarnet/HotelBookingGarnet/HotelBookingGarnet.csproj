@@ -7,7 +7,7 @@
         <ApplicationIcon />
         <OutputType>WinExe</OutputType>
         <StartupObject />
-
+        <UserSecretsId>f59069d8-8cbc-46df-ba18-b6dd975ebc10</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -30,7 +30,7 @@
         <Folder Include="Controllers\Home" />
         <Folder Include="Controllers\Reservation" />
         <Folder Include="Views\Hotel" />
+        <Folder Include="wwwroot\js\" />
         
     </ItemGroup>
-
 </Project>
