@@ -16,6 +16,7 @@ namespace HotelBookingGarnetTest.TestUtils
             using (var context = new ApplicationContext(options))
             {
                 SeedReservation(context);
+                SeedTaxiReservation(context);
                 context.SaveChanges();
             }
         }
@@ -39,6 +40,22 @@ namespace HotelBookingGarnetTest.TestUtils
                     ReservationStart = new DateTime(2019, 11, 10),
                     ReservationEnd = new DateTime(2019, 11, 12),
                     ReservationId = 1,
+                }
+            });
+        }
+        private void SeedTaxiReservation(ApplicationContext context)
+        {
+            context.TaxiReservations.AddRange(new List<TaxiReservation>
+            {
+                new TaxiReservation
+                {
+                    TaxiReservationStart = new DateTime(2019,11,10),
+                    TaxiReservationId = 1,
+                    NumberOfGuest = 2,
+                    PhoneNumber = "222222222",
+                    StartLocal = "Budapest",
+                    EndLocal = "Siófok",
+                    UserId = "1"
                 }
             });
         }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HotelBookingGarnet;
+using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
 using HotelBookingGarnet.ViewModels;
 using HotelBookingGarnetTest.TestUtils;
@@ -38,6 +39,51 @@ namespace HotelBookingGarnetTest.Services
                 List<string> expected = new List<string>() { "The booking cannot begin earlier than today!" };
                 var actual = await taxiReservationService.TaxiReservationValidationAsync(taxiReservation);
                 Assert.Equal(expected, actual);
+            }
+        }
+
+        [Fact]
+        public async Task FindTaxiReservationByTaxiReservationIdAsyncTest()
+        {
+            using (var context = new ApplicationContext(options))
+            {
+                var taxiReservationService = new TaxiReservationService(context, mockMapper.Object, mockUserService.Object);
+                var taxiReservation = new TaxiReservation
+                {
+                    TaxiReservationStart = new DateTime(2019, 11, 10),
+                    TaxiReservationId = 1,
+                    NumberOfGuest = 2,
+                    PhoneNumber = "222222222",
+                    StartLocal = "Budapest",
+                    EndLocal = "Siófok",
+                    UserId = "1"
+                };
+                //new TaxiReservation expected = new TaxiReservation;
+                long id = taxiReservation.TaxiReservationId;
+                var actual = await taxiReservationService.FindTaxiReservationByIdAsync(1);
+                Assert.Equal(id, actual.TaxiReservationId);
+            }
+        }
+        [Fact]
+        public async Task FindTaxiReservationByUserIdAsyncTest()
+        {
+            using (var context = new ApplicationContext(options))
+            {
+                var taxiReservationService = new TaxiReservationService(context, mockMapper.Object, mockUserService.Object);
+                var taxiReservation = new TaxiReservation
+                {
+                    TaxiReservationStart = new DateTime(2019, 11, 10),
+                    TaxiReservationId = 1,
+                    NumberOfGuest = 2,
+                    PhoneNumber = "222222222",
+                    StartLocal = "Budapest",
+                    EndLocal = "Siófok",
+                    UserId = "1"
+                };
+                //new TaxiReservation expected = new TaxiReservation;
+                string id = taxiReservation.UserId;
+                var actual = await taxiReservationService.FindTaxiReservationByIdAsync(1);
+                Assert.Equal(id, actual.UserId);
             }
         }
     }
