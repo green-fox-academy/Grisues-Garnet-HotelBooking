@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using HotelBookingGarnet.Services.Helpers.AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace HotelBookingGarnet
 {
@@ -105,6 +106,9 @@ namespace HotelBookingGarnet
 
             services.SetUpAutoMapper();
             services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new List<CultureInfo>
