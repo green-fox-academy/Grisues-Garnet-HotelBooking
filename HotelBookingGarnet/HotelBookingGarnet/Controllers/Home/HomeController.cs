@@ -12,13 +12,11 @@ namespace HotelBookingGarnet.Controllers.Home
     {
         private readonly IHotelService hotelService;
         private readonly IUserService userService;
-        private readonly IImageService imageService;
 
-        public HomeController(IHotelService hotelService, IUserService userService, IImageService imageService)
+        public HomeController(IHotelService hotelService, IUserService userService)
         {
             this.hotelService = hotelService;
             this.userService = userService;
-            this.imageService = imageService;
         }
 
         [HttpGet("/")]
