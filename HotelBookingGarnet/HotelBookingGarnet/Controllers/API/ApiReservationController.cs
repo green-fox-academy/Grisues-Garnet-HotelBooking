@@ -17,8 +17,8 @@ namespace HotelBookingGarnet.Controllers.API
             this.reservationService = reservationService;
         }
 
-        [HttpGet("/api/reservations/{userId}")]
-        public async Task<ActionResult<List<Reservation>>> GetReservation(string userId)
+        [HttpGet("/api/reservation/{userId}")]
+        public async Task<ActionResult<List<Reservation>>> GetReservation([FromRoute]string userId)
         {
             var reservations = await reservationService.FindReservationByReservationIdAsync(userId);
 
@@ -30,8 +30,8 @@ namespace HotelBookingGarnet.Controllers.API
             return reservations;
         }
 
-        [HttpDelete("/api/deletereservation/{reservationId}")]
-        public async Task<ActionResult> DeleteReservation(long reservationId)
+        [HttpDelete("/api/reservation/{reservationId}")]
+        public async Task<ActionResult> DeleteReservation([FromRoute]long reservationId)
         {
             var reservation = await reservationService.FindReservationByReservationIdAsync(reservationId);
             if (reservation == null)
