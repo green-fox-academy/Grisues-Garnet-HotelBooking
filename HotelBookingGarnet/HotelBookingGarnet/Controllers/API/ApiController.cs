@@ -14,7 +14,6 @@ namespace HotelBookingGarnet.Controllers.API
     {
         private readonly IHotelService hotelService;
         
-
         public ApiController(IHotelService hotelService)
         {
             this.hotelService = hotelService;
