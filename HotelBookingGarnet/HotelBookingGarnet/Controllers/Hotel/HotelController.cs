@@ -177,7 +177,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
             return View(newBed);
         }
        
-        [Authorize(Roles = "Hotel Manager")]
+        [Authorize(Roles = "Hotel Manager, Admin")]
         [HttpGet("/myhotels")]
         public async Task<IActionResult> MyHotels()
         {

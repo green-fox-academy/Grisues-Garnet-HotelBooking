@@ -17,6 +17,7 @@ namespace HotelBookingGarnet.Services
         AuthenticationProperties ConfigureExternalAutheticationProp(string provider, string returnUrl);
         Task<ExternalLoginInfo> GetExternalLoginInfoAsync();
         Task<SignInResult> ExternalLoginSingnInAsync(string loginProvider, string providerKey, bool isPersistent);
+        Task<User> GetUserAsync();
         Task<List<string>> IsEmailPresent(LoginViewModel model);
         string GenerateNewPassword();
         Task ChangePasswordAsync(string newRandomPassword, User user);

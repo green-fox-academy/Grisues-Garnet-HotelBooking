@@ -2,9 +2,6 @@
 using HotelBookingGarnet.Services;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -14,19 +11,16 @@ namespace HotelBookingGarnetTest.Controllers
     {
         private readonly Mock<IHotelService> mockHotelService;
         private readonly Mock<IUserService> mockUserService;
-        private readonly Mock<IImageService> mockImageService;
 
         public HomeControllerTest()
         {
             mockHotelService = new Mock<IHotelService>();
-            mockUserService = new Mock<IUserService>();
-            mockImageService = new Mock<IImageService>();
-        }
+            mockUserService = new Mock<IUserService>();        }
 
         [Fact]
         public async Task Logout_UserShouldLogout()
         {
-            var controller = new HomeController(mockHotelService.Object, mockUserService.Object, mockImageService.Object);
+            var controller = new HomeController(mockHotelService.Object, mockUserService.Object);
 
             var result =await controller.Logout();
             var redirectResult = Assert.IsType<RedirectToActionResult>(result);
