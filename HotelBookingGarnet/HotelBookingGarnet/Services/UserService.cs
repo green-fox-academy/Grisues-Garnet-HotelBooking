@@ -221,5 +221,11 @@ namespace HotelBookingGarnet.Services
             var user = await applicationContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
             return user;
         }
+
+        public Task<User> FindUserByUserIdAsync(string userId)
+        {
+            var User = applicationContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            return User;
+        }
     }
 }

@@ -106,5 +106,11 @@ namespace HotelBookingGarnet.Services
 
             await email.SendAsync();
         }
+
+        public async Task<TaxiReservation> FindTaxiReservationByTaxiReservationIdAsync(long taxiReservationId)
+        {
+            var TaxiReservation = await applicationContext.TaxiReservations.FirstOrDefaultAsync(t => t.TaxiReservationId == taxiReservationId);
+            return TaxiReservation;
+        }
     }
 }
