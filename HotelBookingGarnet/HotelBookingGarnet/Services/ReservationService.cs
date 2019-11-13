@@ -234,7 +234,7 @@ namespace HotelBookingGarnet.Services
                 return filteredRooms;
             }
         }
-
+        
         private List<Room> FilterAvailableRooms(List<Room> rooms, Dictionary<long, int> roomsReservation)
         {
             List<Room> filteredRooms = new List<Room>();

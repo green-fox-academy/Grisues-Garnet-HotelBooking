@@ -3,81 +3,95 @@
 @{
     ViewData["Title"] = @localizer["MyReservation"];
 }
-
-<h1>@localizer["My Reservation"]</h1>
-
-<table class="table">
-    <tr>
-        <th>@localizer["Reservation Start"]</th>
-        <th>@localizer["Reservation End"]</th>
-        <th>Hotel</th>
-        <th>@localizer["Number of Guests"]</th>
-        <th>@localizer["Total price"]</th>
-        <th>@localizer["Name of Guests"]</th>
-    </tr>
-    @foreach (var reservation in @Model.Reservations)
-    {
-        <tr>
-            <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
-            <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
-            <td>
-                @foreach (var hotel in Model.HotelList)
-                {@if (reservation.HotelId == hotel.HotelId)
-                    {
-                        <a asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@hotel.HotelId">@hotel.HotelName</a>
+<div class="card">
+    <div class="card-header">
+        <h3>@localizer["My Reservation"]</h3>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>@localizer["Reservation Start"]</th>
+                <th>@localizer["Reservation End"]</th>
+                <th>Hotel</th>
+                <th>@localizer["Number of Guests"]</th>
+                <th>@localizer["Total price"]</th>
+                <th>@localizer["Name of Guests"]</th>
+            </tr>
+        </thead>
+        @foreach (var reservation in @Model.Reservations)
+        {
+            <tbody>
+                <tr>
+                    <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
+                    <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
+                    <td>
+                        @foreach (var hotel in Model.HotelList)
+                        {@if (reservation.HotelId == hotel.HotelId)
+                            {
+                                <a asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@hotel.HotelId">@hotel.HotelName</a>
+                            }
                     }
-            }
-            </td>
-            <td>@reservation.NumberOfGuest</td>
-            <td>@reservation.TotalPrice ft</td>
-            <td>
-                @foreach (var guest in reservation.GuestsList)
-                {
-                    <div>
-                        <span>@guest.GuestName</span>
-                    </div>
-                }
-            </td>
-            @if (reservation.ReservationStart > DateTime.Now.AddDays(+1))
-            {
-                <td>
-                    <form asp-controller="Reservation" asp-action="CancelReservation" asp-route-ReservationId="@reservation.ReservationId" method="post">
-                        <button type="submit" class="btn btn-primary">@localizer["Cancel"]</button>
-                    </form>
-                </td>
-            }
-        </tr>
-    }
-</table>
+                    </td>
+                    <td>@reservation.NumberOfGuest</td>
+                    <td>@reservation.TotalPrice ft</td>
+                    <td>
+                        @foreach (var guest in reservation.GuestsList)
+                        {
+                            <div>
+                                <span>@guest.GuestName</span>
+                            </div>
+                        }
+                    </td>
+                    @if (reservation.ReservationStart > DateTime.Now.AddDays(+1))
+                    {
+                        <td>
+                            <form asp-controller="Reservation" asp-action="CancelReservation" asp-route-ReservationId="@reservation.ReservationId" method="post">
+                                <button type="submit" class="btn btn-primary">@localizer["Cancel"]</button>
+                            </form>
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        }
+    </table>
+</div>
 <br />
-<h1>@localizer["Taxi Reservations"]</h1>
-<table class="table">
-    <tr>
-        <th>@localizer["Start"]</th>
-        <th>@localizer["Pick-up local"]</th>
-        <th>@localizer["Drop-off local"]</th>
-        <th>@localizer["Number of travelers"]</th>
-        <th>@localizer["Phone Number"]</th>
-    </tr>
-    @foreach (var taxi in Model.TaxiReservations)
-    {
-        <tr>
-            <td><time>@taxi.TaxiReservationStart</time></td>
-            <td>@taxi.StartLocal</td>
-            <td>@taxi.EndLocal</td>
-            <td>@taxi.NumberOfGuest</td>
-            <td>@taxi.PhoneNumber</td>
-            @if (taxi.TaxiReservationStart > DateTime.Now.AddHours(+1))
-            {
-                <td>
-                    <form asp-controller="Reservation" asp-action="CancelTaxiReservation" asp-route-taxiReservationId="@taxi.TaxiReservationId" method="post">
-                        <button type="submit" class="btn btn-primary">@localizer["Cancel"]</button>
-                    </form>
-                </td>
-            }
-        </tr>
-    }
-</table>
+<div class="card">
+    <div class="card-header">
+        <h3>@localizer["Taxi Reservations"]</h3>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>@localizer["Start"]</th>
+                <th>@localizer["Pick-up local"]</th>
+                <th>@localizer["Drop-off local"]</th>
+                <th>@localizer["Number of travelers"]</th>
+                <th>@localizer["Phone Number"]</th>
+            </tr>
+        </thead>
+        @foreach (var taxi in Model.TaxiReservations)
+        {
+            <tbody>
+                <tr>
+                    <td><time>@taxi.TaxiReservationStart</time></td>
+                    <td>@taxi.StartLocal</td>
+                    <td>@taxi.EndLocal</td>
+                    <td>@taxi.NumberOfGuest</td>
+                    <td>@taxi.PhoneNumber</td>
+                    @if (taxi.TaxiReservationStart > DateTime.Now.AddHours(+1))
+                    {
+                        <td>
+                            <form asp-controller="Reservation" asp-action="CancelTaxiReservation" asp-route-taxiReservationId="@taxi.TaxiReservationId" method="post">
+                                <button type="submit" class="btn btn-primary">@localizer["Cancel"]</button>
+                            </form>
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        }
+    </table>
+</div>
 <form asp-controller="Reservation" asp-action="CleanReservation" asp-route-UserId="@Model.User.Id" method="post">
-    <button type="submit" class="btn btn-primary">Clean up</button>
+    <button type="submit" class="btn btn-dark btn-sm">Clean up</button>
 </form>
