@@ -20,23 +20,6 @@ namespace HotelBookingGarnetTest.Controllers
             mockUserService = new Mock<IUserService>();
         }
 
-        [Fact]
-        public async Task Register_UserShouldRegisterAndRedirectLogin()
-        {
-            var model = new RegisterViewModel {
-                Email = "guest@gmail.com",
-                Username = "guest",
-                Password = "Alma123",
-                ConfirmPassword = "Alma123"
-            };
-
-            mockUserService.Setup(x => x.RegisterAsync(model));
-
-            var controller = new RegisterController(mockUserService.Object);
-
-            var result =await controller.Register(model);
-            var redirectResult = Assert.IsType<RedirectToActionResult>(result);
-            Assert.Equal("Login", redirectResult.ActionName);
-        }
+        
     }
 }

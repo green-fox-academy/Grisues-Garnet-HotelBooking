@@ -55,9 +55,7 @@ namespace HotelBookingGarnetTest.TestUtils
                     HotelName = "kakukk",
                     HotelId = 1,
                 }
-            });
-
-            
+            });  
         }
     }
 }
