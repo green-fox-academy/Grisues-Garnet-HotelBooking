@@ -23,10 +23,10 @@
                 <input type="text" asp-for="NumberOfBeds" class="form-control"/>
                 <span asp-validation-for="NumberOfBeds" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-sm btn-success">@localizer["Add"]</button>
+            <button type="submit" class="btn btn-sm waves-effect btn-outline-success">@localizer["Add"]</button>
         </form>
         <div>
-            <a class="btn btn-danger btn-sm" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">@localizer["Cancel"]</a>
+            <a class="btn btn-outline-danger waves-effect btn-sm" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">@localizer["Cancel"]</a>
         </div>
         <div><br/></div>
     </div>
