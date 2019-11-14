@@ -37,12 +37,12 @@
                     <td>@hotel.Price</td>
                     <td>
                         <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
-                            <button type="submit" class="btn btn-dark btn-sm">@localizer["More Info"]</button>
+                            <button type="submit" class="btn btn-outline-dark btn-sm">@localizer["More Info"]</button>
                         </form>
                     </td>
                     <td>
                         <form asp-controller="Reservation" asp-action="HotelReservation" asp-route-HotelId="@hotel.HotelId" method="get">
-                            <button type="submit" class="btn btn-warning btn-sm">@localizer["See upcoming reservations"]</button>
+                            <button type="submit" class="btn btn-outline-warning btn-sm">@localizer["See upcoming reservations"]</button>
                         </form>
                     </td>
                 </tr>

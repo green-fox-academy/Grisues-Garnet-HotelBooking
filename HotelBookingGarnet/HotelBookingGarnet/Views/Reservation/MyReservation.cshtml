@@ -17,6 +17,7 @@
                 <th>@localizer["Number of Guests"]</th>
                 <th>@localizer["Total price"]</th>
                 <th>@localizer["Name of Guests"]</th>
+                <th></th>
             </tr>
         </thead>
         @foreach (var reservation in @Model.Reservations)
@@ -43,15 +44,16 @@
                             </div>
                         }
                     </td>
-                    @if (reservation.ReservationStart > DateTime.Now.AddDays(+1))
-                    {
-                        <td>
+                    <td>
+                        @if (reservation.ReservationStart > DateTime.Now.AddDays(+1))
+                        {
+
                             <form asp-controller="Reservation" asp-action="CancelReservation" asp-route-ReservationId="@reservation.ReservationId" method="post">
-                                <button type="submit" class="btn btn-primary">@localizer["Cancel"]</button>
+                                <button type="submit" class="btn btn-outline-dark btn-sm">@localizer["Cancel"]</button>
                             </form>
-                        </td>
-                    }
-                </tr>
+                        }
+                    </td>
+                    </tr>
             </tbody>
         }
     </table>

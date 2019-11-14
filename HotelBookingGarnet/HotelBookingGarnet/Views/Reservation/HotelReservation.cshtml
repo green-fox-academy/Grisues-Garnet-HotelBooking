@@ -2,40 +2,48 @@
 
 @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
 {
-    <h1>@Model.Hotel.HotelName @localizer["'s reservations"]</h1>
-
-    <table class="table">
-        <tr>
-            <th>@localizer["Room"]</th>
-            <th>@localizer["From"]</th>
-            <th>@localizer["To"]</th>
-            <th>@localizer["Number of Guests"]</th>
-            <th>@localizer["Name of Guests"]</th>
-            <th>@localizer["Total Price"]</th>
-        </tr>
-        @foreach (var reservation in Model.Reservations)
-        {
-            <tr>
-                @foreach (var room in Model.Hotel.Rooms)
-                {
-                    @if (reservation.RoomId == room.RoomId)
-                    {
-                        <td>@room.RoomName</td>
-                    }
-                }
-                    <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
-                    <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
-                    <td>@reservation.NumberOfGuest</td>
-                    <td>
-                        @foreach (var guest in reservation.GuestsList)
-                        {
-                            <div>
-                                <span>@guest.GuestName</span>
-                            </div>
-                        }
-                    </td>
-                    <td>@reservation.TotalPrice Ft</td>
+    <br />
+    <div class="card">
+        <div class="card-header">
+            <h4>@Model.Hotel.HotelName @localizer["'s reservations"]</h4>
+        </div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>@localizer["Room"]</th>
+                    <th>@localizer["From"]</th>
+                    <th>@localizer["To"]</th>
+                    <th>@localizer["Number of Guests"]</th>
+                    <th>@localizer["Name of Guests"]</th>
+                    <th>@localizer["Total Price"]</th>
                 </tr>
+            </thead>
+            @foreach (var reservation in Model.Reservations)
+            {
+                <tbody>
+                    <tr>
+                        @foreach (var room in Model.Hotel.Rooms)
+                        {
+                            @if (reservation.RoomId == room.RoomId)
+                            {
+                                <td>@room.RoomName</td>
+                            }
+                        }
+                        <td>@reservation.ReservationStart.ToString("yyyy/MM/dd")</td>
+                        <td>@reservation.ReservationEnd.ToString("yyyy/MM/dd")</td>
+                        <td>@reservation.NumberOfGuest</td>
+                        <td>
+                            @foreach (var guest in reservation.GuestsList)
+                            {
+                                <div>
+                                    <span>@guest.GuestName</span>
+                                </div>
+                            }
+                        </td>
+                        <td>@reservation.TotalPrice Ft</td>
+                    </tr>
+                </tbody>
             }
-    </table>
+        </table>
+    </div>
 }
