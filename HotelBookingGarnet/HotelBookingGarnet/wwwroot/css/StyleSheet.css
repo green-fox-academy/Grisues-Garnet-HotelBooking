@@ -102,3 +102,11 @@ h1 {
 .google-btn {
     padding-top: 20px;
 }
+
+.my-title {
+    font-family: Bahnschrift;
+}
+
+.word-format {
+    color : gray;
+}

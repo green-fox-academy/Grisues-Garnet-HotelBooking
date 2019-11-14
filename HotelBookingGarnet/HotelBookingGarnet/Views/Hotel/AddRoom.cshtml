@@ -1,28 +1,38 @@
 ﻿@model RoomViewModel
 
-<h1>@localizer["Add room to your hotel"]</h1>
-
-<form asp-controller="Hotel" asp-action="AddRoom" asp-route-hotelId="@ViewData["hotelId"]" method="post">
-    <div class="form-group">
-        <label asp-for="RoomName">@localizer["Room name:"]</label>
-        <input type="text" asp-for="RoomName" class="form-control"/>
-        <span asp-validation-for="RoomName" class="text-danger"></span>
+<br/>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="card col-md-6">
+        <div><br/></div>
+        <h4 class="my-title">@localizer["Add room to your hotel"]</h4>
+            <form asp-controller="Hotel" asp-action="AddRoom" asp-route-hotelId="@ViewData["hotelId"]" method="post">
+            <div class="md-form">
+                <label asp-for="RoomName">@localizer["Room name:"]</label>
+                <input type="text" asp-for="RoomName" class="form-control"/>
+                <span asp-validation-for="RoomName" class="text-danger"></span>
+            </div>
+            <div class="md-form">
+                <label asp-for="Price">@localizer["Room price:"]</label>
+                <input type="text" asp-for="Price" class="form-control"/>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="md-form">
+                <label asp-for="NumberOfGuests">@localizer["Number of guests:"]</label>
+                <input type="text" min="1" max="100" asp-for="NumberOfGuests" class="form-control"/>
+                <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+            </div>
+            <div class="md-form">
+                <label asp-for="NumberOfRooms">@localizer["Number of rooms of this type in the hotel:"]</label>
+                <input type="text" asp-for="NumberOfRooms" class="form-control"/>
+                <span asp-validation-for="NumberOfRooms" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-success btn-sm">@localizer["Add Room"]</button>
+        </form>
+        <div>
+            <a class="btn btn-danger btn-sm" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">@localizer["Cancel"]</a>
+        </div>
+        <div><br/></div>
     </div>
-    <div class="form-group">
-        <label asp-for="Price">@localizer["Room price:"]</label>
-        <input type="text" asp-for="Price" class="form-control"/>
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="NumberOfGuests">@localizer["Number of guests:"]</label>
-        <input type="text" asp-for="NumberOfGuests" class="form-control"/>
-        <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="NumberOfRooms">@localizer["Number of rooms of this type in the hotel:"]</label>
-        <input type="text" asp-for="NumberOfRooms" class="form-control"/>
-        <span asp-validation-for="NumberOfRooms" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-success">@localizer["Add Room"]</button>
-</form>
-<a class="btn btn-danger" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">@localizer["Cancel"]</a>
+    <div class="col-md-3"></div>
+</div>
