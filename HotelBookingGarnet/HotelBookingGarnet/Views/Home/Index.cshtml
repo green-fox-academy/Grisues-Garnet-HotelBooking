@@ -17,7 +17,7 @@
                         <label asp-for="@Model.QueryParam.Guest">@localizer["Number of guests"]</label>
                         <input asp-for="@Model.QueryParam.Guest" class="form-control" name="Guest" min="0" />
                     </div>
-                    <button type="submit" class="btn btn-primary">@localizer["Search"]</button>
+                    <button type="submit" class="btn-outline-primary btn-sm">@localizer["Search"]</button>
                 </form>
             </div>
         </div>
@@ -72,7 +72,7 @@
                             <div class="col-md-3">
                                 <div class="card-body">
                                     <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-HotelId="@hotel.HotelId" method="get">
-                                        <button type="submit" class="btn btn-primary">@localizer["More Info"]</button>
+                                        <button type="submit" class="btn-outline-primary btn-sm">@localizer["More Info"]</button>
                                     </form>
                                 </div>
                             </div>
@@ -80,12 +80,13 @@
                     </div>
                 }
             }
+            <br/>
             @if (Model.HotelList.Count > 3)
             {
                 <div class="pagination-row">
                     @for (int i = 1; i <= Model.PagingList.PageCount; i++)
                     {
-                        <a role="button" class="btn-dark btn-sm"
+                        <a role="button" class="btn-outline-dark btn-sm"
                            asp-action="@Model.ActionName"
                            asp-route-city="@Model.QueryParam.City"
                            asp-route-guest="@Model.QueryParam.Guest"
@@ -93,6 +94,7 @@
                     }
                 </div>
             }
+            <br/>
         </div>
     </div>
     
