@@ -1,23 +1,34 @@
 ﻿@model BedViewModel
 
-<h1>@localizer["Add bed(s) to your room"]</h1>
-
-<form asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@ViewData["hotelId"]" asp-route-roomId="@ViewData["roomId"]" method="post">
-    <div>
-        <label asp-for="BedType">@localizer["Type of bed"]</label>
-        <select type="text" asp-for="BedType" class="form-control">
-            <option value="full bed">@localizer["full bed"]</option>
-            <option value="twin bed">@localizer["twin bed"]</option>
-            <option value="single bed">@localizer["single bed"]</option>
-            <option value="sofa bed">@localizer["sofa bed"]</option>
-        </select>
-        <span asp-validation-for="BedType" class="text-danger"></span>
+<br/>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 card">
+        <div><br/></div>
+        <h4 class="my-title">@localizer["Add bed(s) to your room"]</h4>
+        <div><br/></div>
+        <form asp-controller="Hotel" asp-action="AddBed" asp-route-hotelId="@ViewData["hotelId"]" asp-route-roomId="@ViewData["roomId"]" method="post">
+            <div class="form-group">
+                <label class="word-format" asp-for="BedType">@localizer["Type of bed"]</label>
+                <select type="text" asp-for="BedType" class="form-control">
+                    <option value="full bed">@localizer["full bed"]</option>
+                    <option value="twin bed">@localizer["twin bed"]</option>
+                    <option value="single bed">@localizer["single bed"]</option>
+                    <option value="sofa bed">@localizer["sofa bed"]</option>
+                </select>
+                <span asp-validation-for="BedType" class="text-danger"></span>
+            </div>
+            <div class="md-form">
+                <label asp-for="NumberOfBeds">@localizer["Number of beds"]</label>
+                <input type="text" asp-for="NumberOfBeds" class="form-control"/>
+                <span asp-validation-for="NumberOfBeds" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn-sm waves-effect btn-outline-success">@localizer["Add"]</button>
+        </form>
+        <div>
+            <a class="btn-outline-danger waves-effect btn-sm" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">@localizer["Cancel"]</a>
+        </div>
+        <div><br/></div>
     </div>
-    <div>
-        <label asp-for="NumberOfBeds">@localizer["Number of beds"]</label>
-        <input type="text" asp-for="NumberOfBeds" class="form-control"/>
-        <span asp-validation-for="NumberOfBeds" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-success">@localizer["Add"]</button>
-</form>
-<a class="btn btn-danger" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">@localizer["Cancel"]</a>
+    <div class="col-md-3"></div>
+</div>

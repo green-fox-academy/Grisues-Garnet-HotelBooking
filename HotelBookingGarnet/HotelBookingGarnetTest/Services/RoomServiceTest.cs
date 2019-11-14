@@ -42,9 +42,9 @@ namespace HotelBookingGarnetTest.Services
                     .Returns(new Room
                     {
                         RoomName = roomModel.RoomName,
-                        Price = roomModel.Price,
-                        NumberOfGuests = roomModel.NumberOfGuests,
-                        NumberOfRooms = roomModel.NumberOfRooms
+                        Price = (int) roomModel.Price,
+                        NumberOfGuests = (int) roomModel.NumberOfGuests,
+                        NumberOfRooms = (int) roomModel.NumberOfRooms
                     });
                 var hotel = await context.Hotels.FindAsync(1L);
                 mockHotelService.Setup(x => x.FindHotelByIdAsync(1))
