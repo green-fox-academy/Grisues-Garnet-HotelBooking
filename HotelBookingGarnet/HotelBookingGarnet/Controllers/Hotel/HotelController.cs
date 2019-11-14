@@ -13,7 +13,7 @@ namespace HotelBookingGarnet.Controllers.Hotel
 {
     public class HotelController : Controller
     {
-        private readonly IHotelService hotelService;
+            private readonly IHotelService hotelService;
         private readonly UserManager<User> userManager;
         private readonly IImageService imageService;
         private readonly IRoomService roomService;

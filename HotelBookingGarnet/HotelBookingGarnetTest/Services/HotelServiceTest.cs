@@ -1,6 +1,7 @@
+using AutoMapper;
+using AutoMapper.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using HotelBookingGarnet;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
@@ -17,57 +18,28 @@ namespace HotelBookingGarnetTest.Services
     public class HotelServiceTest
     {
         private readonly DbContextOptions<ApplicationContext> options;
-        private readonly Mock<IPropertyTypeService> mockPropertyTypeService;
-        private readonly Mock<IImageService> mockImageService;
         private readonly Mock<IMapper> mockMapper;
-        
+        private readonly Mock<IImageService> mockImageService;
+        private readonly Mock<IPropertyTypeService> mockPropertyTypeService;
+
         public HotelServiceTest()
         {
-            options = TestDbOptions.Get();
-            mockPropertyTypeService = new Mock<IPropertyTypeService>();
-            mockImageService = new Mock<IImageService>();
-            mockMapper = new Mock<IMapper>();
+            this.options = TestDbOptions.Get();
+            this.mockMapper = new Mock<IMapper>();
+            this.mockImageService = new Mock<IImageService>();
+            this.mockPropertyTypeService = new Mock<IPropertyTypeService>();
         }
 
         [Fact]
-        public async Task Add_Hotel_Should_Increase_Number_Of_Hotels()
+        public void GetHotels_ShouldGetAllHotelFromDatabase()
         {
             using (var context = new ApplicationContext(options))
             {
-                var hotel = new HotelViewModel
-                {
-                    HotelName = "Test",
-                    Country = "Test",
-                    Region = "test",
-                    Address = "test",
-                    City = "test",
-                    Description = "test",
-                };
+                var hotelService = new HotelService(context, mockPropertyTypeService.Object, mockImageService.Object, mockMapper.Object);
 
-                var hotelService = new HotelService(context, mockPropertyTypeService.Object,
-                    mockImageService.Object, mockMapper.Object);
-
-                mockPropertyTypeService.Setup(x => x.AddPropertyTypeAsync(It.IsAny<string>()))
-                    .Returns(Task.FromResult(new PropertyType()
-                    {
-                        PropertyTypeId = 1,
-                    }));
-
-                mockMapper.Setup(x => x.Map<HotelViewModel, Hotel>(It.IsAny<HotelViewModel>()))
-                    .Returns(new Hotel()
-                    {
-                        HotelName = hotel.HotelName,
-                        Country = hotel.Country,
-                        Region = hotel.Region,
-                        Address = hotel.Address,
-                        City = hotel.City,
-                        Description = hotel.Description
-
-                    });
-                var length = await context.Hotels.CountAsync();
-                var actual = await hotelService.AddHotelAsync(hotel, "123");
-                Assert.Equal(length + 1, await context.Hotels.CountAsync());
-
+                var expected = hotelService.GetHotels();
+                var actual = 1;
+                Assert.Equal(expected.Count, actual);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HotelBookingGarnet.DTO;
 using HotelBookingGarnet.Services.Helpers.AutoMapper.Profiles;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +17,7 @@ namespace HotelBookingGarnet.Services.Helpers.AutoMapper
                 cfg.AddProfile(new RoomFromRoomViewModel());
                 cfg.AddProfile(new ReservationFromReservationViewModel());
                 cfg.AddProfile(new TaxiReservationFromTaxiReservationViewModel());
+                cfg.AddProfile(new TaxiReservationViewModelfromAPITaxiReservationDTO());
                 cfg.AddProfile(new RoomViewModelFromRoomDTO());
                 cfg.AddProfile(new HotelViewModelFromAddHotelDTO());
             });
