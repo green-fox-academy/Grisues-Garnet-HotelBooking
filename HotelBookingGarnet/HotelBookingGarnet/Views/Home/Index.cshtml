@@ -83,7 +83,7 @@
             <br/>
             @if (Model.HotelList.Count > 3)
             {
-                <div class="pagination-row">
+                <ul class="pagination justify-content-end">
                     @for (int i = 1; i <= Model.PagingList.PageCount; i++)
                     {
                         <a role="button" class="btn-outline-dark btn-sm"
@@ -91,10 +91,12 @@
                            asp-route-city="@Model.QueryParam.City"
                            asp-route-guest="@Model.QueryParam.Guest"
                            asp-route-page="@i">@i</a>
+
                     }
-                </div>
+                </ul>
             }
+
             <br/>
         </div>
-    </div>
+        </div>
     

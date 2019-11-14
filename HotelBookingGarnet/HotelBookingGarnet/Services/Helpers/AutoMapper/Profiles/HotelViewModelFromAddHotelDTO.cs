@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using HotelBookingGarnet.DTOs;
+using HotelBookingGarnet.DTO;
 using HotelBookingGarnet.ViewModels;
 
 namespace HotelBookingGarnet.Services.Helpers.AutoMapper.Profiles
@@ -8,7 +8,7 @@ namespace HotelBookingGarnet.Services.Helpers.AutoMapper.Profiles
     {
         public HotelViewModelFromAddHotelDTO()
         {
-            CreateMap<AddHotelDTO, HotelViewModel>();
+            CreateMap<AddHotelDTO,HotelViewModel>();
         }
     }
 }

@@ -4,57 +4,60 @@
     ViewData["Title"] =@localizer["User Registration"];
 }
 
-<h2>@ViewData["Title"]</h2>
-<div class="row">
-    <div class="col-md-12">
-        <h6>@localizer["All fields are required!"]</h6>
-        <hr />
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div>
-                    <div>
-                        <label asp-for="IsManager"></label>
-                    </div>
-                    &nbsp<input asp-for="IsManager" type="checkbox" name="IsManager" value=true />&nbsp @localizer["Yes, I am"]
+
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="card col-md-6">
+            <h2 class="title">@ViewData["Title"]</h2>
+            <h6 class="title">@localizer["All fields are required!"]</h6>
+            <hr />
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="md-form">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
+                <div class="md-form">
+                    <label asp-for="Username"></label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="md-form">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="md-form">
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <div>
+                            <label asp-for="IsManager"></label>
+                        </div>
+                        &nbsp<input asp-for="IsManager" type="checkbox" name="IsManager" value=true />&nbsp @localizer["Yes, I am"]
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-sm btn-outline-indigo">@localizer["Register"]</button>
+            </form>
+            @*<div style="width: 100%; height: 20px; border-bottom: 1px solid black; text-align: center">
+                <span style="font-size: 20px; background-color: white; padding: 0 10px;">
+                    OR
+                </span>
             </div>
-            <button type="submit" class="btn btn-outline-info">@localizer["Register"]</button>
-        </form>
-        <div style="width: 100%; height: 20px; border-bottom: 1px solid black; text-align: center">
-            <span style="font-size: 20px; background-color: white; padding: 0 10px;">
-                OR
-            </span>
+            <div class="google-btn">
+                <a class="btn btn-sm btn-danger" asp-controller="Login" asp-action="GoogleLogin">
+                    <i class="fab fa-google"></i> @localizer["Register with Google"]
+                </a>
+            </div>
+            <div class="face-btn">
+                <a class="btn btn-sm btn-primary" asp-controller="Login" asp-action="FacebookLogin">
+                    <i class="fab fa-facebook"></i> @localizer["Register with Facebook"]
+                </a>
+            </div>*@
         </div>
-        <div class="google-btn">
-            <a class="btn btn-danger" asp-controller="Login" asp-action="GoogleLogin">
-                <i class="fab fa-google"></i> @localizer["Register with Google"]
-            </a>
-        </div>
-        <div class="google-btn">
-            <a class="btn btn-primary" asp-controller="Login" asp-action="FacebookLogin">
-                <i class="fab fa-facebook"></i> @localizer["Register with Facebook"]
-            </a>
-        </div>
+        <div class="col-md-3"></div>
     </div>
-</div>
