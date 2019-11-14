@@ -24,5 +24,6 @@ namespace HotelBookingGarnet.Services
         Task SendRecoveryPasswordAsync(string modelEmail, string newPassword);
         Task<List<string>> CreateAndLoginGoogleUserAsync(ExternalLoginInfo info);
         Task<User> FindUserByTaxiReservationIdAsync(string userId);
+        Task<User> FindUserByUserIdAsync(string userId);
     }
 }
