@@ -55,7 +55,6 @@ namespace HotelBookingGarnetTest.TestUtils
                     HotelId = 1,
                 }
             });
-            
         }
         private void SeedTaxiReservation(ApplicationContext context)
         {

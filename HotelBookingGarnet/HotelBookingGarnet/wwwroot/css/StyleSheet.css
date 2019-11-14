@@ -96,18 +96,9 @@ h1 {
 }
 
 .google-btn {
-    padding-top: 20px;
     display:inline-block;
     margin: 20px 0px;
     float:left;
-}
-
-.my-title {
-    font-family: Bahnschrift;
-}
-
-.word-format {
-    color : gray;
 }
 
 .face-btn {
@@ -122,4 +113,8 @@ h1 {
 
 .title {
     text-align:center;
+}
+
+.sticky-top {
+    padding:0px 12% !important;
 }
