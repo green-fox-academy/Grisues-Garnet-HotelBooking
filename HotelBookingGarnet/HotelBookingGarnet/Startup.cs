@@ -37,7 +37,15 @@ namespace HotelBookingGarnet
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
+            services.Configure<SecurityStampValidatorOptions>(options => 
+                options.ValidationInterval = TimeSpan.FromSeconds(10));
+            services.AddAuthentication()
+                .Services.ConfigureApplicationCookie(options =>
+                {
+                    options.SlidingExpiration = true;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                });
+            
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
                 services.AddDbContext<ApplicationContext>(options =>
