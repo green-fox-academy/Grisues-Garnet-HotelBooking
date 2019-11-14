@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.VisualStudio.Web.CodeGeneration
 @model IndexViewModel
 
 <div class="card">
@@ -10,51 +11,128 @@
         }
     </h1>
     <div class="card-body">
-        <div class="row">
-            <div class="col-md-6">
-                <div>
-                    <h5 class="card-title">@localizer["Country"]: </h5>
-                    <p class="card-text">@Model.Hotel.Country</p>
-                </div>
-                <div>
-                    <h5 class="card-title">@localizer["Region"]</h5>
-                    <p class="card-text">@Model.Hotel.Region</p>
-                </div>
-                <div>
-                    <h5 class="card-title">@localizer["City"]</h5>
-                    <p class="card-text">@Model.Hotel.City</p>
-                </div>
-                <div>
-                    <h5 class="card-title">@localizer["Address"]</h5>
-                    <p class="card-text">@Model.Hotel.Address</p>
-                </div>
+    <div class="row">
+        <div class="col-md-5">
+         <table class="table table-borderless">
+            <tr>
+                <td class="card-title">@localizer["Country"]: </td>
+                <td class="card-text">@Model.Hotel.Country</td>
+            </tr>
+            <tr>
+                <td class="card-title">@localizer["Region"]</td>
+                <td class="card-text">@Model.Hotel.Region</td>
+            </tr>
+            <tr>
+                <td class="card-title">@localizer["City"]</td>
+                <td class="card-text">@Model.Hotel.City</td>
+            </tr>
+            <tr>
+                <td class="card-title">@localizer["Address"]</td>
+                <td class="card-text">@Model.Hotel.Address</td>
+            </tr>
+         <tr>
+             <td class="card-title">@localizer["Description"]</td>
+             <td class="card-text">@Model.Hotel.Description</td>
+         </tr>
+         <tr>
+            <td class="card-title">@localizer["Property type"]</td>
+            <td class="card-text"> @ViewData["propertyType"]</td>
+            </tr>
+         <tr>
+             <td class="card-title">@localizer["Price"]</td>
+             <td class="card-text">
+                 @if (Model.Hotel.Price == 0)
+                 {
+                     <i>@localizer["Unknown"]</i>
+                 }
+                 else
+                 {
+                     @Model.Hotel.Price
+                     <span>Ft</span>
+                 }
+             </td>
+         </tr>
+         </table>
             </div>
-            <div class="col-md-6">
-                <div>
-                    <h5 class="card-title">@localizer["Description"]</h5>
-                    <p class="card-text">@Model.Hotel.Description</p>
-                </div>
-                <div>
-                    <h5 class="card-title">@localizer["Property type"]</h5>
-                    <p class="card-text"> @ViewData["propertyType"]</p>
-                </div>
-                <div>
-                    <h5 class="card-title">@localizer["Price"]</h5>
-                    <p class="card-text">
-                        @if (Model.Hotel.Price == 0)
+        <div class="col-md-1"></div>
+        <div class="col-md-6">
+            @if (@Model.Hotel.Reviews.Count == 0)
                         {
-                            <i>@localizer["Unknown"]</i>
+                            <h5>@localizer["Average rating"]: <i>@localizer["none"]</i></h5>
                         }
                         else
                         {
-                            @Model.Hotel.Price
-                            <span>Ft</span>
+                            <h5>@localizer["Average rating"]: @ViewData["averageRating"]</h5>
                         }
-                    </p>
-                </div>
-            </div>
+            @if (@Model.Hotel.Reviews.Count != 0)
+            {
+                <table class="table">
+                    <tr>
+                        <th>@localizer["Rating"]</th>
+                        <th>@localizer["Review"]</th>
+                    </tr>
+                    @foreach (var review in @Model.ReviewsPagingList)
+                    {
+                        <tr>
+                            <td>@review.Rating</td>
+                            <td>@review.Text</td>
+                        </tr>
+                    }
+                </table>
+                @if (@Model.Hotel.Reviews.Count >= 3)
+                {
+                    <div>
+                        @for (int i = 1; i <= Model.ReviewsPagingList.PageCount; i++)
+                        {
+                            <a role="button" class="btn-outline-dark btn-sm"
+                               asp-action="@Model.ActionName"
+                               asp-route-city="@Model.QueryParam.City"
+                               asp-route-guest="@Model.QueryParam.Guest"
+                               asp-route-page="@i">@i</a>
+                        }
+                    </div>
+                }
+            }
+            else
+            {
+                <p>@localizer["There is no rating yet."]</p>
+            }
+            <hr />
+            @if (Model.User != null)
+            {
+                @if (!Model.IsReviewed)
+                {
+                    <form asp-controller="Hotel" asp-action="HotelReview" asp-route-hotelId="@Model.Hotel.HotelId" method="post">
+                        <div class="form-group">
+                            <h5>@localizer["Leave a review!"]</h5>
+                            <label asp-for="@Model.Rating"></label>
+                            <select type="text" asp-for="@Model.Rating">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <span asp-validation-for="@Model.Rating" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Text"></label>
+                            <textarea asp-for="@Model.Text" class="form-control" rows="3" maxlength="200"></textarea>
+                            <span asp-validation-for="@Model.Text" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-outline-dark waves-effect btn-sm">@localizer["Send"]</button>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <p><i>@localizer["You are already reviewed this hotel."]</i></p>
+                }
+            }
         </div>
-        <hr />
+    </div>
+    <hr />
         @if (@Model.FolderList.Count < 4)
         {
                 @for (int i = 0; i < @Model.FolderList.Count; i++)
@@ -117,31 +195,32 @@
                 </div>
                 }
                 <hr />
-                <div>
-                    @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
-                    {
-                        <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.Hotel.HotelId" method="get" class="my-btn">
-                            <button type="submit" class="btn btn-primary btn-sm">@localizer["Edit"]</button>
-                        </form>
+    <div>
+        @if (Model.User != null && (Model.User.Id.Equals(Model.Hotel.UserId) || User.IsInRole("Admin")))
+        {
+            <form asp-controller="Hotel" asp-action="EditHotel" asp-route-HotelId="@Model.Hotel.HotelId" method="get" class="my-btn">
+                <button type="submit" class="btn btn-outline-primary waves-effect btn-sm">@localizer["Edit"]</button>
+            </form>
 
-                        <form asp-controller="Hotel" asp-action="AddRoom" asp-route-HotelId="@Model.Hotel.HotelId" method="get" class="my-btn">
-                            <button type="submit" class="btn btn-success btn-sm">@localizer["Add room"]</button>
-                        </form>
-                    }
-                    <a class="btn btn-danger btn-sm" asp-controller="Home" asp-action="Index" role="button">@localizer["Cancel"]</a>
-                </div>
-                <hr />
-                <h4>@localizer["Check Availability"]</h4>
-                <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId=@ViewData["hotelId"] method="post">
-                    <div class="form-group">
-
-                        <label for="start">@localizer["Start date"]:</label>
-                        <input type="date" input value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31" name="start" id="start">
-                        <label for="end">@localizer["End date"]:</label>
-                        <input type="date" input value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31" name="end" id="end">
-                        <button asp-action="HotelInfo">@localizer["Search"]</button>
-                    </div>
-                </form>
+            <form asp-controller="Hotel" asp-action="AddRoom" asp-route-HotelId="@Model.Hotel.HotelId" method="get" class="my-btn">
+                <button type="submit" class="btn btn-outline-success waves-effect btn-sm">@localizer["Add room"]</button>
+            </form>
+        }
+        <a class="btn btn-outline-danger waves-effect btn-sm" asp-controller="Home" asp-action="Index" role="button">@localizer["Cancel"]</a>
+    </div>
+    <hr />
+      <h4>@localizer["Check Availability"]</h4>
+                  <form asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId=@ViewData["hotelId"] method="post">
+                      <div class="form-group">
+                          <label for="start">@localizer["Start date"]:</label>
+                          <input type="date" input value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31" name="start" id="start">
+                          <br/>
+                          <label for="end">@localizer["End date"]:</label>
+                          <input type="date" input value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31" name="end" id="end">
+                          <br/>
+                          <button class="btn btn-outline-dark waves-effect btn-sm" asp-action="HotelInfo">@localizer["Search"]</button>
+                      </div>
+                  </form>
                 @if (Model.Hotel.Rooms.Count != 0)
                 {
                     <table class="table">
@@ -232,7 +311,7 @@
                                     @if (User.IsInRole("Guest") || User.IsInRole("Hotel Manager"))
                                     {
                                         <form asp-controller="Reservation" asp-action="AddReservation" asp-route-roomId="@room.RoomId" asp-route-hotelId="@Model.Hotel.HotelId" method="get">
-                                            <button type="submit" class="btn btn-warning">@localizer["Reserve Room"]</button>
+                                            <button type="submit" class="btn btn-warning btn-sm">@localizer["Reserve Room"]</button>
                                         </form>
                                     }
                                 </td>
@@ -244,82 +323,9 @@
                 <hr />
                 <div class="row">
                     <div class="col-md-6">
-                        @if (@Model.Hotel.Reviews.Count == 0)
-                        {
-                            <h3>@localizer["Average rating"]: <i>@localizer["none"]</i></h3>
-                            <h4>@localizer["Number of rated users"]: <i>@localizer["none"]</i></h4>
-                        }
-                        else
-                        {
-                            <h2>@localizer["Average rating"]: @ViewData["averageRating"]</h2>
-                            <h3>@localizer["Number of rated users"]: @Model.Hotel.Reviews.Count </h3>
-                        }
-
-                        <hr />
-                        @if (!Model.IsReviewed)
-                        {
-                            <form asp-controller="Hotel" asp-action="HotelReview" asp-route-hotelId="@Model.Hotel.HotelId" method="post">
-                                <div class="form-group">
-                                    <label asp-for="@Model.Rating"></label>
-                                    <select type="text" asp-for="@Model.Rating">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                    <span asp-validation-for="@Model.Rating" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="@Model.Text"></label>
-                                    <textarea asp-for="@Model.Text" class="form-control" rows="3" maxlength="200"></textarea>
-                                    <span asp-validation-for="@Model.Text" class="text-danger"></span>
-                                </div>
-                                <div>
-                                    <button type="submit" class="btn btn-primary btn-sm">@localizer["Send"]</button>
-                                </div>
-                            </form>
-                        }
-                        else
-                        {
-                            <p><i>@localizer["You are already reviewed this hotel."]</i></p>
-                        }
+                       
                     </div>
-                    <div class="col-md-6">
-                        @if (@Model.Hotel.Reviews.Count != 0)
-                        {
-                            <table class="table">
-                                <tr>
-                                    <th>@localizer["Rating"]</th>
-                                    <th>@localizer["Review"]</th>
-                                </tr>
-                                @foreach (var review in @Model.ReviewsPagingList)
-                                {
-                                    <tr>
-                                        <td>@review.Rating</td>
-                                        <td>@review.Text</td>
-                                    </tr>
-                                }
-                            </table>
-                            @if (@Model.Hotel.Reviews.Count >= 10)
-                            {
-                                <div>
-                                    @for (int i = 1; i <= Model.ReviewsPagingList.PageCount; i++)
-                                    {
-                                        <a role="button" class="btn btn-primary"
-                                           asp-action="@Model.ActionName"
-                                           asp-route-city="@Model.QueryParam.City"
-                                           asp-route-guest="@Model.QueryParam.Guest"
-                                           asp-route-page="@i">@i</a>
-                                    }
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <p>@localizer["There is no rating yet."]</p>
-                        }
-                    </div>
+                    
                 </div>
             </div>
         </div>

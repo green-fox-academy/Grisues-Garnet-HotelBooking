@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using HotelBookingGarnet.Services.Helpers.AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace HotelBookingGarnet
 {
@@ -36,7 +37,15 @@ namespace HotelBookingGarnet
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
+            services.Configure<SecurityStampValidatorOptions>(options => 
+                options.ValidationInterval = TimeSpan.FromSeconds(10));
+            services.AddAuthentication()
+                .Services.ConfigureApplicationCookie(options =>
+                {
+                    options.SlidingExpiration = true;
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                });
+            
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
                 services.AddDbContext<ApplicationContext>(options =>
@@ -105,6 +114,9 @@ namespace HotelBookingGarnet
 
             services.SetUpAutoMapper();
             services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new List<CultureInfo>

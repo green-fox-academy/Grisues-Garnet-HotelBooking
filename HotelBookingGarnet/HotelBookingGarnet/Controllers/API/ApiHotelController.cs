@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using HotelBookingGarnet.DTOs;
 using HotelBookingGarnet.Services;
@@ -30,6 +31,29 @@ namespace HotelBookingGarnet.Controllers.API
             var hotel = await hotelService.FindHotelByIdAsync(hotelId);
 
             return Ok(hotel);
+        }
+        
+        [HttpGet("/api/hotel/{userId?}")]
+        public async Task<ActionResult<List<Models.Hotel>>> ListHotelsByUserId(string userId)
+        {
+            var hotel = await hotelService.ListMyHotelsAsync(userId);
+            if (userId == null)
+            {
+                return BadRequest("No user with this user ID");
+            }
+            if (hotel.Count == 0)
+            {
+                return BadRequest("No hotel found with this user ID");
+            }
+
+            return hotel;
+        }
+
+        [HttpPut("/api/hotel/{userId}")]
+        public async Task<ActionResult<Models.Hotel>> AddHotel([FromBody] HotelViewModel apiHotelViewModel, [FromRoute] string userId)
+        {
+            await hotelService.AddHotelAsync(apiHotelViewModel, userId);
+            return Ok("Good job Kriszti!");
         }
     }
 }

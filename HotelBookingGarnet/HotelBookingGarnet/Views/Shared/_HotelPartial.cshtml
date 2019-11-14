@@ -81,14 +81,14 @@
                     <br/>
                     <div class="row no-gutters">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary btn-sm">@ViewData["Action"]</button>
+                            <button type="submit" class="btn-outline-primary btn-sm">@ViewData["Action"]</button>
                             @if (@ViewData["Action"].Equals("Add"))
                             {
-                                <a class="btn-outline-danger waves-effect btn-sm" asp-controller="Home" asp-action="Index" role="button">@localizer["Cancel"]</a>
+                                <button type="submit" class="btn-outline-danger waves-effect btn-sm" asp-controller="Home" asp-action="Index" role="button">@localizer["Cancel"]</button>
                             }
                             else
                             {
-                                <a class="btn-outline-danger waves-effect btn-sm" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">@localizer["Cancel"]</a>
+                                <button type="submit" class="btn-outline-danger waves-effect btn-sm" asp-controller="Hotel" asp-action="HotelInfo" asp-route-hotelId="@ViewData["hotelId"]" role="button">@localizer["Cancel"]</button>
                             }
                             <div><br/></div>
                         </div>
