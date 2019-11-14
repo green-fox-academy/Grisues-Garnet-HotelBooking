@@ -22,11 +22,11 @@
             </div>
         </div>
         <form asp-controller="Reservation" asp-action="MyReservation" method="get" class="my-btn">
-            <button type="submit" class="btn btn-outline-success waves-effect btn-sm">@localizer["Confirm Reservation"]</button>
+            <button type="submit" class="btn-outline-success waves-effect btn-sm">@localizer["Confirm Reservation"]</button>
         </form>
 
         <form asp-controller="Reservation" asp-action="CancelReservation" asp-route-ReservationId="@Model.ReservationId" method="post" class="my-btn">
-            <button type="submit" class="btn btn-outline-danger waves-effect btn-sm">@localizer["Cancel"]</button>
+            <button type="submit" class="btn-outline-danger waves-effect btn-sm">@localizer["Cancel"]</button>
         </form>
         <div><br/></div>
     </div>
