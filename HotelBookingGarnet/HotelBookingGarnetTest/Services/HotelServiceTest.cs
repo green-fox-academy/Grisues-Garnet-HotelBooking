@@ -1,6 +1,7 @@
+using AutoMapper;
+using AutoMapper.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using HotelBookingGarnet;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
@@ -17,16 +18,30 @@ namespace HotelBookingGarnetTest.Services
     public class HotelServiceTest
     {
         private readonly DbContextOptions<ApplicationContext> options;
-        private readonly Mock<IPropertyTypeService> mockPropertyTypeService;
-        private readonly Mock<IImageService> mockImageService;
         private readonly Mock<IMapper> mockMapper;
-        
+        private readonly Mock<IImageService> mockImageService;
+        private readonly Mock<IPropertyTypeService> mockPropertyTypeService;
+
         public HotelServiceTest()
         {
-            options = TestDbOptions.Get();
-            mockPropertyTypeService = new Mock<IPropertyTypeService>();
-            mockImageService = new Mock<IImageService>();
-            mockMapper = new Mock<IMapper>();
+            this.options = TestDbOptions.Get();
+            this.mockMapper = new Mock<IMapper>();
+            this.mockImageService = new Mock<IImageService>();
+            this.mockPropertyTypeService = new Mock<IPropertyTypeService>();
+        }
+
+        [Fact]
+
+        public void GetHotels_ShouldGetAllHotelFromDatabase()
+        {
+            using (var context = new ApplicationContext(options))
+            {
+                var hotelService = new HotelService(context, mockPropertyTypeService.Object, mockImageService.Object, mockMapper.Object);
+
+                var expected = hotelService.GetHotels();
+                var actual = 1;
+                Assert.Equal(expected.Count, actual);
+            }
         }
 
         [Fact]

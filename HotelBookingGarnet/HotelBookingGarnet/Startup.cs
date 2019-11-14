@@ -126,6 +126,9 @@ namespace HotelBookingGarnet
             {
                 app.UseDeveloperExceptionPage();
             }
+            else {
+                app.UseHsts();
+            }
 
             var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(options.Value);

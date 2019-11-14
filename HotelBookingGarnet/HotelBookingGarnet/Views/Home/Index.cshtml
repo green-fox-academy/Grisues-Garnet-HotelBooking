@@ -82,17 +82,21 @@
             }
             @if (Model.HotelList.Count > 3)
             {
-                <div class="pagination-row">
+                <ul class="pagination justify-content-end">
                     @for (int i = 1; i <= Model.PagingList.PageCount; i++)
                     {
-                        <a role="button" class="btn btn-primary"
-                           asp-action="@Model.ActionName"
-                           asp-route-city="@Model.QueryParam.City"
-                           asp-route-guest="@Model.QueryParam.Guest"
-                           asp-route-page="@i">@i</a>
+                        <li class="page-item">
+                            <a class="page-link"
+                               asp-action="@Model.ActionName"
+                               asp-route-city="@Model.QueryParam.City"
+                               asp-route-guest="@Model.QueryParam.Guest"
+                               asp-route-page="@i">
+                                @i
+                            </a>
+                        </li>
                     }
-                </div>
+                </ul>
             }
-        </div>
+            </div>
     </div>
     

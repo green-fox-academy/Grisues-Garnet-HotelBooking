@@ -17,6 +17,7 @@ namespace HotelBookingGarnetTest.TestUtils
             {
                 SeedTaxiReservation(context);
                 Seed(context);
+                SeedHotel(context);
                 context.SaveChanges();
             }
         }
@@ -26,6 +27,8 @@ namespace HotelBookingGarnetTest.TestUtils
             using (var context = new ApplicationContext(options))
             {
                 context.Reservations.RemoveRange(context.Reservations);
+                context.Rooms.RemoveRange(context.Rooms);
+                context.Hotels.RemoveRange(context.Hotels);
                 context.SaveChanges();
             }
         }
@@ -53,16 +56,6 @@ namespace HotelBookingGarnetTest.TestUtils
                 }
             });
             
-            context.Hotels.AddRange(new List<Hotel>
-            {
-                new Hotel
-                {
-                    HotelId = 1,
-                    HotelName = "Test",
-                    Price = 100
-                }
-            });
-            
         }
         private void SeedTaxiReservation(ApplicationContext context)
         {
@@ -79,6 +72,18 @@ namespace HotelBookingGarnetTest.TestUtils
                     UserId = "1"
                 }
             });
+        }
+
+        private void SeedHotel(ApplicationContext context)
+        {
+            context.Hotels.AddRange(new List<Hotel>
+            {
+                new Hotel
+                {
+                    HotelName = "kakukk",
+                    HotelId = 1,
+                }
+            });  
         }
     }
 }
