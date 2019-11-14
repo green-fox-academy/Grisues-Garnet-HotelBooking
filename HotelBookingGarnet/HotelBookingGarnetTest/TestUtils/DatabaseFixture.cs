@@ -54,18 +54,7 @@ namespace HotelBookingGarnetTest.TestUtils
                     RoomName = "TestRoom",
                     HotelId = 1,
                 }
-            });
-            
-            context.Hotels.AddRange(new List<Hotel>
-            {
-                new Hotel
-                {
-                    HotelId = 1,
-                    HotelName = "Test",
-                    Price = 100
-                }
-            });
-            
+            });   
         }
         private void SeedTaxiReservation(ApplicationContext context)
         {

@@ -1,5 +1,6 @@
 ﻿body {
     height: 100%;
+    background-color:burlywood !important;
 }
 
 
@@ -113,4 +114,8 @@ h1 {
 
 .title {
     text-align:center;
+}
+
+.sticky-top {
+    padding:0px 12% !important;
 }
