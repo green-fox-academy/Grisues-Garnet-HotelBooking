@@ -14,5 +14,6 @@ namespace HotelBookingGarnet.Services
         Task DeleteTaxiReservationByIdAsync(long taxiReservationId);
         Task<TaxiReservation> FindTaxiReservationByIdAsync(long taxiReservationId);
         List<string> TaxiReservationValidation(TaxiReservationViewModel newTaxiReservation);
+        Task<TaxiReservation> FindTaxiReservationByTaxiReservationIdAsync(long taxiReservationId);
     }
 }
