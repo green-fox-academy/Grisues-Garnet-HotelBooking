@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using HotelBookingGarnet;
 using HotelBookingGarnet.Models;
 using HotelBookingGarnet.Services;
+using HotelBookingGarnet.ViewModels;
 using HotelBookingGarnetTest.TestUtils;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -11,6 +12,7 @@ using Xunit;
 
 namespace HotelBookingGarnetTest.Services
 {
+
     [Collection("Database collection")]
     public class HotelServiceTest
     {
