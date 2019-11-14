@@ -145,7 +145,7 @@ namespace HotelBookingGarnet.Services
 
         public PagingList<Review> ReviewsList(List<Review> reviews, QueryParam queryParam)
         {
-            return PagingList.Create(reviews, 10, queryParam.Page);
+            return PagingList.Create(reviews, 2, queryParam.Page);
         }
     }
 }

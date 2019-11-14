@@ -25,7 +25,9 @@ namespace HotelBookingGarnet.Controllers.Hotel
         private readonly IReviewService reviewService;
         private readonly IReservationService reservationService;
 
-        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService, IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, IHotelPropertyTypeService hotelPropertyTypeService, IDateTimeService dateTimeService, IMapper mapper, IReviewService reviewService, IReservationService reservationService)
+        public HotelController(IHotelService hotelService, UserManager<User> userManager, IImageService imageService, 
+            IRoomService roomService, IBedService bedService, IRoomBedService roomBedService, 
+            IHotelPropertyTypeService hotelPropertyTypeService, IDateTimeService dateTimeService, IMapper mapper, IReviewService reviewService, IReservationService reservationService)
         {
             this.hotelService = hotelService;
             this.userManager = userManager;
