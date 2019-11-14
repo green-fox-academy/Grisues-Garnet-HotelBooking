@@ -54,7 +54,7 @@ namespace HotelBookingGarnetTest.TestUtils
                     RoomName = "TestRoom",
                     HotelId = 1,
                 }
-            });   
+            });
         }
         private void SeedTaxiReservation(ApplicationContext context)
         {
