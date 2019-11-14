@@ -39,7 +39,7 @@ namespace HotelBookingGarnetTest.Services
                 var taxiReservation = new TaxiReservationViewModel { StartLocal = "Budapest", EndLocal = "Siófok", TaxiReservationStart = new DateTime(2019, 10, 11), NumberOfGuest = 2, PhoneNumber = "05202222" };
 
                 List<string> expected = new List<string>() { "The booking cannot begin earlier than today!" };
-                var actual =  taxiReservationService.TaxiReservationValidation(taxiReservation);
+                var actual = taxiReservationService.TaxiReservationValidation(taxiReservation);
                 Assert.Equal(expected, actual);
             }
         }

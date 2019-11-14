@@ -1,45 +1,50 @@
 ﻿@model ReservationViewModel
 
-
-<h1>@localizer["Add a new Reservation"]</h1>
-@if (Model.ErrorMessages != null)
-{
-    @foreach (var error in Model.ErrorMessages)
-    {
-        <h6 class="text-danger">@localizer[@error]</h6>
-    }
-}
-<form asp-controller="Reservation" asp-action="AddReservation" asp-route-roomId=@ViewData["roomId"] asp-route-hotelId=@ViewData["hotelId"] method="post">
-    <div class="form-group">
-        <p>
-            <span asp-validation-for="ReservationStart" class="text-danger"></span>
-        </p>
-        <label asp-for="ReservationStart">@localizer["Start date:"]</label>
-        <input type="date"  asp-for="ReservationStart" value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31">
-        <p>
-            <span asp-validation-for="ReservationEnd" class="text-danger"></span>
-        </p>
-        <label asp-for="ReservationEnd">@localizer["End date:"]</label>
-        <input type="date"  asp-for="ReservationEnd" value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31">
+<br/>
+<div class="row">
+<div class="col-md-2"></div>
+    <div class="card col-md-8">
+        <div><br/></div>
+        <h4 class="my-title">@localizer["Add a new Reservation"]</h4>
+        @if (Model.ErrorMessages != null)
+        {
+            @foreach (var error in Model.ErrorMessages)
+            {
+                <h6 class="text-danger">@localizer[@error]</h6>
+            }
+        }
+        <div><br/></div>
+        <form asp-controller="Reservation" asp-action="AddReservation" asp-route-roomId=@ViewData["roomId"] asp-route-hotelId=@ViewData["hotelId"] method="post">
+            <div class="form-group">
+                <span asp-validation-for="ReservationStart" class="text-danger"></span>
+                <label class="word-format" asp-for="ReservationStart">@localizer["Start date:"]</label>
+                <input type="date" asp-for="ReservationStart" value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31">
+                <span asp-validation-for="ReservationEnd" class="text-danger"></span>
+                <label class="word-format" asp-for="ReservationEnd">@localizer["End date:"]</label>
+                <input type="date" asp-for="ReservationEnd" value="YYYY-MM-DD" min="2019-01-01" max="2025-12-31">
+            </div>
+            <div class="md-form">
+                <p>
+                    <span asp-validation-for="NumberOfGuest" class="text-danger"></span>
+                </p>
+                <label asp-for="NumberOfGuest">@localizer["Number of guests:"]</label>
+                <input type="number" min="1" max="100" asp-for="NumberOfGuest" class="form-control"/>
+            </div>
+            <div class="md-form">
+                <p>
+                    <span asp-validation-for="GuestsNameInString" class="text-danger"></span>
+                </p>
+                <label asp-for="GuestsNameInString">@localizer["Name of the guests (please type all guests name, separated with comas):"]</label>
+                <input type="text" asp-for="GuestsNameInString" class="form-control"/>
+            </div>
+            <div class="md-form">
+                <label asp-for="PhoneNumber">@localizer["Contact phone number (not required)"]</label>
+                <input type="tel" asp-for="PhoneNumber" class="form-control"/>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn-outline-success waves-effect btn-sm">@localizer["Make Reservation"]</button>
+        </form>
+        <div><br/></div>
     </div>
-    <div class="form-group">
-        <p>
-            <span asp-validation-for="NumberOfGuest" class="text-danger"></span>
-        </p>
-        <label asp-for="NumberOfGuest">@localizer["Number of guests:"]</label>
-        <input type="number" min="1" max="100" asp-for="NumberOfGuest" class="form-control"/>
-    </div>
-    <div class="form-group">
-        <p>
-            <span asp-validation-for="GuestsNameInString" class="text-danger"></span>
-        </p>
-        <label asp-for="GuestsNameInString">@localizer["Name of the guests (please type all guests name, separated with comas):"]</label>
-        <input type="text" placeholder=@localizer["John Doe, Jane Doe, ..."] asp-for="GuestsNameInString" class="form-control"/>
-    </div>
-    <div class="form-group">
-        <label asp-for="PhoneNumber">@localizer["Contact phone number (not required)"]</label>
-        <input type="tel" asp-for="PhoneNumber" class="form-control"/>
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-success">@localizer["Make Reservation"]</button>
-</form>
+    <div class="col-md-2"></div>
+</div>
