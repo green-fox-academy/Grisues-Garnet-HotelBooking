@@ -31,7 +31,6 @@ namespace HotelBookingGarnetTest.Services
         }
 
         [Fact]
-
         public void GetHotels_ShouldGetAllHotelFromDatabase()
         {
             using (var context = new ApplicationContext(options))

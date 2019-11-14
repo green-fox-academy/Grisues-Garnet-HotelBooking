@@ -14,7 +14,6 @@ namespace HotelBookingGarnet.ViewModels
         [Required(ErrorMessage = "The Country field is required.")]
         public string Country { get; set; }
         [Required(ErrorMessage = "The Region field is required.")]
-
         public string Region { get; set; }
         [Required(ErrorMessage = "The City field is required.")]
         public string City { get; set; }
