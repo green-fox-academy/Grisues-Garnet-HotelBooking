@@ -14,7 +14,7 @@ namespace HotelBookingGarnet.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("HotelBookingGarnet.Models.Bed", b =>
@@ -294,22 +294,22 @@ namespace HotelBookingGarnet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a9bdb2eb-ec66-4733-b121-50de5a6997b9",
-                            ConcurrencyStamp = "f0d89ebc-b976-4eb7-acac-e1afe096c3f8",
+                            Id = "095754ba-effc-4771-a180-98a69afeec22",
+                            ConcurrencyStamp = "d29e6081-15a5-47a0-bc92-c21283594247",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "9a9589c3-33bd-41ae-84b3-ca9a7b8b6431",
-                            ConcurrencyStamp = "b06766f2-5d43-44af-a7aa-e83327125f00",
+                            Id = "0ed85530-4752-46a6-999d-4122cce891b9",
+                            ConcurrencyStamp = "307d052a-6f8f-4cc6-9767-a37240505f5c",
                             Name = "Guest",
                             NormalizedName = "GUEST"
                         },
                         new
                         {
-                            Id = "2ab37820-c5bb-4f0d-a295-92228b0f72c4",
-                            ConcurrencyStamp = "17950a62-3eb0-4d08-a9b7-4df36e32b3b0",
+                            Id = "40368b40-ceb8-4bc4-befe-31c25cb07e5f",
+                            ConcurrencyStamp = "e6f59dc7-bc3e-4d0f-b4ba-2b03df9b9e33",
                             Name = "Hotel Manager",
                             NormalizedName = "HOTEL MANAGER"
                         });
