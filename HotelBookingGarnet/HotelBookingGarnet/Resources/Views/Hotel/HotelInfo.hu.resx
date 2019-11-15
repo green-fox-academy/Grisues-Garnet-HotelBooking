@@ -233,5 +233,7 @@
   </data>
   <data name="You have to login to review this hotel." xml:space="preserve">
     <value>Az értékeléshez be kell jelentkezni.</value>
+  </data><data name="Leave a review!" xml:space="preserve">
+    <value>Értékelje a hotelt!</value>
   </data>
 </root>

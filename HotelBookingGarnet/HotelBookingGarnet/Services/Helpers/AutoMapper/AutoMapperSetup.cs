@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HotelBookingGarnet.DTO;
 using HotelBookingGarnet.Services.Helpers.AutoMapper.Profiles;
 using Microsoft.Extensions.DependencyInjection;
 
