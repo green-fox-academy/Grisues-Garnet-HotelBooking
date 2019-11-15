@@ -123,3 +123,11 @@ h1 {
 .sticky-top {
     padding:0px 12% !important;
 }
+
+.my-title {
+    font-family: Bahnschrift;
+}
+
+.word-format {
+    color: gray;
+}
